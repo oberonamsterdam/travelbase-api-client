@@ -1,5 +1,5 @@
 {
-    "name": "teamoberon/tor-graphql-client",
+    "name": "oberonamsterdam/tor-graphql-client",
     "description": "GraphQL library to communicate with TOR",
     "type": "library",
     "license": "MIT",
