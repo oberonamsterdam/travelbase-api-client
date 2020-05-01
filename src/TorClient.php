@@ -252,11 +252,7 @@ class TorClient
         ;
 
         $variable = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection->toArray())];
-
         $result = $this->runQuery($mutation, $variable);
-        var_dump($this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings());
-        die();
-
 
         return $this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings();
     }
