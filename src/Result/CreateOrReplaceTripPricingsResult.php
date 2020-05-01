@@ -7,29 +7,31 @@
 
 namespace TOR\GraphQL\Result;
 
+use TOR\GraphQL\Model\TripPricingCollection;
+
 class CreateOrReplaceTripPricingsResult
 {
     /**
-     * @var AllotmentCollection
+     * @var TripPricingCollection
      */
-    public $createOrReplaceAllotments;
+    public $createOrReplaceTripPricings;
 
     /**
      * @return AllotmentCollection
      */
-    public function getCreateOrReplaceAllotments(): AllotmentCollection
+    public function getCreateOrReplaceTripPricings(): TripPricingCollection
     {
-        return $this->createOrReplaceAllotments;
+        return $this->createOrReplaceTripPricings;
     }
 
     /**
-     * @param AllotmentCollection $createOrReplaceAllotments
+     * @param TripPricingCollection $createOrReplaceTripPricings
      * @return self
      */
-    public function setCreateOrReplaceAllotments(
-        AllotmentCollection $createOrReplaceAllotments
+    public function setCreateOrReplaceTripPricings(
+        TripPricingCollection $createOrReplaceTripPricings
     ): self {
-        $this->createOrReplaceAllotments = $createOrReplaceAllotments;
+        $this->createOrReplaceTripPricings = $createOrReplaceTripPricings;
 
         return $this;
     }

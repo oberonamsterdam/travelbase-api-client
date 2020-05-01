@@ -27,6 +27,7 @@ use TOR\GraphQL\Model\TripPricingCollection;
 use TOR\GraphQL\Response\AccommodationCallResponseBody;
 use TOR\GraphQL\Response\CreateOrReplaceAllotmentsCallResponseBody;
 use TOR\GraphQL\Response\CreateOrReplaceTripPricingsCallResponseBody;
+use TOR\GraphQL\Response\DeleteTripsCallResponseBody;
 use TOR\GraphQL\Response\GraphQLCallResponseBodyInterface;
 use TOR\GraphQL\Response\PartnerCallResponseBody;
 use TOR\GraphQL\Response\PartnersCallResponseBody;
@@ -232,38 +233,50 @@ class TorClient
             ])
         ;
 
-        $variable = ['input' => array_merge(['rentalUnitId' => $rentalUnitId],  $allotmentCollection->toArray())];
-        $result = $this->runQuery($mutation, $variable);
+        $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId],  $allotmentCollection->toArray())];
+        $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CreateOrReplaceAllotmentsCallResponseBody::class)->getData()->getCreateOrReplaceAllotments();
     }
 
-    public function createOrReplaceTripPricings(int $rentalUnitId, TripPricingCollection $tripPricingCollection)
+    public function createOrReplaceTripPricings(int $rentalUnitId, TripPricingCollection $tripPricingCollection): TripPricingCollection
     {
-        $mutation = (new Mutation('createOrReplaceAllotments'))
-            ->setVariables([new Variable('input', 'CreateOrReplaceTripPricings', true)])
+        $mutation = (new Mutation('createOrReplaceTripPricings'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceTripPricingsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
                 (new Query('tripPricings'))->setSelectionSet([
-                    'amount',
-                    'date'
+                    'date',
+                    'duration',
+                    'price',
                 ])
             ])
         ;
-
-        $variable = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection->toArray())];
-
-        $result = $this->runQuery($mutation, $variable);
-        var_dump($this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings());
-        die();
-
+        $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection->toArray())];
+        $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings();
     }
 
-    public function deleteTrips(int $rentalUnitId, ?DateTime $date = null, ?int $duration = null)
+    public function deleteTrips(int $rentalUnitId, ?DateTime $date = null, ?int $duration = null): ?string
     {
+        $arguments = ['rentalUnitId' => $rentalUnitId];
+        if ($date) {
+            $arguments['date'] = $date->format('Y-m-d');
+        }
+        if ($duration !== null) {
+            $arguments['duration'] = $duration;
+        }
 
+        $mutation = (new Mutation('deleteTrips'))
+            ->setVariables([new Variable('input', 'DeleteTripsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet(['message'])
+        ;
+        $variables = ['input' => $arguments];
+        $result = $this->runQuery($mutation, $variables);
+
+        return $this->parseResult($result, DeleteTripsCallResponseBody::class)->getData()->getDeleteTrips()->getMessage();
     }
 
     private function runQuery(Query $query, array $variables = []): string
