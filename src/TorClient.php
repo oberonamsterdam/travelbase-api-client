@@ -8,13 +8,28 @@
 namespace TOR\GraphQL;
 
 use GraphQL\Client;
+use GraphQL\Mutation;
 use GraphQL\Query;
+use GraphQL\Variable;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use TOR\GraphQL\Exception\NotFoundException;
 use \DateTime;
+use TOR\GraphQL\Model\Accommodation;
+use TOR\GraphQL\Model\AllotmentCollection;
 use TOR\GraphQL\Model\Partner;
+use TOR\GraphQL\Model\RentalUnit;
+use TOR\GraphQL\Model\TripPricingCollection;
+use TOR\GraphQL\Response\AccommodationCallResponseBody;
+use TOR\GraphQL\Response\CreateOrReplaceAllotmentsCallResponseBody;
+use TOR\GraphQL\Response\CreateOrReplaceTripPricingsCallResponseBody;
+use TOR\GraphQL\Response\GraphQLCallResponseBodyInterface;
+use TOR\GraphQL\Response\PartnerCallResponseBody;
+use TOR\GraphQL\Response\PartnersCallResponseBody;
 
 class TorClient
 {
@@ -42,11 +57,16 @@ class TorClient
         $this->client = new Client($endPoint, ['Authorization' => "Bearer $apiKey"]);
 
         $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = [
+            new DateTimeNormalizer(),
+            new ArrayDenormalizer(),
+            new ObjectNormalizer(null, null, null, new ReflectionExtractor())
+        ];
+
         $this->serializer = new Serializer($normalizers, $encoders);
     }
 
-    public function getPartners()
+    public function getPartners(): array
     {
         $query = (new Query('partners'))->setSelectionSet([
             'id',
@@ -70,17 +90,37 @@ class TorClient
 
         $result = $this->runQuery($query);
 
-        return $this->parseResult($result, Partner::class);
+        return $this->parseResult($result, PartnersCallResponseBody::class)->getData()->getPartner();
     }
 
-    private function parseResult(string $data, string $class)
+    public function getPartner(int $partnerId): Partner
     {
-        return $this->serializer->deserialize(json_encode($data), $class, 'json');
-    }
+        $query = (new Query('partner'))
+            ->setArguments(['id' => $partnerId])
+            ->setSelectionSet([
+                'id',
+                'enabled',
+                'companyName',
+                (new Query('accommodations'))->setSelectionSet([
+                    'id',
+                    'enabled',
+                    'name',
+                    (new Query('rentalUnits'))->setSelectionSet([
+                        'id',
+                        'name',
+                        'code',
+                        'enabled',
+                        'type',
+                        'maxAllotment',
+                        'includedOccupancy'
+                    ])
+                ])
+            ])
+        ;
 
-    public function getPartner(int $partnerId)
-    {
+        $result = $this->runQuery($query);
 
+        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
     public function getUpcomingBookings(int $partnerId, int $first = 0, int $limit = 100)
@@ -90,7 +130,38 @@ class TorClient
 
     public function getRecentlyUpdatedBookings(int $partnerId, int $first = 0, int $limit = 100)
     {
+        //todo check with jordi how the relay works
+        $query = (new Query('partner'))
+            ->setArguments(['id' => $partnerId])
+            ->setSelectionSet([
+                'id',
+                'enabled',
+                'companyName',
+                (new Query('recentlyUpdatedBookings'))
+                    ->setArguments(['first' => $first, 'last' => $limit])
+                    ->setSelectionSet([
+                        'totalCount'
+                    ]),
+                (new Query('accommodations'))->setSelectionSet([
+                    'id',
+                    'enabled',
+                    'name',
+                    (new Query('rentalUnits'))->setSelectionSet([
+                        'id',
+                        'name',
+                        'code',
+                        'enabled',
+                        'type',
+                        'maxAllotment',
+                        'includedOccupancy'
+                    ])
+                ])
+            ])
+        ;
+        $result = $this->runQuery($query);
 
+
+        return $this->parseResult($result, PartnerCallResponseBody::class)->getData();
     }
 
     public function getAllBookings(
@@ -105,24 +176,89 @@ class TorClient
 
     }
 
-    public function getAccommodation(int $accommodationId)
+    public function getAccommodation(int $accommodationId): Accommodation
     {
+        $query = (new Query('accommodation'))
+            ->setArguments(['id' => $accommodationId])
+            ->setSelectionSet([
+                'id',
+                'enabled',
+                'name',
+                (new Query('rentalUnits'))->setSelectionSet([
+                    'id',
+                    'name',
+                    'code',
+                    'enabled',
+                    'type',
+                    'maxAllotment',
+                    'includedOccupancy'
+                ])
+            ])
+        ;
+        $result = $this->runQuery($query);
 
+        return $this->parseResult($result, AccommodationCallResponseBody::class)->getData()->getAccommodation();
     }
 
-    public function getRentalUnit(int $rentalUnitId)
+    public function getRentalUnit(int $rentalUnitId): RentalUnit
     {
+        $query = (new Query('rentalUnit'))
+            ->setArguments(['id' => $rentalUnitId])
+            ->setSelectionSet([
+                'id',
+                'name',
+                'code',
+                'enabled',
+                'type',
+                'maxAllotment',
+                'includedOccupancy'
+            ])
+        ;
+        $result = $this->runQuery($query);
 
+        return $this->parseResult($result, RentalUnit::class)->getData()->getRentalUnit();
     }
 
-    public function createOrReplaceAllotments(int $rentalUnitId, array $allotments)
+    public function createOrReplaceAllotments(int $rentalUnitId, AllotmentCollection $allotmentCollection): AllotmentCollection
     {
+        $mutation = (new Mutation('createOrReplaceAllotments'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceAllotmentsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('allotments'))->setSelectionSet([
+                    'amount',
+                    'date'
+                ])
+            ])
+        ;
 
+        $variable = ['input' => array_merge(['rentalUnitId' => $rentalUnitId],  $allotmentCollection->toArray())];
+        $result = $this->runQuery($mutation, $variable);
+
+        return $this->parseResult($result, CreateOrReplaceAllotmentsCallResponseBody::class)->getData()->getCreateOrReplaceAllotments();
     }
 
-    public function createOrReplaceTripPricings(int $rentalUnitId, array $tripPricings)
+    public function createOrReplaceTripPricings(int $rentalUnitId, TripPricingCollection $tripPricingCollection)
     {
+        $mutation = (new Mutation('createOrReplaceAllotments'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceTripPricings', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('tripPricings'))->setSelectionSet([
+                    'amount',
+                    'date'
+                ])
+            ])
+        ;
 
+        $variable = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection->toArray())];
+
+        $result = $this->runQuery($mutation, $variable);
+        var_dump($this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings());
+        die();
+
+
+        return $this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings();
     }
 
     public function deleteTrips(int $rentalUnitId, ?DateTime $date = null, ?int $duration = null)
@@ -130,10 +266,10 @@ class TorClient
 
     }
 
-    private function runQuery($query): string
+    private function runQuery(Query $query, array $variables = []): string
     {
         try {
-            $result = $this->client->runQuery($query);
+            $result = $this->client->runQuery($query, false, $variables);
             if (!$result->getResponseBody()) {
                 throw new \Exception('No response body found');
             }
@@ -141,5 +277,10 @@ class TorClient
         } catch (\Exception $exception) {
             throw $exception;
         }
+    }
+
+    private function parseResult(string $data, string $class): GraphQLCallResponseBodyInterface
+    {
+        return $this->serializer->deserialize($data, $class, 'json');
     }
 }

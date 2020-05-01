@@ -16,37 +16,170 @@ class RentalUnit
     const TYPE_CAMPER_SPOT = 'camper-spot';
 
     /**
-     * @var int
+     * @var string
      */
-    public $id;
+    private $id;
 
     /**
      * @var bool
      */
-    public $enabled;
+    private $enabled;
 
     /**
      * @var string
      */
-    public $name;
+    private $name;
 
     /**
      * @var string
      */
-    public $code;
+    private $code;
 
     /**
      * @var string
      */
-    public $type;
+    private $type;
 
     /**
      * @var int
      */
-    public $maxAllotment;
+    private $maxAllotment;
 
     /**
-     * @var bool
+     * @var int
      */
-    public $includeOccupancy;
+    private $includedOccupancy;
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return self
+     */
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     * @return self
+     */
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return self
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     * @return self
+     */
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return self
+     */
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxAllotment(): int
+    {
+        return $this->maxAllotment;
+    }
+
+    /**
+     * @param int $maxAllotment
+     * @return self
+     */
+    public function setMaxAllotment(int $maxAllotment): self
+    {
+        $this->maxAllotment = $maxAllotment;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function isIncludedOccupancy(): bool
+    {
+        return $this->includedOccupancy;
+    }
+
+    /**
+     * @param int $includedOccupancy
+     * @return self
+     */
+    public function setIncludedOccupancy(int $includedOccupancy): self
+    {
+        $this->includedOccupancy = $includedOccupancy;
+
+        return $this;
+    }
 }
