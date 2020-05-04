@@ -18,7 +18,6 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use TOR\GraphQL\Exception\NotFoundException;
-use \DateTime;
 use TOR\GraphQL\Model\Accommodation;
 use TOR\GraphQL\Model\AllotmentCollection;
 use TOR\GraphQL\Model\BookingRelay;
@@ -32,6 +31,7 @@ use TOR\GraphQL\Response\DeleteTripsCallResponseBody;
 use TOR\GraphQL\Response\GraphQLCallResponseBodyInterface;
 use TOR\GraphQL\Response\PartnerCallResponseBody;
 use TOR\GraphQL\Response\PartnersCallResponseBody;
+use \DateTimeInterface;
 
 class TorClient
 {
@@ -171,8 +171,8 @@ class TorClient
         int $partnerId,
         int $limit = 10,
         string $cursor = null,
-        ?DateTime $startDate = null,
-        ?DateTime $endDate = null,
+        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $endDate = null,
         ?string $searchQuery = null,
         ?array $rentalUnitIds = []
     ): BookingRelay {
@@ -350,7 +350,7 @@ class TorClient
         return $this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings();
     }
 
-    public function deleteTrips(int $rentalUnitId, ?DateTime $date = null, ?int $duration = null): ?string
+    public function deleteTrips(int $rentalUnitId, ?DateTimeInterface $date = null, ?int $duration = null): ?string
     {
         $arguments = ['rentalUnitId' => $rentalUnitId];
         if ($date) {
