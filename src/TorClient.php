@@ -21,6 +21,7 @@ use TOR\GraphQL\Exception\NotFoundException;
 use \DateTime;
 use TOR\GraphQL\Model\Accommodation;
 use TOR\GraphQL\Model\AllotmentCollection;
+use TOR\GraphQL\Model\BookingRelay;
 use TOR\GraphQL\Model\Partner;
 use TOR\GraphQL\Model\RentalUnit;
 use TOR\GraphQL\Model\TripPricingCollection;
@@ -91,7 +92,7 @@ class TorClient
 
         $result = $this->runQuery($query);
 
-        return $this->parseResult($result, PartnersCallResponseBody::class)->getData()->getPartner();
+        return $this->parseResult($result, PartnersCallResponseBody::class)->getData()->getPartners();
     }
 
     public function getPartner(int $partnerId): Partner
@@ -124,56 +125,147 @@ class TorClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
-    public function getUpcomingBookings(int $partnerId, int $first = 0, int $limit = 100)
+    public function getUpcomingBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingRelay
     {
+        $arguments = ['first' => $limit];
+        if ($cursor) {
+            $arguments['after'] = $cursor;
+        }
 
-    }
-
-    public function getRecentlyUpdatedBookings(int $partnerId, int $first = 0, int $limit = 100)
-    {
-        //todo check with jordi how the relay works
         $query = (new Query('partner'))
             ->setArguments(['id' => $partnerId])
             ->setSelectionSet([
-                'id',
-                'enabled',
-                'companyName',
-                (new Query('recentlyUpdatedBookings'))
-                    ->setArguments(['first' => $first, 'last' => $limit])
-                    ->setSelectionSet([
-                        'totalCount'
-                    ]),
-                (new Query('accommodations'))->setSelectionSet([
-                    'id',
-                    'enabled',
-                    'name',
-                    (new Query('rentalUnits'))->setSelectionSet([
-                        'id',
-                        'name',
-                        'code',
-                        'enabled',
-                        'type',
-                        'maxAllotment',
-                        'includedOccupancy'
-                    ])
-                ])
+                (new Query('upcomingBookings'))
+                    ->setArguments($arguments)
+                    ->setSelectionSet($this->getBookingRelaySelectionSet())
             ])
         ;
+
         $result = $this->runQuery($query);
 
+        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner()->getUpcomingBookings();
+    }
 
-        return $this->parseResult($result, PartnerCallResponseBody::class)->getData();
+    public function getRecentlyUpdatedBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingRelay
+    {
+        $arguments = ['first' => $limit];
+        if ($cursor) {
+            $arguments['after'] = $cursor;
+        }
+
+        $query = (new Query('partner'))
+            ->setArguments(['id' => $partnerId])
+            ->setSelectionSet([
+                (new Query('recentlyUpdatedBookings'))
+                    ->setArguments($arguments)
+                    ->setSelectionSet($this->getBookingRelaySelectionSet())
+            ])
+        ;
+
+        $result = $this->runQuery($query);
+
+        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner()->getRecentlyUpdatedBookings();
     }
 
     public function getAllBookings(
         int $partnerId,
-        int $first = 0,
-        int $limit = 100,
+        int $limit = 10,
+        string $cursor = null,
         ?DateTime $startDate = null,
         ?DateTime $endDate = null,
         ?string $searchQuery = null,
         ?array $rentalUnitIds = []
-    ) {
+    ): BookingRelay {
+        $arguments = ['first' => $limit];
+        if ($cursor) {
+            $arguments['after'] = $cursor;
+        }
+
+        if ($startDate) {
+            $arguments['startDate'] = $startDate;
+        }
+        if ($endDate) {
+            $arguments['endDate'] = $endDate;
+        }
+        if ($searchQuery) {
+            $arguments['searchQuery'] = $searchQuery;
+        }
+        if ($rentalUnitIds) {
+            $arguments['rentalUnitIds'] = $rentalUnitIds;
+        }
+
+        $query = (new Query('partner'))
+            ->setArguments(['id' => $partnerId])
+            ->setSelectionSet([
+                (new Query('allBookings'))
+                    ->setArguments($arguments)
+                    ->setSelectionSet($this->getBookingRelaySelectionSet())
+            ])
+        ;
+
+        $result = $this->runQuery($query);
+
+        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner()->getAllBookings();
+    }
+
+    private function getBookingRelaySelectionSet(): array
+    {
+        return [
+            'totalCount',
+            (new Query('pageInfo'))->setSelectionSet([
+                'hasNextPage',
+                'hasPreviousPage',
+                'startCursor',
+                'endCursor',
+            ]),
+            (new Query('edges'))->setSelectionSet([
+                'cursor',
+                (new Query('node'))->setSelectionSet([
+                    'id',
+                    'number',
+                    'arrivalDate',
+                    'departureDate',
+                    'duration',
+                    'amountAdults',
+                    'amountChildren',
+                    'amountBabies',
+                    'amountDogs',
+                    'status',
+                    'customerComment',
+                    'rentalSum',
+                    'travelSum',
+                    'createdAt',
+                    'updatedAt',
+                    (new Query('rentalUnit'))->setSelectionSet([
+                        'id',
+                    ]),
+                    (new Query('partnerPriceLines'))->setSelectionSet([
+                        'category',
+                        'label',
+                        'unitPrice',
+                        'modifier',
+                        'totalPrice',
+                    ]),
+                    (new Query('order'))->setSelectionSet([
+                        'id',
+                        'locale',
+                        'customerFirstName',
+                        'customerInfix',
+                        'customerLastName',
+                        'customerPhoneNumber',
+                        'customerEmail',
+                        (new Query('customerAddress'))->setSelectionSet([
+                            'street',
+                            'number',
+                            'postalCode',
+                            'city',
+                            'countryCode',
+                            'countryName'
+                        ]),
+                    ])
+                ])
+            ])
+        ];
 
     }
 

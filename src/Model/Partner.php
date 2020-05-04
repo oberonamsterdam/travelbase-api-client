@@ -32,9 +32,19 @@ class Partner
     private $accommodations = [];
 
     /**
-     * @var Booking[]
+     * @var BookingRelay
      */
-    private $recentlyUpdatedBookings = [];
+    private $recentlyUpdatedBookings;
+
+    /**
+     * @var BookingRelay
+     */
+    private $upcomingBookings;
+
+    /**
+     * @var BookingRelay
+     */
+    private $allBookings;
 
     /**
      * @return string
@@ -119,37 +129,63 @@ class Partner
     public function addAccommodation(Accommodation $accommodation): self
     {
         $this->accommodations[] = $accommodation;
-        
+
         return $this;
     }
 
     /**
-     * @return Booking[]
+     * @return BookingRelay
      */
-    public function getRecentlyUpdatedBookings(): array
+    public function getRecentlyUpdatedBookings(): BookingRelay
     {
         return $this->recentlyUpdatedBookings;
     }
 
     /**
-     * @param Booking[] $recentlyUpdatedBookings
+     * @param BookingRelay $recentlyUpdatedBookings
      * @return self
      */
-    public function setRecentlyUpdatedBookings(array $recentlyUpdatedBookings): self 
+    public function setRecentlyUpdatedBookings(BookingRelay $recentlyUpdatedBookings): self
     {
         $this->recentlyUpdatedBookings = $recentlyUpdatedBookings;
 
         return $this;
     }
 
+    /**
+     * @return BookingRelay
+     */
+    public function getUpcomingBookings(): BookingRelay
+    {
+        return $this->upcomingBookings;
+    }
 
     /**
-     * @param Booking $booking
-     * @return $this
+     * @param BookingRelay $upcomingBookings
+     * @return self
      */
-    public function addRecentlyUpdatedBooking(Booking $booking): self
+    public function setUpcomingBookings(BookingRelay $upcomingBookings): self
     {
-        $this->addRecentlyUpdatedBooking()[] = $booking;
+        $this->upcomingBookings = $upcomingBookings;
+
+        return $this;
+    }
+
+    /**
+     * @return BookingRelay
+     */
+    public function getAllBookings(): BookingRelay
+    {
+        return $this->allBookings;
+    }
+
+    /**
+     * @param BookingRelay $allBookings
+     * @return self
+     */
+    public function setAllBookings(BookingRelay $allBookings): self
+    {
+        $this->allBookings = $allBookings;
 
         return $this;
     }
