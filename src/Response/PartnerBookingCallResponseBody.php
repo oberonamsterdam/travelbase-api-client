@@ -7,28 +7,28 @@
 
 namespace TOR\GraphQL\Response;
 
-use TOR\GraphQL\Result\PartnerResult;
+use TOR\GraphQL\Result\PartnerBookingResult;
 
 class PartnerBookingCallResponseBody implements GraphQLCallResponseBodyInterface
 {
     /**
-     * @var PartnerResult
+     * @var PartnerBookingResult
      */
     public $data;
 
     /**
-     * @return PartnerResult
+     * @return PartnerBookingResult
      */
-    public function getData(): PartnerResult
+    public function getData(): PartnerBookingResult
     {
         return $this->data;
     }
 
     /**
-     * @param PartnerResult $data
+     * @param PartnerBookingResult $data
      * @return self
      */
-    public function setData(PartnerResult $data): self
+    public function setData(PartnerBookingResult $data): self
     {
         $this->data = $data;
 
