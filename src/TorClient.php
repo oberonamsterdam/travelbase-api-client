@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use TOR\GraphQL\Exception\BadResponseException;
 use TOR\GraphQL\Exception\NotFoundException;
 use TOR\GraphQL\Model\Accommodation;
 use TOR\GraphQL\Model\AllotmentCollection;
@@ -182,7 +183,7 @@ class TorClient
         try {
             $result = $this->client->runQuery($query, false, $variables);
             if (!$result->getResponseBody()) {
-                throw new \Exception('No response body found');
+                throw new BadResponseException('No response body found');
             }
             return $result->getResponseBody();
         } catch (\Exception $exception) {
