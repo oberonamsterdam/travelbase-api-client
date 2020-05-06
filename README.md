@@ -23,8 +23,8 @@ TOR_GRAPHQL_ENDPOINT="https://travelbase.nl/api/management/v2/graphql"
 TOR_GRAPHQL_APIKEY="MY_SECRET_APIKEY"
 ```
 
-```
-$client = new \TOR\GraphQL\TorClient("https://travelbase.nl/api/management/v2/graphql", "MY_SECRET_APIKEY")
+```php
+$client = new \TOR\GraphQL\TorClient("https://example.com", "MY_SECRET_APIKEY");
 ```
 
 # Example calls
@@ -135,6 +135,6 @@ $client = new \TOR\GraphQL\TorClient();
 //To delete all trips for a specific datetime supply first and second parameter.
 //To delete all trips for a specific duration supply first and third parameter
 //To delete a specific trip pricing supply all paramters
-$client->deleteTrips($rentalUnitId, new DateTime(), 1);
+$client->deleteTrips($rentalUnitId, new \DateTime(), 1);
 ```
 
