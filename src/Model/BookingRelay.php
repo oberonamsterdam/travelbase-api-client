@@ -89,8 +89,20 @@ class BookingRelay
     public function addEdge(BookingEdge $edge): self
     {
         $this->edges[] = $edge;
-        
+
         return $this;
     }
 
+    /**
+     * @return Booking[]
+     */
+    public function getNodes(): array
+    {
+        $bookings = [];
+        foreach ($this->edges as $edge) {
+            $bookings[] = $edge->getNode();
+        }
+
+        return $bookings;
+    }
 }

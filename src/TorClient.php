@@ -8,9 +8,7 @@
 namespace TOR\GraphQL;
 
 use GraphQL\Client;
-use GraphQL\Mutation;
 use GraphQL\Query;
-use GraphQL\Variable;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -24,11 +22,14 @@ use TOR\GraphQL\Model\BookingRelay;
 use TOR\GraphQL\Model\Partner;
 use TOR\GraphQL\Model\RentalUnit;
 use TOR\GraphQL\Model\TripPricingCollection;
+use TOR\GraphQL\Query\MutationBuilder;
+use TOR\GraphQL\Query\QueryBuilder;
 use TOR\GraphQL\Response\AccommodationCallResponseBody;
 use TOR\GraphQL\Response\CreateOrReplaceAllotmentsCallResponseBody;
 use TOR\GraphQL\Response\CreateOrReplaceTripPricingsCallResponseBody;
 use TOR\GraphQL\Response\DeleteTripsCallResponseBody;
 use TOR\GraphQL\Response\GraphQLCallResponseBodyInterface;
+use TOR\GraphQL\Response\PartnerBookingCallResponseBody;
 use TOR\GraphQL\Response\PartnerCallResponseBody;
 use TOR\GraphQL\Response\PartnersCallResponseBody;
 use \DateTimeInterface;
@@ -70,25 +71,7 @@ class TorClient
 
     public function getPartners(): array
     {
-        $query = (new Query('partners'))->setSelectionSet([
-            'id',
-            'enabled',
-            'companyName',
-            (new Query('accommodations'))->setSelectionSet([
-                'id',
-                'enabled',
-                'name',
-                (new Query('rentalUnits'))->setSelectionSet([
-                    'id',
-                    'name',
-                    'code',
-                    'enabled',
-                    'type',
-                    'maxAllotment',
-                    'includedOccupancy'
-                ])
-            ])
-        ]);
+        $query = QueryBuilder::createPartnersQuery();
 
         $result = $this->runQuery($query);
 
@@ -97,28 +80,7 @@ class TorClient
 
     public function getPartner(int $partnerId): Partner
     {
-        $query = (new Query('partner'))
-            ->setArguments(['id' => $partnerId])
-            ->setSelectionSet([
-                'id',
-                'enabled',
-                'companyName',
-                (new Query('accommodations'))->setSelectionSet([
-                    'id',
-                    'enabled',
-                    'name',
-                    (new Query('rentalUnits'))->setSelectionSet([
-                        'id',
-                        'name',
-                        'code',
-                        'enabled',
-                        'type',
-                        'maxAllotment',
-                        'includedOccupancy'
-                    ])
-                ])
-            ])
-        ;
+        $query = QueryBuilder::createPartnerQuery($partnerId);
 
         $result = $this->runQuery($query);
 
@@ -127,44 +89,20 @@ class TorClient
 
     public function getUpcomingBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingRelay
     {
-        $arguments = ['first' => $limit];
-        if ($cursor) {
-            $arguments['after'] = $cursor;
-        }
-
-        $query = (new Query('partner'))
-            ->setArguments(['id' => $partnerId])
-            ->setSelectionSet([
-                (new Query('upcomingBookings'))
-                    ->setArguments($arguments)
-                    ->setSelectionSet($this->getBookingRelaySelectionSet())
-            ])
-        ;
+        $query = QueryBuilder::createUpcomingBookingsQuery($partnerId, $limit, $cursor);
 
         $result = $this->runQuery($query);
 
-        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner()->getUpcomingBookings();
+        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getUpcomingBookings();
     }
 
     public function getRecentlyUpdatedBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingRelay
     {
-        $arguments = ['first' => $limit];
-        if ($cursor) {
-            $arguments['after'] = $cursor;
-        }
-
-        $query = (new Query('partner'))
-            ->setArguments(['id' => $partnerId])
-            ->setSelectionSet([
-                (new Query('recentlyUpdatedBookings'))
-                    ->setArguments($arguments)
-                    ->setSelectionSet($this->getBookingRelaySelectionSet())
-            ])
-        ;
+        $query = QueryBuilder::createRecentlyUpdatedBookingsQuery($partnerId, $limit, $cursor);
 
         $result = $this->runQuery($query);
 
-        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner()->getRecentlyUpdatedBookings();
+        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getRecentlyUpdatedBookings();
     }
 
     public function getAllBookings(
@@ -176,118 +114,17 @@ class TorClient
         ?string $searchQuery = null,
         ?array $rentalUnitIds = []
     ): BookingRelay {
-        $arguments = ['first' => $limit];
-        if ($cursor) {
-            $arguments['after'] = $cursor;
-        }
-
-        if ($startDate) {
-            $arguments['startDate'] = $startDate;
-        }
-        if ($endDate) {
-            $arguments['endDate'] = $endDate;
-        }
-        if ($searchQuery) {
-            $arguments['searchQuery'] = $searchQuery;
-        }
-        if ($rentalUnitIds) {
-            $arguments['rentalUnitIds'] = $rentalUnitIds;
-        }
-
-        $query = (new Query('partner'))
-            ->setArguments(['id' => $partnerId])
-            ->setSelectionSet([
-                (new Query('allBookings'))
-                    ->setArguments($arguments)
-                    ->setSelectionSet($this->getBookingRelaySelectionSet())
-            ])
-        ;
+        $query = QueryBuilder::createAllBookingsQuery($partnerId, $limit, $cursor, $startDate, $endDate, $searchQuery, $rentalUnitIds);
 
         $result = $this->runQuery($query);
 
-        return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner()->getAllBookings();
-    }
-
-    private function getBookingRelaySelectionSet(): array
-    {
-        return [
-            'totalCount',
-            (new Query('pageInfo'))->setSelectionSet([
-                'hasNextPage',
-                'hasPreviousPage',
-                'startCursor',
-                'endCursor',
-            ]),
-            (new Query('edges'))->setSelectionSet([
-                'cursor',
-                (new Query('node'))->setSelectionSet([
-                    'id',
-                    'number',
-                    'arrivalDate',
-                    'departureDate',
-                    'duration',
-                    'amountAdults',
-                    'amountChildren',
-                    'amountBabies',
-                    'amountDogs',
-                    'status',
-                    'customerComment',
-                    'rentalSum',
-                    'travelSum',
-                    'createdAt',
-                    'updatedAt',
-                    (new Query('rentalUnit'))->setSelectionSet([
-                        'id',
-                    ]),
-                    (new Query('partnerPriceLines'))->setSelectionSet([
-                        'category',
-                        'label',
-                        'unitPrice',
-                        'modifier',
-                        'totalPrice',
-                    ]),
-                    (new Query('order'))->setSelectionSet([
-                        'id',
-                        'locale',
-                        'customerFirstName',
-                        'customerInfix',
-                        'customerLastName',
-                        'customerPhoneNumber',
-                        'customerEmail',
-                        (new Query('customerAddress'))->setSelectionSet([
-                            'street',
-                            'number',
-                            'postalCode',
-                            'city',
-                            'countryCode',
-                            'countryName'
-                        ]),
-                    ])
-                ])
-            ])
-        ];
-
+        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getAllBookings();
     }
 
     public function getAccommodation(int $accommodationId): Accommodation
     {
-        $query = (new Query('accommodation'))
-            ->setArguments(['id' => $accommodationId])
-            ->setSelectionSet([
-                'id',
-                'enabled',
-                'name',
-                (new Query('rentalUnits'))->setSelectionSet([
-                    'id',
-                    'name',
-                    'code',
-                    'enabled',
-                    'type',
-                    'maxAllotment',
-                    'includedOccupancy'
-                ])
-            ])
-        ;
+        $query = QueryBuilder::createAccommodationQuery($accommodationId);
+
         $result = $this->runQuery($query);
 
         return $this->parseResult($result, AccommodationCallResponseBody::class)->getData()->getAccommodation();
@@ -295,18 +132,8 @@ class TorClient
 
     public function getRentalUnit(int $rentalUnitId): RentalUnit
     {
-        $query = (new Query('rentalUnit'))
-            ->setArguments(['id' => $rentalUnitId])
-            ->setSelectionSet([
-                'id',
-                'name',
-                'code',
-                'enabled',
-                'type',
-                'maxAllotment',
-                'includedOccupancy'
-            ])
-        ;
+        $query = QueryBuilder::createRentalUnitQuery($rentalUnitId);
+
         $result = $this->runQuery($query);
 
         return $this->parseResult($result, RentalUnit::class)->getData()->getRentalUnit();
@@ -314,16 +141,7 @@ class TorClient
 
     public function createOrReplaceAllotments(int $rentalUnitId, AllotmentCollection $allotmentCollection): AllotmentCollection
     {
-        $mutation = (new Mutation('createOrReplaceAllotments'))
-            ->setVariables([new Variable('input', 'CreateOrReplaceAllotmentsInput', true)])
-            ->setArguments(['input' => '$input'])
-            ->setSelectionSet([
-                (new Query('allotments'))->setSelectionSet([
-                    'amount',
-                    'date'
-                ])
-            ])
-        ;
+        $mutation = MutationBuilder::createCreateOrUpdateAllotmentsMutation();
 
         $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId],  $allotmentCollection->toArray())];
         $result = $this->runQuery($mutation, $variables);
@@ -333,17 +151,8 @@ class TorClient
 
     public function createOrReplaceTripPricings(int $rentalUnitId, TripPricingCollection $tripPricingCollection): TripPricingCollection
     {
-        $mutation = (new Mutation('createOrReplaceTripPricings'))
-            ->setVariables([new Variable('input', 'CreateOrReplaceTripPricingsInput', true)])
-            ->setArguments(['input' => '$input'])
-            ->setSelectionSet([
-                (new Query('tripPricings'))->setSelectionSet([
-                    'date',
-                    'duration',
-                    'price',
-                ])
-            ])
-        ;
+        $mutation = MutationBuilder::createCreateOrUpdateTripPricingsMutation();
+
         $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection->toArray())];
         $result = $this->runQuery($mutation, $variables);
 
@@ -360,11 +169,8 @@ class TorClient
             $arguments['duration'] = $duration;
         }
 
-        $mutation = (new Mutation('deleteTrips'))
-            ->setVariables([new Variable('input', 'DeleteTripsInput', true)])
-            ->setArguments(['input' => '$input'])
-            ->setSelectionSet(['message'])
-        ;
+        $mutation = MutationBuilder::createDeleteTripsMutation();
+
         $variables = ['input' => $arguments];
         $result = $this->runQuery($mutation, $variables);
 
