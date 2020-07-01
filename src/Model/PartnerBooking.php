@@ -10,33 +10,33 @@ namespace TOR\GraphQL\Model;
 class PartnerBooking
 {
     /**
-     * @var BookingRelay
+     * @var BookingConnection
      */
     private $recentlyUpdatedBookings;
 
     /**
-     * @var BookingRelay
+     * @var BookingConnection
      */
     private $upcomingBookings;
 
     /**
-     * @var BookingRelay
+     * @var BookingConnection
      */
     private $allBookings;
 
     /**
-     * @return BookingRelay
+     * @return BookingConnection
      */
-    public function getRecentlyUpdatedBookings(): BookingRelay
+    public function getRecentlyUpdatedBookings(): BookingConnection
     {
         return $this->recentlyUpdatedBookings;
     }
 
     /**
-     * @param BookingRelay $recentlyUpdatedBookings
+     * @param BookingConnection $recentlyUpdatedBookings
      * @return self
      */
-    public function setRecentlyUpdatedBookings(BookingRelay $recentlyUpdatedBookings): self
+    public function setRecentlyUpdatedBookings(BookingConnection $recentlyUpdatedBookings): self
     {
         $this->recentlyUpdatedBookings = $recentlyUpdatedBookings;
 
@@ -44,18 +44,18 @@ class PartnerBooking
     }
 
     /**
-     * @return BookingRelay
+     * @return BookingConnection
      */
-    public function getUpcomingBookings(): BookingRelay
+    public function getUpcomingBookings(): BookingConnection
     {
         return $this->upcomingBookings;
     }
 
     /**
-     * @param BookingRelay $upcomingBookings
+     * @param BookingConnection $upcomingBookings
      * @return self
      */
-    public function setUpcomingBookings(BookingRelay $upcomingBookings): self
+    public function setUpcomingBookings(BookingConnection $upcomingBookings): self
     {
         $this->upcomingBookings = $upcomingBookings;
 
@@ -63,18 +63,18 @@ class PartnerBooking
     }
 
     /**
-     * @return BookingRelay
+     * @return BookingConnection
      */
-    public function getAllBookings(): BookingRelay
+    public function getAllBookings(): BookingConnection
     {
         return $this->allBookings;
     }
 
     /**
-     * @param BookingRelay $allBookings
+     * @param BookingConnection $allBookings
      * @return self
      */
-    public function setAllBookings(BookingRelay $allBookings): self
+    public function setAllBookings(BookingConnection $allBookings): self
     {
         $this->allBookings = $allBookings;
 

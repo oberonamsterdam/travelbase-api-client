@@ -16,10 +16,9 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use TOR\GraphQL\Exception\BadResponseException;
-use TOR\GraphQL\Exception\NotFoundException;
 use TOR\GraphQL\Model\Accommodation;
 use TOR\GraphQL\Model\AllotmentCollection;
-use TOR\GraphQL\Model\BookingRelay;
+use TOR\GraphQL\Model\BookingConnection;
 use TOR\GraphQL\Model\Partner;
 use TOR\GraphQL\Model\RentalUnit;
 use TOR\GraphQL\Model\TripPricingCollection;
@@ -43,21 +42,8 @@ class TorClient
     /** @var Serializer  */
     private $serializer;
 
-    public function __construct(?string $endPoint = null, ?string $apiKey = null)
+    public function __construct(string $endPoint, string $apiKey)
     {
-        $endPointEnvVariable = getenv('TOR_GRAPHQL_ENDPOINT');
-        $apiKeyEnvVariable = getenv('TOR_GRAPHQL_APIKEY');
-
-        $apiKey = $apiKey ?? $apiKeyEnvVariable;
-        $endPoint = $endPoint ?? $endPointEnvVariable;
-
-        if (!$endPoint) {
-            throw new NotFoundException('Endpoint not defined');
-        }
-
-        if (!$apiKey) {
-            throw new NotFoundException('Api key not defined');
-        }
         $this->client = new Client($endPoint, ['Authorization' => "Bearer $apiKey"]);
 
         $encoders = [new JsonEncoder()];
@@ -88,7 +74,7 @@ class TorClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
-    public function getUpcomingBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingRelay
+    public function getUpcomingBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingConnection
     {
         $query = QueryBuilder::createUpcomingBookingsQuery($partnerId, $limit, $cursor);
 
@@ -97,7 +83,7 @@ class TorClient
         return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getUpcomingBookings();
     }
 
-    public function getRecentlyUpdatedBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingRelay
+    public function getRecentlyUpdatedBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingConnection
     {
         $query = QueryBuilder::createRecentlyUpdatedBookingsQuery($partnerId, $limit, $cursor);
 
@@ -114,7 +100,7 @@ class TorClient
         ?DateTimeInterface $endDate = null,
         ?string $searchQuery = null,
         ?array $rentalUnitIds = []
-    ): BookingRelay {
+    ): BookingConnection {
         $query = QueryBuilder::createAllBookingsQuery($partnerId, $limit, $cursor, $startDate, $endDate, $searchQuery, $rentalUnitIds);
 
         $result = $this->runQuery($query);
@@ -150,11 +136,35 @@ class TorClient
         return $this->parseResult($result, CreateOrReplaceAllotmentsCallResponseBody::class)->getData()->getCreateOrReplaceAllotments();
     }
 
-    public function createOrReplaceTripPricings(int $rentalUnitId, TripPricingCollection $tripPricingCollection): TripPricingCollection
+    /**
+     * USAGE
+     * createOrReplaceTripPricings (
+     *      1,
+     *      [
+     *          [
+     *              'date' => '2020-01-01',
+     *              'duration' => 1,
+     *              'price' => 100,
+     *          ],
+     *          [
+     *              'date' => '2020-02-01',
+     *              'duration' => 1,
+     *              'price' => 100.50,
+     *          ]
+     *      ];
+     * )
+     *
+     *
+     * @param int $rentalUnitId
+     * @param array $tripPricingCollection
+     * @return TripPricingCollection
+     * @throws BadResponseException
+     */
+    public function createOrReplaceTripPricings(int $rentalUnitId, array $tripPricingCollection): TripPricingCollection
     {
         $mutation = MutationBuilder::createCreateOrUpdateTripPricingsMutation();
 
-        $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection->toArray())];
+        $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection)];
         $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings();
@@ -180,15 +190,12 @@ class TorClient
 
     private function runQuery(Query $query, array $variables = []): string
     {
-        try {
-            $result = $this->client->runQuery($query, false, $variables);
-            if (!$result->getResponseBody()) {
-                throw new BadResponseException('No response body found');
-            }
-            return $result->getResponseBody();
-        } catch (\Exception $exception) {
-            throw $exception;
+        $result = $this->client->runQuery($query, false, $variables);
+        if (!$result->getResponseBody()) {
+            throw new BadResponseException('No response body found');
         }
+
+        return $result->getResponseBody();
     }
 
     private function parseResult(string $data, string $class): GraphQLCallResponseBodyInterface

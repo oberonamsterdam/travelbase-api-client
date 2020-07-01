@@ -7,7 +7,7 @@
 
 namespace TOR\GraphQL\Model;
 
-class BookingRelay
+class BookingConnection
 {
 
     /**

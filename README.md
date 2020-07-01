@@ -17,11 +17,7 @@ $ composer require oberonamsterdam/tor-graphql-client
 
 # Usage
 
-To use this Client you need to define the API Key and endpoint as an .env variable or supply it when initiating the client class.
-```
-TOR_GRAPHQL_ENDPOINT="https://travelbase.nl/api/management/v2/graphql"
-TOR_GRAPHQL_APIKEY="MY_SECRET_APIKEY"
-```
+To use this Client you need to provide the API Key and endpoint when initiating the client class.
 
 ```php
 $client = new \TOR\GraphQL\TorClient("https://example.com", "MY_SECRET_APIKEY");
@@ -65,10 +61,10 @@ $hasMoreBookings = true;
 /** @var \TOR\GraphQL\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
-    $bookingRelay =  $client->getAllBookings($partnerId, 10, $cursor);
-    $bookings = array_merge($bookings, $bookingRelay->getNodes());
-    $cursor = $bookingRelay->getPageInfo()->getEndCursor();
-    $hasMoreBookings = $bookingRelay->getPageInfo()->isHasNextPage();
+    $bookingConnection =  $client->getAllBookings($partnerId, 10, $cursor);
+    $bookings = array_merge($bookings, $bookingConnection->getNodes());
+    $cursor = $bookingConnection->getPageInfo()->getEndCursor();
+    $hasMoreBookings = $bookingConnection->getPageInfo()->isHasNextPage();
 }
 ```
 
@@ -80,10 +76,10 @@ $hasMoreBookings = true;
 /** @var \TOR\GraphQL\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
-    $bookingRelay =  $client->getRecentlyUpdatedBookings($partnerId, 10, $cursor);
-    $bookings = array_merge($bookings, $bookingRelay->getNodes());
-    $cursor = $bookingRelay->getPageInfo()->getEndCursor();
-    $hasMoreBookings = $bookingRelay->getPageInfo()->isHasNextPage();
+    $bookingConnection =  $client->getRecentlyUpdatedBookings($partnerId, 10, $cursor);
+    $bookings = array_merge($bookings, $bookingConnection->getNodes());
+    $cursor = $bookingConnection->getPageInfo()->getEndCursor();
+    $hasMoreBookings = $bookingConnection->getPageInfo()->isHasNextPage();
 }
 ```
 
@@ -95,10 +91,10 @@ $hasMoreBookings = true;
 /** @var \TOR\GraphQL\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
-    $bookingRelay =  $client->getUpcomingBookings($partnerId, 10, $cursor);
-    $bookings = array_merge($bookings, $bookingRelay->getNodes());
-    $cursor = $bookingRelay->getPageInfo()->getEndCursor();
-    $hasMoreBookings = $bookingRelay->getPageInfo()->isHasNextPage();
+    $bookingConnection =  $client->getUpcomingBookings($partnerId, 10, $cursor);
+    $bookings = array_merge($bookings, $bookingConnection->getNodes());
+    $cursor = $bookingConnection->getPageInfo()->getEndCursor();
+    $hasMoreBookings = $bookingConnection->getPageInfo()->isHasNextPage();
 }
 ```
 
