@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Model;
+namespace Oberon\TorClient\Model;
 
 class Address
 {
@@ -19,7 +19,7 @@ class Address
      * @var string|null
      */
     private $number;
-    
+
     /**
      * @var string|null
      */

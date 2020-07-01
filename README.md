@@ -20,45 +20,45 @@ $ composer require oberonamsterdam/tor-graphql-client
 To use this Client you need to provide the API Key and endpoint when initiating the client class.
 
 ```php
-$client = new \TOR\GraphQL\TorClient("https://example.com", "MY_SECRET_APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 ```
 
 # Example calls
 Retrieve a collection of all partners:
 ```php
-$client = new \TOR\GraphQL\TorClient();
-/** @var \TOR\GraphQL\Model\Partner[] $partners */
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+/** @var \Oberon\TorClient\Model\Partner[] $partners */
 $partners = $client->getPartners();
 ```
   
 Retrieve a single partner:
 ```php
-$client = new \TOR\GraphQL\TorClient();
-/** @var \TOR\GraphQL\Model\Partner $partner */
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+/** @var \Oberon\TorClient\Model\Partner $partner */
 $partners = $client->getPartner($partnerId);
 ```
 
 Retrieve a single accommodation:
 ```php
-$client = new \TOR\GraphQL\TorClient();
-/** @var \TOR\GraphQL\Model\Accommodation $accommodation */
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+/** @var \Oberon\TorClient\Model\Accommodation $accommodation */
 $accommodation = $client->getAccommodation($accommodationId);
 ```
 
 Retrieve a single rentalUnit:
 ```php
-$client = new \TOR\GraphQL\TorClient();
-/** @var \TOR\GraphQL\Model\RentalUnit $rentalUnit */
+$client = new \Oberon\TorClient\ApiClient();
+/** @var \Oberon\TorClient\Model\RentalUnit $rentalUnit */
 $rentalUnit = $client->getRentalUnit($rentalUnitId);
 ```
 
 Retrieve all bookings:
 ```php
-$client = new \TOR\GraphQL\TorClient();
-/** @var \TOR\GraphQL\Model\RentalUnit $rentalUnit */
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+/** @var \Oberon\TorClient\Model\RentalUnit $rentalUnit */
 $cursor = null;
 $hasMoreBookings = true;
-/** @var \TOR\GraphQL\Model\Booking[] $bookings */
+/** @var \Oberon\TorClient\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
     $bookingConnection =  $client->getAllBookings($partnerId, 10, $cursor);
@@ -70,10 +70,10 @@ while ($hasMoreBookings) {
 
 Retrieve recently updated bookings:
 ```php
-$client = new \TOR\GraphQL\TorClient();
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $cursor = null;
 $hasMoreBookings = true;
-/** @var \TOR\GraphQL\Model\Booking[] $bookings */
+/** @var \Oberon\TorClient\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
     $bookingConnection =  $client->getRecentlyUpdatedBookings($partnerId, 10, $cursor);
@@ -85,10 +85,10 @@ while ($hasMoreBookings) {
 
 Retrieve upcoming bookings:
 ```php
-$client = new \TOR\GraphQL\TorClient();
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $cursor = true;
 $hasMoreBookings = true;
-/** @var \TOR\GraphQL\Model\Booking[] $bookings */
+/** @var \Oberon\TorClient\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
     $bookingConnection =  $client->getUpcomingBookings($partnerId, 10, $cursor);
@@ -100,33 +100,33 @@ while ($hasMoreBookings) {
 
 Create or replace allotments:
 ```php
-$allotment = new \TOR\GraphQL\Model\Allotment();
+$allotment = new \Oberon\TorClient\Model\Allotment();
 $allotment->setAmount(1);
 $allotment->setDate(new \DateTime());
-$allotmentCollection = new \TOR\GraphQL\Model\AllotmentCollection();
+$allotmentCollection = new \Oberon\TorClient\Model\AllotmentCollection();
 $allotmentCollection->addAllotment($allotment);
 
-$client = new \TOR\GraphQL\TorClient();
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $client->createOrReplaceAllotments($rentalUnitId, $allotmentCollection);
 ```
 
 
 Create or replace trippricings:
 ```php
-$tripPricing = new \TOR\GraphQL\Model\TripPricing();
+$tripPricing = new \Oberon\TorClient\Model\TripPricing();
 $tripPricing->setDuration(1);
 $tripPricing->setDate(new \DateTime());
 $tripPricing->setPrice(100.50);
-$tripPricingCollection = new \TOR\GraphQL\Model\TripPricingCollection();
+$tripPricingCollection = new \Oberon\TorClient\Model\TripPricingCollection();
 $tripPricingCollection->addTripPricing($tripPricing);
 
-$client = new \TOR\GraphQL\TorClient();
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $client->createOrReplaceTripPricings($rentalUnitId, $tripPricingCollection);
 ```
 
 Delete trips:
 ```php
-$client = new \TOR\GraphQL\TorClient();
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 //To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
 //To delete all trips for a specific datetime supply first and second parameter.
 //To delete all trips for a specific duration supply first and third parameter

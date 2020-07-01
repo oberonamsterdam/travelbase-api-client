@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Response;
+namespace Oberon\TorClient\Response;
 
-use TOR\GraphQL\Model\PartnerCollection;
+use Oberon\TorClient\Model\PartnerCollection;
 
 interface GraphQLCallResponseBodyInterface
 {

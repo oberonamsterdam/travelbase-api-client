@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Query;
+namespace Oberon\TorClient\Query;
 
 use GraphQL\Mutation;
 use GraphQL\Query;

@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL;
+namespace Oberon\TorClient;
 
 use GraphQL\Client;
 use GraphQL\Query;
@@ -15,26 +15,26 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use TOR\GraphQL\Exception\BadResponseException;
-use TOR\GraphQL\Model\Accommodation;
-use TOR\GraphQL\Model\AllotmentCollection;
-use TOR\GraphQL\Model\BookingConnection;
-use TOR\GraphQL\Model\Partner;
-use TOR\GraphQL\Model\RentalUnit;
-use TOR\GraphQL\Model\TripPricingCollection;
-use TOR\GraphQL\Query\MutationBuilder;
-use TOR\GraphQL\Query\QueryBuilder;
-use TOR\GraphQL\Response\AccommodationCallResponseBody;
-use TOR\GraphQL\Response\CreateOrReplaceAllotmentsCallResponseBody;
-use TOR\GraphQL\Response\CreateOrReplaceTripPricingsCallResponseBody;
-use TOR\GraphQL\Response\DeleteTripsCallResponseBody;
-use TOR\GraphQL\Response\GraphQLCallResponseBodyInterface;
-use TOR\GraphQL\Response\PartnerBookingCallResponseBody;
-use TOR\GraphQL\Response\PartnerCallResponseBody;
-use TOR\GraphQL\Response\PartnersCallResponseBody;
+use Oberon\TorClient\Exception\BadResponseException;
+use Oberon\TorClient\Model\Accommodation;
+use Oberon\TorClient\Model\AllotmentCollection;
+use Oberon\TorClient\Model\BookingConnection;
+use Oberon\TorClient\Model\Partner;
+use Oberon\TorClient\Model\RentalUnit;
+use Oberon\TorClient\Model\TripPricingCollection;
+use Oberon\TorClient\Query\MutationBuilder;
+use Oberon\TorClient\Query\QueryBuilder;
+use Oberon\TorClient\Response\AccommodationCallResponseBody;
+use Oberon\TorClient\Response\CreateOrReplaceAllotmentsCallResponseBody;
+use Oberon\TorClient\Response\CreateOrReplaceTripPricingsCallResponseBody;
+use Oberon\TorClient\Response\DeleteTripsCallResponseBody;
+use Oberon\TorClient\Response\GraphQLCallResponseBodyInterface;
+use Oberon\TorClient\Response\PartnerBookingCallResponseBody;
+use Oberon\TorClient\Response\PartnerCallResponseBody;
+use Oberon\TorClient\Response\PartnersCallResponseBody;
 use \DateTimeInterface;
 
-class TorClient
+class ApiClient
 {
     /** @var Client */
     private $client;
@@ -162,6 +162,9 @@ class TorClient
      */
     public function createOrReplaceTripPricings(int $rentalUnitId, array $tripPricingCollection): TripPricingCollection
     {
+        var_dump($rentalUnitId);
+        die();
+
         $mutation = MutationBuilder::createCreateOrUpdateTripPricingsMutation();
 
         $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection)];

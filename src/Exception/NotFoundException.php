@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Exception;
+namespace Oberon\TorClient\Exception;
 
 class NotFoundException extends \Exception
 {

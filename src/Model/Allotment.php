@@ -4,7 +4,7 @@
  * @author Raymond Kiekens
  * @copyright (c) Oberon 2020
  */
-namespace TOR\GraphQL\Model;
+namespace Oberon\TorClient\Model;
 
 use \DateTimeInterface;
 

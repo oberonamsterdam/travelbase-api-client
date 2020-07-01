@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Result;
+namespace Oberon\TorClient\Result;
 
-use TOR\GraphQL\Model\RentalUnit;
+use Oberon\TorClient\Model\RentalUnit;
 
 class RentalUnitResult
 {

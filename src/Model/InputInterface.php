@@ -5,11 +5,11 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Model;
+namespace Oberon\TorClient\Model;
 
 interface InputInterface
 {
-    
+
     public function toArray(): array;
 
 }

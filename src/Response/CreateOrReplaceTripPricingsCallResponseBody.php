@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Response;
+namespace Oberon\TorClient\Response;
 
-use TOR\GraphQL\Result\CreateOrReplaceTripPricingsResult;
+use Oberon\TorClient\Result\CreateOrReplaceTripPricingsResult;
 
 class CreateOrReplaceTripPricingsCallResponseBody implements GraphQLCallResponseBodyInterface
 {

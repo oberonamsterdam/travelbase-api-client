@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace TOR\GraphQL\Model;
+namespace Oberon\TorClient\Model;
 
 use DateTimeInterface;
 
@@ -428,10 +428,10 @@ class Booking
      * @param BookingPriceLine $bookingPriceLine
      * @return self
      */
-    public function addPartnerPriceLine(BookingPriceLine $bookingPriceLine): self 
+    public function addPartnerPriceLine(BookingPriceLine $bookingPriceLine): self
     {
         $this->partnerPriceLines[] = $bookingPriceLine;
-        
+
         return $this;
     }
 

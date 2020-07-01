@@ -17,6 +17,7 @@
         "php": "^7.2",
         "gmostafa/php-graphql-client": "^1.4",
         "phpdocumentor/reflection-docblock": "^5.1",
+        "symfony/property-access": "^4.3",
         "symfony/property-info": "^4.3",
         "symfony/serializer": "^4.3"
     },
@@ -29,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TOR\\GraphQL\\": "src/"
+            "Oberon\\TorClient\\": "src/"
         }
     }
 }
