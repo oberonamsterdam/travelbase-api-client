@@ -27,9 +27,41 @@ class TripPricing implements InputInterface
     private $price;
 
     /**
+     * @var float
+     */
+    private $extraPersonPrice;
+
+    /**
+     * @var float
+     */
+    private $minimumStayPrice;
+
+    /**
+     * TripPricing constructor.
+     * @param DateTimeInterface|null $date
+     * @param int|null $duration
+     * @param float|null $price
+     * @param float|null $extraPersonPrice
+     * @param float|null $minimumStayPrice
+     */
+    public function __construct(
+        ?DateTimeInterface $date = null,
+        ?int $duration = null,
+        ?float $price = null,
+        ?float $extraPersonPrice = null,
+        ?float $minimumStayPrice = null
+    ) {
+        $this->date = $date;
+        $this->duration = $duration;
+        $this->price = $price;
+        $this->extraPersonPrice = $extraPersonPrice;
+        $this->minimumStayPrice = $minimumStayPrice;
+    }
+
+    /**
      * @return DateTimeInterface
      */
-    public function getDate(): DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
@@ -48,7 +80,7 @@ class TripPricing implements InputInterface
     /**
      * @return int
      */
-    public function getDuration(): int
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
@@ -67,7 +99,7 @@ class TripPricing implements InputInterface
     /**
      * @return float
      */
-    public function getPrice(): float
+    public function getPrice(): ?float
     {
         return $this->price;
     }
@@ -84,17 +116,55 @@ class TripPricing implements InputInterface
     }
 
     /**
+     * @return float
+     */
+    public function getExtraPersonPrice(): ?float
+    {
+        return $this->extraPersonPrice;
+    }
+
+    /**
+     * @param float $extraPersonPrice
+     * @return $this
+     */
+    public function setExtraPersonPrice($extraPersonPrice): self
+    {
+        $this->extraPersonPrice = $extraPersonPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMinimumStayPrice(): ?float
+    {
+        return $this->minimumStayPrice;
+    }
+
+    /**
+     * @param float $minimumStayPrice
+     * @return $this
+     */
+    public function setMinimumStayPrice($minimumStayPrice): self
+    {
+        $this->minimumStayPrice = $minimumStayPrice;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
     {
-        $result =  [
+        return [
             'date' => $this->getDate()->format('Y-m-d'),
             'duration' => $this->getDuration(),
             'price' => $this->getPrice(),
+            'extraPersonPrice' => $this->getExtraPersonPrice(),
+            'minimumStayPrice' => $this->getMinimumStayPrice(),
         ];
-
-        return $result;
     }
 
 }

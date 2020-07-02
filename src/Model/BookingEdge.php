@@ -20,22 +20,24 @@ class BookingEdge
     private $node;
 
     /**
+     * BookingEdge constructor.
+     * @param string $cursor
+     * @param Booking $node
+     */
+    public function __construct(
+        string $cursor,
+        Booking $node
+    ) {
+        $this->cursor = $cursor;
+        $this->node = $node;
+    }
+
+    /**
      * @return string
      */
     public function getCursor(): string
     {
         return $this->cursor;
-    }
-
-    /**
-     * @param string $cursor
-     * @return self
-     */
-    public function setCursor(string $cursor): self
-    {
-        $this->cursor = $cursor;
-
-        return $this;
     }
 
     /**
@@ -45,16 +47,4 @@ class BookingEdge
     {
         return $this->node;
     }
-
-    /**
-     * @param Booking $node
-     * @return self
-     */
-    public function setNode(Booking $node): self
-    {
-        $this->node = $node;
-
-        return $this;
-    }
-
 }

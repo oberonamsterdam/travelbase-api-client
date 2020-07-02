@@ -35,22 +35,33 @@ class BookingPriceLine
     private $totalPrice;
 
     /**
+     * BookingPriceLine constructor.
+     * @param string $category
+     * @param string $label
+     * @param float|null $unitPrice
+     * @param string|null $modifier
+     * @param float $totalPrice
+     */
+    public function __construct(
+        string $category,
+        string $label,
+        ?float $unitPrice,
+        ?string $modifier,
+        float $totalPrice
+    ) {
+        $this->category = $category;
+        $this->label = $label;
+        $this->unitPrice = $unitPrice;
+        $this->modifier = $modifier;
+        $this->totalPrice = $totalPrice;
+    }
+
+    /**
      * @return string
      */
     public function getCategory(): string
     {
         return $this->category;
-    }
-
-    /**
-     * @param string $category
-     * @return self
-     */
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
     }
 
     /**
@@ -62,33 +73,11 @@ class BookingPriceLine
     }
 
     /**
-     * @param string $label
-     * @return self
-     */
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    /**
      * @return float|null
      */
     public function getUnitPrice(): ?float
     {
         return $this->unitPrice;
-    }
-
-    /**
-     * @param float|null $unitPrice
-     * @return self
-     */
-    public function setUnitPrice(?float $unitPrice): self
-    {
-        $this->unitPrice = $unitPrice;
-
-        return $this;
     }
 
     /**
@@ -100,32 +89,10 @@ class BookingPriceLine
     }
 
     /**
-     * @param string|null $modifier
-     * @return self
-     */
-    public function setModifier(?string $modifier): self
-    {
-        $this->modifier = $modifier;
-
-        return $this;
-    }
-
-    /**
      * @return float
      */
     public function getTotalPrice(): float
     {
         return $this->totalPrice;
-    }
-
-    /**
-     * @param float $totalPrice
-     * @return self
-     */
-    public function setTotalPrice(float $totalPrice): self
-    {
-        $this->totalPrice = $totalPrice;
-
-        return $this;
     }
 }

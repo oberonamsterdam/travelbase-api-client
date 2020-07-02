@@ -38,6 +38,8 @@ class MutationBuilder
                     'date',
                     'duration',
                     'price',
+                    'minimumStayPrice',
+                    'extraPersonPrice',
                 ])
             ])
         ;
@@ -45,8 +47,8 @@ class MutationBuilder
 
     public static function createDeleteTripsMutation(): Mutation
     {
-        return (new Mutation('deleteTrips'))
-            ->setVariables([new Variable('input', 'DeleteTripsInput', true)])
+        return (new Mutation('deleteTripPricings'))
+            ->setVariables([new Variable('input', 'DeleteTripPricingsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet(['message'])
         ;

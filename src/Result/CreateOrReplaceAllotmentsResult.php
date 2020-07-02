@@ -16,23 +16,21 @@ class CreateOrReplaceAllotmentsResult
      */
     public $createOrReplaceAllotments;
 
+
+    /**
+     * CreateOrReplaceAllotmentsResult constructor.
+     * @param AllotmentCollection $createOrReplaceAllotments
+     */
+    public function __construct(AllotmentCollection $createOrReplaceAllotments)
+    {
+        $this->createOrReplaceAllotments = $createOrReplaceAllotments;
+    }
+
     /**
      * @return AllotmentCollection
      */
     public function getCreateOrReplaceAllotments(): AllotmentCollection
     {
         return $this->createOrReplaceAllotments;
-    }
-
-    /**
-     * @param AllotmentCollection $createOrReplaceAllotments
-     * @return self
-     */
-    public function setCreateOrReplaceAllotments(
-        AllotmentCollection $createOrReplaceAllotments
-    ): self {
-        $this->createOrReplaceAllotments = $createOrReplaceAllotments;
-
-        return $this;
     }
 }

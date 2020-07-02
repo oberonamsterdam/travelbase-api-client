@@ -31,22 +31,30 @@ class PageInfo
     private $endCursor;
 
     /**
+     * PageInfo constructor.
+     * @param bool $hasPreviousPage
+     * @param bool $hasNextPage
+     * @param string|null $startCursor
+     * @param string|null $endCursor
+     */
+    public function __construct(
+        bool $hasPreviousPage,
+        bool $hasNextPage,
+        ?string $startCursor,
+        ?string $endCursor
+    ) {
+        $this->hasPreviousPage = $hasPreviousPage;
+        $this->hasNextPage = $hasNextPage;
+        $this->startCursor = $startCursor;
+        $this->endCursor = $endCursor;
+    }
+
+    /**
      * @return bool
      */
     public function isHasPreviousPage(): bool
     {
         return $this->hasPreviousPage;
-    }
-
-    /**
-     * @param bool $hasPreviousPage
-     * @return self
-     */
-    public function setHasPreviousPage(bool $hasPreviousPage): self
-    {
-        $this->hasPreviousPage = $hasPreviousPage;
-
-        return $this;
     }
 
     /**
@@ -58,17 +66,6 @@ class PageInfo
     }
 
     /**
-     * @param bool $hasNextPage
-     * @return self
-     */
-    public function setHasNextPage(bool $hasNextPage): self
-    {
-        $this->hasNextPage = $hasNextPage;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getStartCursor(): ?string
@@ -77,32 +74,10 @@ class PageInfo
     }
 
     /**
-     * @param string|null $startCursor
-     * @return self
-     */
-    public function setStartCursor(?string $startCursor): self
-    {
-        $this->startCursor = $startCursor;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getEndCursor(): ?string
     {
         return $this->endCursor;
-    }
-
-    /**
-     * @param string|null $endCursor
-     * @return self
-     */
-    public function setEndCursor(?string $endCursor): self
-    {
-        $this->endCursor = $endCursor;
-
-        return $this;
     }
 }

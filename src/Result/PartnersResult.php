@@ -17,6 +17,15 @@ class PartnersResult
     public $partners = [];
 
     /**
+     * PartnersResult constructor
+     * @var Partner[] $partners
+     */
+    public function __construct(array $partners)
+    {
+        $this->partners = $partners;
+    }
+
+    /**
      * @return Partner[]
      */
     public function getPartners(): array
@@ -25,21 +34,10 @@ class PartnersResult
     }
 
     /**
-     * @param Partner[] $partners
-     * @return PartnerCollection
-     */
-    public function setPartners(array $partners): self
-    {
-        $this->partners = $partners;
-
-        return $this;
-    }
-
-    /**
      * @param Partner $partner
      * @return $this
      */
-    public function addPartner(Partner $partner): self
+    private function addPartner(Partner $partner): self
     {
         $this->partners[] = $partner;
 

@@ -10,74 +10,57 @@ namespace Oberon\TorClient\Model;
 class PartnerBooking
 {
     /**
-     * @var BookingConnection
+     * @var BookingConnection|null
      */
     private $recentlyUpdatedBookings;
 
     /**
-     * @var BookingConnection
+     * @var BookingConnection|null
      */
     private $upcomingBookings;
 
     /**
-     * @var BookingConnection
+     * @var BookingConnection|null
      */
     private $allBookings;
 
     /**
+     * PartnerBooking constructor.
+     * @param BookingConnection|null $recentlyUpdatedBookings
+     * @param BookingConnection|null $upcomingBookings
+     * @param BookingConnection|null $allBookings
+     */
+    public function __construct(
+        ?BookingConnection $recentlyUpdatedBookings = null,
+        ?BookingConnection $upcomingBookings = null,
+        ?BookingConnection $allBookings = null
+    ) {
+       $this->recentlyUpdatedBookings = $recentlyUpdatedBookings;
+       $this->upcomingBookings = $upcomingBookings;
+       $this->allBookings = $allBookings;
+    }
+
+    /**
      * @return BookingConnection
      */
-    public function getRecentlyUpdatedBookings(): BookingConnection
+    public function getRecentlyUpdatedBookings(): ?BookingConnection
     {
         return $this->recentlyUpdatedBookings;
     }
 
     /**
-     * @param BookingConnection $recentlyUpdatedBookings
-     * @return self
-     */
-    public function setRecentlyUpdatedBookings(BookingConnection $recentlyUpdatedBookings): self
-    {
-        $this->recentlyUpdatedBookings = $recentlyUpdatedBookings;
-
-        return $this;
-    }
-
-    /**
      * @return BookingConnection
      */
-    public function getUpcomingBookings(): BookingConnection
+    public function getUpcomingBookings(): ?BookingConnection
     {
         return $this->upcomingBookings;
     }
 
     /**
-     * @param BookingConnection $upcomingBookings
-     * @return self
-     */
-    public function setUpcomingBookings(BookingConnection $upcomingBookings): self
-    {
-        $this->upcomingBookings = $upcomingBookings;
-
-        return $this;
-    }
-
-    /**
      * @return BookingConnection
      */
-    public function getAllBookings(): BookingConnection
+    public function getAllBookings(): ?BookingConnection
     {
         return $this->allBookings;
-    }
-
-    /**
-     * @param BookingConnection $allBookings
-     * @return self
-     */
-    public function setAllBookings(BookingConnection $allBookings): self
-    {
-        $this->allBookings = $allBookings;
-
-        return $this;
     }
 }

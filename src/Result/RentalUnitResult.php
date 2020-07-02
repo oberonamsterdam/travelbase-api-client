@@ -17,21 +17,19 @@ class RentalUnitResult
     public $rentalUnit;
 
     /**
+     * RentalUnitResult constructor.
+     * @param RentalUnit $rentalUnit
+     */
+    public function __construct(RentalUnit $rentalUnit)
+    {
+        $this->rentalUnit = $rentalUnit;
+    }
+
+    /**
      * @return RentalUnit
      */
     public function getRentalUnit(): RentalUnit
     {
         return $this->rentalUnit;
-    }
-
-    /**
-     * @param RentalUnit $rentalUnit
-     * @return self
-     */
-    public function setRentalUnit(RentalUnit $rentalUnit): self
-    {
-        $this->rentalUnit = $rentalUnit;
-
-        return $this;
     }
 }

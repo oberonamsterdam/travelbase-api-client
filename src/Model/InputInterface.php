@@ -9,7 +9,5 @@ namespace Oberon\TorClient\Model;
 
 interface InputInterface
 {
-
     public function toArray(): array;
-
 }

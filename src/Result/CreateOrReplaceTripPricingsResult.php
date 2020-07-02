@@ -17,22 +17,19 @@ class CreateOrReplaceTripPricingsResult
     public $createOrReplaceTripPricings;
 
     /**
-     * @return AllotmentCollection
+     * CreateOrReplaceTripPricingsResult constructor.
+     * @param TripPricingCollection $createOrReplaceTripPricings
+     */
+    public function __construct(TripPricingCollection $createOrReplaceTripPricings)
+    {
+        $this->createOrReplaceTripPricings = $createOrReplaceTripPricings;
+    }
+
+    /**
+     * @return TripPricingCollection
      */
     public function getCreateOrReplaceTripPricings(): TripPricingCollection
     {
         return $this->createOrReplaceTripPricings;
-    }
-
-    /**
-     * @param TripPricingCollection $createOrReplaceTripPricings
-     * @return self
-     */
-    public function setCreateOrReplaceTripPricings(
-        TripPricingCollection $createOrReplaceTripPricings
-    ): self {
-        $this->createOrReplaceTripPricings = $createOrReplaceTripPricings;
-
-        return $this;
     }
 }

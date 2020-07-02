@@ -14,7 +14,12 @@ class PartnersCallResponseBody implements GraphQLCallResponseBodyInterface
     /**
      * @var PartnersResult
      */
-    public $data;
+    private $data;
+
+    public function __construct(PartnersResult $data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @return PartnersResult
@@ -22,16 +27,5 @@ class PartnersCallResponseBody implements GraphQLCallResponseBodyInterface
     public function getData(): PartnersResult
     {
         return $this->data;
-    }
-
-    /**
-     * @param PartnersResult $data
-     * @return self
-     */
-    public function setData(PartnersResult $data): self
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

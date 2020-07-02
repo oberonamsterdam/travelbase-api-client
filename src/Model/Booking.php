@@ -92,14 +92,75 @@ class Booking
     private $rentalUnit;
 
     /**
+     * @var Order
+     */
+    private $order;
+
+    /**
      * @var BookingPriceLine[]
      */
     private $partnerPriceLines = [];
 
     /**
-     * @var Order
+     * Booking constructor.
+     * @param string $id
+     * @param string $number
+     * @param DateTimeInterface $arrivalDate
+     * @param DateTimeInterface $departureDate
+     * @param int $duration
+     * @param int $amountAdults
+     * @param int $amountChildren
+     * @param int $amountBabies
+     * @param int $amountDogs
+     * @param string $status
+     * @param string|null $customerComment
+     * @param float $rentalSum
+     * @param float $travelSum
+     * @param DateTimeInterface $createdAt
+     * @param DateTimeInterface $updatedAt
+     * @param RentalUnit $rentalUnit
+     * @param Order $order
+     * @param BookingPriceLine[] $partnerPriceLines
      */
-    private $order;
+    public function __construct(
+        string $id,
+        string $number,
+        DateTimeInterface $arrivalDate,
+        DateTimeInterface $departureDate,
+        int $duration,
+        int $amountAdults,
+        int $amountChildren,
+        int $amountBabies,
+        int $amountDogs,
+        string $status,
+        ?string $customerComment,
+        float $rentalSum,
+        float $travelSum,
+        DateTimeInterface $createdAt,
+        DateTimeInterface $updatedAt,
+        RentalUnit $rentalUnit,
+        Order $order,
+        array $partnerPriceLines
+    ) {
+        $this->id = $id;
+        $this->number = $number;
+        $this->arrivalDate = $arrivalDate;
+        $this->departureDate = $departureDate;
+        $this->duration = $duration;
+        $this->amountAdults = $amountAdults;
+        $this->amountChildren = $amountChildren;
+        $this->amountBabies = $amountBabies;
+        $this->amountDogs = $amountDogs;
+        $this->status = $status;
+        $this->customerComment = $customerComment;
+        $this->rentalSum = $rentalSum;
+        $this->travelSum = $travelSum;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->rentalUnit = $rentalUnit;
+        $this->order = $order;
+        $this->partnerPriceLines = $partnerPriceLines;
+    }
 
     /**
      * @return string
@@ -107,17 +168,6 @@ class Booking
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return self
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -129,33 +179,11 @@ class Booking
     }
 
     /**
-     * @param string $number
-     * @return self
-     */
-    public function setNumber(string $number): self
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
      * @return DateTimeInterface
      */
     public function getArrivalDate(): DateTimeInterface
     {
         return $this->arrivalDate;
-    }
-
-    /**
-     * @param DateTimeInterface $arrivalDate
-     * @return self
-     */
-    public function setArrivalDate(DateTimeInterface $arrivalDate): self
-    {
-        $this->arrivalDate = $arrivalDate;
-
-        return $this;
     }
 
     /**
@@ -167,33 +195,11 @@ class Booking
     }
 
     /**
-     * @param DateTimeInterface $departureDate
-     * @return self
-     */
-    public function setDepartureDate(DateTimeInterface $departureDate): self
-    {
-        $this->departureDate = $departureDate;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getDuration(): int
     {
         return $this->duration;
-    }
-
-    /**
-     * @param int $duration
-     * @return self
-     */
-    public function setDuration(int $duration): self
-    {
-        $this->duration = $duration;
-
-        return $this;
     }
 
     /**
@@ -205,33 +211,11 @@ class Booking
     }
 
     /**
-     * @param int $amountAdults
-     * @return self
-     */
-    public function setAmountAdults(int $amountAdults): self
-    {
-        $this->amountAdults = $amountAdults;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getAmountChildren(): int
     {
         return $this->amountChildren;
-    }
-
-    /**
-     * @param int $amountChildren
-     * @return self
-     */
-    public function setAmountChildren(int $amountChildren): self
-    {
-        $this->amountChildren = $amountChildren;
-
-        return $this;
     }
 
     /**
@@ -243,33 +227,11 @@ class Booking
     }
 
     /**
-     * @param int $amountBabies
-     * @return self
-     */
-    public function setAmountBabies(int $amountBabies): self
-    {
-        $this->amountBabies = $amountBabies;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getAmountDogs(): int
     {
         return $this->amountDogs;
-    }
-
-    /**
-     * @param int $amountDogs
-     * @return self
-     */
-    public function setAmountDogs(int $amountDogs): self
-    {
-        $this->amountDogs = $amountDogs;
-
-        return $this;
     }
 
     /**
@@ -281,33 +243,11 @@ class Booking
     }
 
     /**
-     * @param string $status
-     * @return self
-     */
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getCustomerComment(): ?string
     {
         return $this->customerComment;
-    }
-
-    /**
-     * @param string|null $customerComment
-     * @return self
-     */
-    public function setCustomerComment(?string $customerComment): self
-    {
-        $this->customerComment = $customerComment;
-
-        return $this;
     }
 
     /**
@@ -319,33 +259,11 @@ class Booking
     }
 
     /**
-     * @param float $rentalSum
-     * @return self
-     */
-    public function setRentalSum(float $rentalSum): self
-    {
-        $this->rentalSum = $rentalSum;
-
-        return $this;
-    }
-
-    /**
      * @return float
      */
     public function getTravelSum(): float
     {
         return $this->travelSum;
-    }
-
-    /**
-     * @param float $travelSum
-     * @return self
-     */
-    public function setTravelSum(float $travelSum): self
-    {
-        $this->travelSum = $travelSum;
-
-        return $this;
     }
 
     /**
@@ -357,33 +275,11 @@ class Booking
     }
 
     /**
-     * @param DateTimeInterface $createdAt
-     * @return self
-     */
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
      * @return DateTimeInterface
      */
     public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * @param DateTimeInterface $updatedAt
-     * @return self
-     */
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**
@@ -395,14 +291,11 @@ class Booking
     }
 
     /**
-     * @param RentalUnit $rentalUnit
-     * @return self
+     * @return Order
      */
-    public function setRentalUnit(RentalUnit $rentalUnit): self
+    public function getOrder(): Order
     {
-        $this->rentalUnit = $rentalUnit;
-
-        return $this;
+        return $this->order;
     }
 
     /**
@@ -411,17 +304,6 @@ class Booking
     public function getPartnerPriceLines(): array
     {
         return $this->partnerPriceLines;
-    }
-
-    /**
-     * @param BookingPriceLine[] $partnerPriceLines
-     * @return self
-     */
-    public function setPartnerPriceLines(array $partnerPriceLines): self
-    {
-        $this->partnerPriceLines = $partnerPriceLines;
-
-        return $this;
     }
 
     /**
@@ -435,22 +317,4 @@ class Booking
         return $this;
     }
 
-    /**
-     * @return Order
-     */
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
-    /**
-     * @param Order $order
-     * @return self
-     */
-    public function setOrder(Order $order): self
-    {
-        $this->order = $order;
-
-        return $this;
-    }
 }

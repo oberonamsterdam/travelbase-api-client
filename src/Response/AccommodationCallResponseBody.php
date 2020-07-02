@@ -14,7 +14,12 @@ class AccommodationCallResponseBody implements GraphQLCallResponseBodyInterface
     /**
      * @var AccommodationResult
      */
-    public $data;
+    private $data;
+
+    public function __construct(AccommodationResult $data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @return AccommodationResult
@@ -22,16 +27,5 @@ class AccommodationCallResponseBody implements GraphQLCallResponseBodyInterface
     public function getData(): AccommodationResult
     {
         return $this->data;
-    }
-
-    /**
-     * @param AccommodationResult $data
-     * @return self
-     */
-    public function setData(AccommodationResult $data): self
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

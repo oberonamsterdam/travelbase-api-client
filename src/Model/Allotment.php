@@ -11,19 +11,32 @@ use \DateTimeInterface;
 class Allotment implements InputInterface
 {
     /**
-     * @var DateTimeInterface
+     * @var DateTimeInterface|null
      */
     private $date;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $amount;
 
     /**
-     * @return DateTimeInterface
+     * Allotment constructor.
+     * @param DateTimeInterface|null $date
+     * @param int|null $amount
      */
-    public function getDate(): DateTimeInterface
+    public function __construct(
+        ?DateTimeInterface $date = null,
+        ?int $amount = null
+    ) {
+        $this->date = $date;
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
@@ -32,7 +45,7 @@ class Allotment implements InputInterface
      * @param DateTimeInterface $date
      * @return self
      */
-    public function setDate(DateTimeInterface $date): self
+    public function setDate($date): self
     {
         $this->date = $date;
 
@@ -40,9 +53,9 @@ class Allotment implements InputInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
@@ -51,7 +64,7 @@ class Allotment implements InputInterface
      * @param int $amount
      * @return self
      */
-    public function setAmount(int $amount): self
+    public function setAmount($amount): self
     {
         $this->amount = $amount;
 

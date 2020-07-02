@@ -7,7 +7,7 @@
 
 namespace Oberon\TorClient\Model;
 
-class TripPricingCollection implements InputInterface
+class TripPricingCollection
 {
     /**
      * @var TripPricing[]
@@ -15,22 +15,21 @@ class TripPricingCollection implements InputInterface
     private $tripPricings = [];
 
     /**
+     * TripPricingCollection constructor.
+     * @param array $tripPricings
+     */
+    public function __construct(
+        array $tripPricings
+    ) {
+        $this->tripPricings = $tripPricings;
+    }
+
+    /**
      * @return TripPricing[]
      */
     public function getTripPricings(): array
     {
         return $this->tripPricings;
-    }
-
-    /**
-     * @param TripPricing[] $tripPricings
-     * @return self
-     */
-    public function setTripPricings(array $tripPricings): self
-    {
-        $this->tripPricings = $tripPricings;
-
-        return $this;
     }
 
     /**
@@ -43,18 +42,4 @@ class TripPricingCollection implements InputInterface
 
         return $this;
     }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $result = [];
-        foreach ($this->getTripPricings() as $tripPricing) {
-            $result['tripPricings'][] = $tripPricing->toArray();
-        }
-
-        return $result;
-    }
-
 }

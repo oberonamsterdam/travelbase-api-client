@@ -51,22 +51,39 @@ class RentalUnit
     private $includedOccupancy;
 
     /**
+     * RentalUnit constructor.
+     * @param int $id
+     * @param bool|null $enabled
+     * @param string|null $name
+     * @param string|null $code
+     * @param string|null $type
+     * @param int|null $maxAllotment
+     * @param int|null $includedOccupancy
+     */
+    public function __construct(
+        int $id,
+        ?bool $enabled = null,
+        ?string $name = null,
+        ?string $code = null,
+        ?string $type = null,
+        ?int $maxAllotment = null,
+        ?int $includedOccupancy  = null
+    ) {
+        $this->id = $id;
+        $this->enabled = $enabled;
+        $this->name = $name;
+        $this->code = $code;
+        $this->type = $type;
+        $this->maxAllotment = $maxAllotment;
+        $this->includedOccupancy = $includedOccupancy;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return self
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -78,33 +95,11 @@ class RentalUnit
     }
 
     /**
-     * @param bool $enabled
-     * @return self
-     */
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return self
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -116,33 +111,11 @@ class RentalUnit
     }
 
     /**
-     * @param string $code
-     * @return self
-     */
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getType(): string
     {
         return $this->type;
-    }
-
-    /**
-     * @param string $type
-     * @return self
-     */
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     /**
@@ -154,32 +127,10 @@ class RentalUnit
     }
 
     /**
-     * @param int $maxAllotment
-     * @return self
-     */
-    public function setMaxAllotment(int $maxAllotment): self
-    {
-        $this->maxAllotment = $maxAllotment;
-
-        return $this;
-    }
-
-    /**
      * @return int
      */
-    public function isIncludedOccupancy(): bool
+    public function getIncludedOccupancy(): int
     {
         return $this->includedOccupancy;
-    }
-
-    /**
-     * @param int $includedOccupancy
-     * @return self
-     */
-    public function setIncludedOccupancy(int $includedOccupancy): self
-    {
-        $this->includedOccupancy = $includedOccupancy;
-
-        return $this;
     }
 }

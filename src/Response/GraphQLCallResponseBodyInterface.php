@@ -7,8 +7,6 @@
 
 namespace Oberon\TorClient\Response;
 
-use Oberon\TorClient\Model\PartnerCollection;
-
 interface GraphQLCallResponseBodyInterface
 {
     public function getData();

@@ -14,7 +14,12 @@ class CreateOrReplaceAllotmentsCallResponseBody implements GraphQLCallResponseBo
     /**
      * @var CreateOrReplaceAllotmentsResult
      */
-    public $data;
+    private $data;
+
+    public function __construct(CreateOrReplaceAllotmentsResult $data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @return CreateOrReplaceAllotmentsResult
@@ -22,16 +27,5 @@ class CreateOrReplaceAllotmentsCallResponseBody implements GraphQLCallResponseBo
     public function getData(): CreateOrReplaceAllotmentsResult
     {
         return $this->data;
-    }
-
-    /**
-     * @param CreateOrReplaceAllotmentsResult $data
-     * @return self
-     */
-    public function setData(CreateOrReplaceAllotmentsResult $data): self
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

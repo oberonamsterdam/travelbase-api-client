@@ -14,7 +14,12 @@ class RentalUnitCallResponseBody implements GraphQLCallResponseBodyInterface
     /**
      * @var RentalUnitResult
      */
-    public $data;
+    private $data;
+
+    public function __construct(RentalUnitResult $data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @return RentalUnitResult
@@ -22,16 +27,5 @@ class RentalUnitCallResponseBody implements GraphQLCallResponseBodyInterface
     public function getData(): RentalUnitResult
     {
         return $this->data;
-    }
-
-    /**
-     * @param RentalUnitResult $data
-     * @return self
-     */
-    public function setData(RentalUnitResult $data): self
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

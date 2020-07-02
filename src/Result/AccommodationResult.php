@@ -17,21 +17,19 @@ class AccommodationResult
     public $accommodation;
 
     /**
+     * AccommodationResult constructor.
+     * @param Accommodation $accommodation
+     */
+    public function __construct(Accommodation $accommodation)
+    {
+        $this->accommodation = $accommodation;
+    }
+
+    /**
      * @return Accommodation
      */
     public function getAccommodation(): Accommodation
     {
         return $this->accommodation;
-    }
-
-    /**
-     * @param Accommodation $accommodation
-     * @return self
-     */
-    public function setAccommodation(Accommodation $accommodation): self
-    {
-        $this->accommodation = $accommodation;
-
-        return $this;
     }
 }

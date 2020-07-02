@@ -9,6 +9,9 @@ namespace Oberon\TorClient;
 
 use GraphQL\Client;
 use GraphQL\Query;
+use Oberon\TorClient\Model\Allotment;
+use Oberon\TorClient\Model\TripPricing;
+use Oberon\TorClient\Response\RentalUnitCallResponseBody;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -27,7 +30,7 @@ use Oberon\TorClient\Query\QueryBuilder;
 use Oberon\TorClient\Response\AccommodationCallResponseBody;
 use Oberon\TorClient\Response\CreateOrReplaceAllotmentsCallResponseBody;
 use Oberon\TorClient\Response\CreateOrReplaceTripPricingsCallResponseBody;
-use Oberon\TorClient\Response\DeleteTripsCallResponseBody;
+use Oberon\TorClient\Response\DeleteTripPricingsCallResponseBody;
 use Oberon\TorClient\Response\GraphQLCallResponseBodyInterface;
 use Oberon\TorClient\Response\PartnerBookingCallResponseBody;
 use Oberon\TorClient\Response\PartnerCallResponseBody;
@@ -42,9 +45,14 @@ class ApiClient
     /** @var Serializer  */
     private $serializer;
 
+    private $apiPath = '/api/management/v2/graphql/';
+
     public function __construct(string $endPoint, string $apiKey)
     {
-        $this->client = new Client($endPoint, ['Authorization' => "Bearer $apiKey"]);
+        $parts = parse_url($endPoint);
+        $url = $parts['scheme'] . '://' . $parts['host'] . $this->apiPath;
+
+        $this->client = new Client($url, ['Authorization' => "Bearer $apiKey"]);
 
         $encoders = [new JsonEncoder()];
         $normalizers = [
@@ -123,14 +131,44 @@ class ApiClient
 
         $result = $this->runQuery($query);
 
-        return $this->parseResult($result, RentalUnit::class)->getData()->getRentalUnit();
+        return $this->parseResult($result, RentalUnitCallResponseBody::class)->getData()->getRentalUnit();
     }
 
-    public function createOrReplaceAllotments(int $rentalUnitId, AllotmentCollection $allotmentCollection): AllotmentCollection
+    /**
+     * USAGE
+     * createOrReplaceAllotments (
+     *      1,
+     *      [
+     *          [
+     *              'date' => '2020-01-01',
+     *              'allotments' => 1,
+     *          ],
+     *          [
+     *              'date' => '2020-02-01',
+     *              'allotments' => 1,
+     *          ]
+     *      ];
+     * )
+     *
+     * @param int $rentalUnitId
+     * @param array $allotmentCollection
+     * @return AllotmentCollection
+     * @throws BadResponseException
+     */
+    public function createOrReplaceAllotments(int $rentalUnitId, array $allotmentCollection): AllotmentCollection
     {
+        $normalizedAllotmentCollection = [];
+        foreach ($allotmentCollection as $allotment) {
+            if ($allotment instanceof Allotment) {
+                $normalizedAllotmentCollection[] = $allotment->toArray();
+            } elseif (is_array($allotment)) {
+                $normalizedAllotmentCollection[] = $allotment;
+            }
+        }
+
         $mutation = MutationBuilder::createCreateOrUpdateAllotmentsMutation();
 
-        $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId],  $allotmentCollection->toArray())];
+        $variables = ['input' => ['rentalUnitId' => $rentalUnitId, 'allotments' => $normalizedAllotmentCollection]];
         $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CreateOrReplaceAllotmentsCallResponseBody::class)->getData()->getCreateOrReplaceAllotments();
@@ -162,12 +200,23 @@ class ApiClient
      */
     public function createOrReplaceTripPricings(int $rentalUnitId, array $tripPricingCollection): TripPricingCollection
     {
-        var_dump($rentalUnitId);
-        die();
+        $normalizedTripPricingCollection = [];
+        foreach ($tripPricingCollection as $tripPricing) {
+            if ($tripPricing instanceof TripPricing) {
+                $normalizedTripPricingCollection[] = $tripPricing->toArray();
+            } elseif (is_array($tripPricing)) {
+                $normalizedTripPricingCollection[] = $tripPricing;
+            }
+        }
 
         $mutation = MutationBuilder::createCreateOrUpdateTripPricingsMutation();
+        $variables = [
+            'input' => [
+                'rentalUnitId' => $rentalUnitId,
+                'tripPricings' => $normalizedTripPricingCollection
+            ]
+        ];
 
-        $variables = ['input' => array_merge(['rentalUnitId' => $rentalUnitId], $tripPricingCollection)];
         $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CreateOrReplaceTripPricingsCallResponseBody::class)->getData()->getCreateOrReplaceTripPricings();
@@ -188,7 +237,7 @@ class ApiClient
         $variables = ['input' => $arguments];
         $result = $this->runQuery($mutation, $variables);
 
-        return $this->parseResult($result, DeleteTripsCallResponseBody::class)->getData()->getDeleteTrips()->getMessage();
+        return $this->parseResult($result, DeleteTripPricingsCallResponseBody::class)->getData()->getDeleteTripPricings()->getMessage();
     }
 
     private function runQuery(Query $query, array $variables = []): string

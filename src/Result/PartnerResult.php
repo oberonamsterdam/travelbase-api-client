@@ -17,21 +17,19 @@ class PartnerResult
     public $partner;
 
     /**
+     * PartnerResult constructor.
+     * @param Partner $partner
+     */
+    public function __construct(Partner $partner)
+    {
+        $this->partner = $partner;
+    }
+
+    /**
      * @return Partner
      */
     public function getPartner(): Partner
     {
         return $this->partner;
-    }
-
-    /**
-     * @param Partner $partner
-     * @return self
-     */
-    public function setPartner(Partner $partner): self
-    {
-        $this->partner = $partner;
-
-        return $this;
     }
 }

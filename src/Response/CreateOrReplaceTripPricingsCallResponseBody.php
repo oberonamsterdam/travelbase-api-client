@@ -14,7 +14,12 @@ class CreateOrReplaceTripPricingsCallResponseBody implements GraphQLCallResponse
     /**
      * @var CreateOrReplaceTripPricingsResult
      */
-    public $data;
+    private $data;
+
+    public function __construct(CreateOrReplaceTripPricingsResult $data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @return CreateOrReplaceTripPricingsResult
@@ -22,16 +27,5 @@ class CreateOrReplaceTripPricingsCallResponseBody implements GraphQLCallResponse
     public function getData(): CreateOrReplaceTripPricingsResult
     {
         return $this->data;
-    }
-
-    /**
-     * @param CreateOrReplaceTripPricingsResult $data
-     * @return self
-     */
-    public function setData(CreateOrReplaceTripPricingsResult $data): self
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

@@ -14,7 +14,12 @@ class PartnerBookingCallResponseBody implements GraphQLCallResponseBodyInterface
     /**
      * @var PartnerBookingResult
      */
-    public $data;
+    private $data;
+
+    public function __construct(PartnerBookingResult $data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @return PartnerBookingResult
@@ -22,16 +27,5 @@ class PartnerBookingCallResponseBody implements GraphQLCallResponseBodyInterface
     public function getData(): PartnerBookingResult
     {
         return $this->data;
-    }
-
-    /**
-     * @param PartnerBookingResult $data
-     * @return self
-     */
-    public function setData(PartnerBookingResult $data): self
-    {
-        $this->data = $data;
-
-        return $this;
     }
 }

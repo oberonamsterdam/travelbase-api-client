@@ -9,7 +9,6 @@ namespace Oberon\TorClient\Model;
 
 class Address
 {
-
     /**
      * @var string|null
      */
@@ -36,22 +35,33 @@ class Address
     private $countryName;
 
     /**
+     * Address constructor.
+     * @param string|null $street
+     * @param string|null $number
+     * @param string|null $postalCode
+     * @param string|null $countryCode
+     * @param string|null $countryName
+     */
+    public function __construct(
+        ?string $street,
+        ?string $number,
+        ?string $postalCode,
+        ?string $countryCode,
+        ?string $countryName
+    ) {
+        $this->street = $street;
+        $this->number = $number;
+        $this->postalCode = $postalCode;
+        $this->countryCode = $countryCode;
+        $this->countryName = $countryName;
+    }
+
+    /**
      * @return string|null
      */
     public function getStreet(): ?string
     {
         return $this->street;
-    }
-
-    /**
-     * @param string|null $street
-     * @return self
-     */
-    public function setStreet(?string $street): self
-    {
-        $this->street = $street;
-
-        return $this;
     }
 
     /**
@@ -63,33 +73,11 @@ class Address
     }
 
     /**
-     * @param string|null $number
-     * @return self
-     */
-    public function setNumber(?string $number): self
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getPostalCode(): ?string
     {
         return $this->postalCode;
-    }
-
-    /**
-     * @param string|null $postalCode
-     * @return self
-     */
-    public function setPostalCode(?string $postalCode): self
-    {
-        $this->postalCode = $postalCode;
-
-        return $this;
     }
 
     /**
@@ -101,32 +89,10 @@ class Address
     }
 
     /**
-     * @param string|null $countryCode
-     * @return self
-     */
-    public function setCountryCode(?string $countryCode): self
-    {
-        $this->countryCode = $countryCode;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getCountryName(): ?string
     {
         return $this->countryName;
-    }
-
-    /**
-     * @param string|null $countryName
-     * @return self
-     */
-    public function setCountryName(?string $countryName): self
-    {
-        $this->countryName = $countryName;
-
-        return $this;
     }
 }

@@ -29,22 +29,30 @@ class Accommodation
     private $rentalUnits = [];
 
     /**
+     * Accommodation constructor.
+     * @param int $id
+     * @param bool $enabled
+     * @param string $name
+     * @param array $rentalUnits
+     */
+    public function __construct(
+        int $id,
+        bool $enabled,
+        string $name,
+        array $rentalUnits
+    ) {
+        $this->id = $id;
+        $this->enabled = $enabled;
+        $this->name = $name;
+        $this->rentalUnits = $rentalUnits;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return self
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -56,33 +64,11 @@ class Accommodation
     }
 
     /**
-     * @param bool $enabled
-     * @return self
-     */
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return self
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -94,21 +80,10 @@ class Accommodation
     }
 
     /**
-     * @param RentalUnit[] $rentalUnits
+     * @param RentalUnit $rentalUnit
      * @return self
      */
-    public function setRentalUnits(array $rentalUnits): self
-    {
-        $this->rentalUnits = $rentalUnits;
-
-        return $this;
-    }
-
-    /**
-     * @param RentalUnit[] $rentalUnits
-     * @return self
-     */
-    public function addRentalUnit(RentalUnit $rentalUnit): self
+    private function addRentalUnit(RentalUnit $rentalUnit): self
     {
         $this->rentalUnits[] = $rentalUnit;
 

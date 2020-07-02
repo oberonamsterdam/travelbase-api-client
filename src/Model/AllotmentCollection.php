@@ -7,12 +7,21 @@
 
 namespace Oberon\TorClient\Model;
 
-class AllotmentCollection implements InputInterface
+class AllotmentCollection
 {
     /**
      * @var Allotment[]
      */
     private $allotments = [];
+
+    /**
+     * AllotmentCollection constructor.
+     * @param Allotment[] $allotments
+     */
+    public function __construct(array $allotments)
+    {
+        $this->allotments = $allotments;
+    }
 
     /**
      * @return Allotment[]
@@ -23,37 +32,13 @@ class AllotmentCollection implements InputInterface
     }
 
     /**
-     * @param Allotment[] $allotments
-     * @return self
-     */
-    public function setAllotments(array $allotments): self
-    {
-        $this->allotments = $allotments;
-
-        return $this;
-    }
-
-    /**
      * @param Allotment $allotment
      * @return self
      */
-    public function addAllotment(Allotment $allotment): self
+    private function addAllotment(Allotment $allotment): self
     {
         $this->allotments[] = $allotment;
 
         return  $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $result = [];
-        foreach ($this->getAllotments() as $allotment) {
-            $result['allotments'][] = $allotment->toArray();
-        }
-
-        return $result;
     }
 }

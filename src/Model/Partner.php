@@ -30,22 +30,30 @@ class Partner
     private $accommodations = [];
 
     /**
+     * Partner constructor.
+     * @param int $id
+     * @param bool $enabled
+     * @param string $companyName
+     * @param Accommodation[] $accommodations
+     */
+    public function __construct(
+        int $id,
+        bool $enabled,
+        string $companyName,
+        array $accommodations
+    ) {
+        $this->id = $id;
+        $this->enabled = $enabled;
+        $this->companyName = $companyName;
+        $this->accommodations = $accommodations;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return self
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -57,33 +65,11 @@ class Partner
     }
 
     /**
-     * @param bool $enabled
-     * @return self
-     */
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getCompanyName(): string
     {
         return $this->companyName;
-    }
-
-    /**
-     * @param string $companyName
-     * @return self
-     */
-    public function setCompanyName(string $companyName): self
-    {
-        $this->companyName = $companyName;
-
-        return $this;
     }
 
     /**
@@ -95,21 +81,10 @@ class Partner
     }
 
     /**
-     * @param Accommodation[] $accommodations
-     * @return self
-     */
-    public function setAccommodations(array $accommodations): self
-    {
-        $this->accommodations = $accommodations;
-
-        return $this;
-    }
-
-    /**
      * @param Accommodation $accommodation
      * @return $this
      */
-    public function addAccommodation(Accommodation $accommodation): self
+    private function addAccommodation(Accommodation $accommodation): self
     {
         $this->accommodations[] = $accommodation;
 

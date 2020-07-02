@@ -45,22 +45,39 @@ class Order
     private $customerEmail;
 
     /**
+     * Order constructor.
+     * @param string $id
+     * @param string $customerFirstName
+     * @param string|null $customerInfix
+     * @param string $customerLastName
+     * @param Address $customerAddress
+     * @param string|null $customerPhoneNumber
+     * @param string|null $customerEmail
+     */
+    public function __construct(
+        string $id,
+        string $customerFirstName,
+        ?string $customerInfix,
+        string $customerLastName,
+        Address $customerAddress,
+        ?string $customerPhoneNumber,
+        ?string $customerEmail
+    ) {
+        $this->id = $id;
+        $this->customerFirstName = $customerFirstName;
+        $this->customerInfix = $customerInfix;
+        $this->customerLastName = $customerLastName;
+        $this->customerAddress = $customerAddress;
+        $this->customerPhoneNumber = $customerPhoneNumber;
+        $this->customerEmail = $customerEmail;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return self
-     */
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -72,33 +89,11 @@ class Order
     }
 
     /**
-     * @param string $customerFirstName
-     * @return self
-     */
-    public function setCustomerFirstName(string $customerFirstName): self
-    {
-        $this->customerFirstName = $customerFirstName;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getCustomerInfix(): ?string
     {
         return $this->customerInfix;
-    }
-
-    /**
-     * @param string|null $customerInfix
-     * @return self
-     */
-    public function setCustomerInfix(?string $customerInfix): self
-    {
-        $this->customerInfix = $customerInfix;
-
-        return $this;
     }
 
     /**
@@ -110,33 +105,11 @@ class Order
     }
 
     /**
-     * @param string $customerLastName
-     * @return self
-     */
-    public function setCustomerLastName(string $customerLastName): self
-    {
-        $this->customerLastName = $customerLastName;
-
-        return $this;
-    }
-
-    /**
      * @return Address
      */
     public function getCustomerAddress(): Address
     {
         return $this->customerAddress;
-    }
-
-    /**
-     * @param Address $customerAddress
-     * @return self
-     */
-    public function setCustomerAddress(Address $customerAddress): self
-    {
-        $this->customerAddress = $customerAddress;
-
-        return $this;
     }
 
     /**
@@ -148,32 +121,10 @@ class Order
     }
 
     /**
-     * @param string|null $customerPhoneNumber
-     * @return self
-     */
-    public function setCustomerPhoneNumber(?string $customerPhoneNumber): self
-    {
-        $this->customerPhoneNumber = $customerPhoneNumber;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getCustomerEmail(): ?string
     {
         return $this->customerEmail;
-    }
-
-    /**
-     * @param string|null $customerEmail
-     * @return self
-     */
-    public function setCustomerEmail(?string $customerEmail): self
-    {
-        $this->customerEmail = $customerEmail;
-
-        return $this;
     }
 }

@@ -17,21 +17,19 @@ class PartnerBookingResult
     public $partner;
 
     /**
+     * PartnerBookingResult constructor.
+     * @param PartnerBooking $partner
+     */
+    public function __construct(PartnerBooking $partner)
+    {
+        $this->partner = $partner;
+    }
+
+    /**
      * @return PartnerBooking
      */
     public function getPartner(): PartnerBooking
     {
         return $this->partner;
-    }
-
-    /**
-     * @param PartnerBooking $partner
-     * @return self
-     */
-    public function setPartner(PartnerBooking $partner): self
-    {
-        $this->partner = $partner;
-
-        return $this;
     }
 }
