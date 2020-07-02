@@ -12,7 +12,7 @@ Usage of this API is limited to registered users only. If you would like to use 
 Run the following command to install the package using composer:
 
 ```
-$ composer require oberonamsterdam/tor-graphql-client
+$ composer require oberonamsterdam/tor-api-client
 ```
 
 # Usage
