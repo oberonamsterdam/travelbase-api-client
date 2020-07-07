@@ -45,12 +45,12 @@ class ApiClient
     /** @var Serializer  */
     private $serializer;
 
-    private $apiPath = '/api/management/v2/graphql/';
+    CONST API_PATH = '/api/management/v2/graphql/';
 
     public function __construct(string $endPoint, string $apiKey)
     {
         $parts = parse_url($endPoint);
-        $url = $parts['scheme'] . '://' . $parts['host'] . $this->apiPath;
+        $url = $parts['scheme'] . '://' . $parts['host'] . self::API_PATH;
 
         $this->client = new Client($url, ['Authorization' => "Bearer $apiKey"]);
 
@@ -149,11 +149,6 @@ class ApiClient
      *          ]
      *      ];
      * )
-     *
-     * @param int $rentalUnitId
-     * @param array $allotmentCollection
-     * @return AllotmentCollection
-     * @throws BadResponseException
      */
     public function createOrReplaceAllotments(int $rentalUnitId, array $allotmentCollection): AllotmentCollection
     {
@@ -191,12 +186,6 @@ class ApiClient
      *          ]
      *      ];
      * )
-     *
-     *
-     * @param int $rentalUnitId
-     * @param array $tripPricingCollection
-     * @return TripPricingCollection
-     * @throws BadResponseException
      */
     public function createOrReplaceTripPricings(int $rentalUnitId, array $tripPricingCollection): TripPricingCollection
     {

@@ -20,41 +20,41 @@ $ composer require oberonamsterdam/tor-api-client
 To use this Client you need to provide the API Key and endpoint when initiating the client class.
 
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 ```
 
 # Example calls
 Retrieve a collection of all partners:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\Partner[] $partners */
 $partners = $client->getPartners();
 ```
   
 Retrieve a single partner:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\Partner $partner */
 $partners = $client->getPartner($partnerId);
 ```
 
 Retrieve a single accommodation:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\Accommodation $accommodation */
 $accommodation = $client->getAccommodation($accommodationId);
 ```
 
 Retrieve a single rentalUnit:
 ```php
-$client = new \Oberon\TorClient\ApiClient();
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\RentalUnit $rentalUnit */
 $rentalUnit = $client->getRentalUnit($rentalUnitId);
 ```
 
 Retrieve all bookings:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\RentalUnit $rentalUnit */
 $cursor = null;
 $hasMoreBookings = true;
@@ -70,7 +70,7 @@ while ($hasMoreBookings) {
 
 Retrieve recently updated bookings:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $cursor = null;
 $hasMoreBookings = true;
 /** @var \Oberon\TorClient\Model\Booking[] $bookings */
@@ -85,7 +85,7 @@ while ($hasMoreBookings) {
 
 Retrieve upcoming bookings:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $cursor = true;
 $hasMoreBookings = true;
 /** @var \Oberon\TorClient\Model\Booking[] $bookings */
@@ -113,7 +113,7 @@ $allotmentCollection[] = [
 ];
 
 
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $client->createOrReplaceAllotments($rentalUnitId, $allotmentCollection);
 ```
 
@@ -138,13 +138,13 @@ $tripPricingCollection[] = [
     'minimumStayPrice' => 40,
 ];
 
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $client->createOrReplaceTripPricings($rentalUnitId, $tripPricingCollection);
 ```
 
 Delete trips:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://travelbase.nl", "APIKEY");
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 //To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
 //To delete all trips for a specific datetime supply first and second parameter.
 //To delete all trips for a specific duration supply first and third parameter
