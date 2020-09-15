@@ -167,7 +167,6 @@ class QueryBuilder
                         'id',
                         'locale',
                         'customerFirstName',
-                        'customerInfix',
                         'customerLastName',
                         'customerPhoneNumber',
                         'customerEmail',
