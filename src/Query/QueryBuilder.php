@@ -144,6 +144,7 @@ class QueryBuilder
                     'departureDate',
                     'duration',
                     'amountAdults',
+                    'amountYouths',
                     'amountChildren',
                     'amountBabies',
                     'amountDogs',

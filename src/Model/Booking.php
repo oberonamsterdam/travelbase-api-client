@@ -44,6 +44,11 @@ class Booking
     /**
      * @var int
      */
+    private $amountYouths;
+
+    /**
+     * @var int
+     */
     private $amountChildren;
 
     /**
@@ -109,6 +114,7 @@ class Booking
      * @param DateTimeInterface $departureDate
      * @param int $duration
      * @param int $amountAdults
+     * @param int amountYouths
      * @param int $amountChildren
      * @param int $amountBabies
      * @param int $amountDogs
@@ -129,6 +135,7 @@ class Booking
         DateTimeInterface $departureDate,
         int $duration,
         int $amountAdults,
+        int $amountYouths,
         int $amountChildren,
         int $amountBabies,
         int $amountDogs,
@@ -150,6 +157,7 @@ class Booking
         $this->amountAdults = $amountAdults;
         $this->amountChildren = $amountChildren;
         $this->amountBabies = $amountBabies;
+        $this->amountYouths = $amountYouths;
         $this->amountDogs = $amountDogs;
         $this->status = $status;
         $this->customerComment = $customerComment;
@@ -208,6 +216,14 @@ class Booking
     public function getAmountAdults(): int
     {
         return $this->amountAdults;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmountYouths(): int
+    {
+        return $this->amountYouths;
     }
 
     /**
@@ -316,5 +332,4 @@ class Booking
 
         return $this;
     }
-
 }
