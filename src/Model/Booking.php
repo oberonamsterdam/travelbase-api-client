@@ -59,7 +59,7 @@ class Booking
     /**
      * @var int
      */
-    private $amountDogs;
+    private $amountPets;
 
     /**
      * @var string
@@ -117,7 +117,7 @@ class Booking
      * @param int amountYouths
      * @param int $amountChildren
      * @param int $amountBabies
-     * @param int $amountDogs
+     * @param int $amountPets
      * @param string $status
      * @param string|null $customerComment
      * @param float $rentalSum
@@ -138,7 +138,7 @@ class Booking
         int $amountYouths,
         int $amountChildren,
         int $amountBabies,
-        int $amountDogs,
+        int $amountPets,
         string $status,
         ?string $customerComment,
         float $rentalSum,
@@ -158,7 +158,7 @@ class Booking
         $this->amountChildren = $amountChildren;
         $this->amountBabies = $amountBabies;
         $this->amountYouths = $amountYouths;
-        $this->amountDogs = $amountDogs;
+        $this->amountPets = $amountPets;
         $this->status = $status;
         $this->customerComment = $customerComment;
         $this->rentalSum = $rentalSum;
@@ -245,9 +245,9 @@ class Booking
     /**
      * @return int
      */
-    public function getAmountDogs(): int
+    public function getAmountPets(): int
     {
-        return $this->amountDogs;
+        return $this->amountPets;
     }
 
     /**

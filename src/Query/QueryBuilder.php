@@ -147,7 +147,7 @@ class QueryBuilder
                     'amountYouths',
                     'amountChildren',
                     'amountBabies',
-                    'amountDogs',
+                    'amountPets',
                     'status',
                     'customerComment',
                     'rentalSum',
