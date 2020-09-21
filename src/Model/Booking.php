@@ -77,11 +77,6 @@ class Booking
     private $rentalSum;
 
     /**
-     * @var float
-     */
-    private $travelSum;
-
-    /**
      * @var DateTimeInterface
      */
     private $createdAt;
@@ -102,9 +97,9 @@ class Booking
     private $order;
 
     /**
-     * @var BookingPriceLine[]
+     * @var BookingAddition[]
      */
-    private $partnerPriceLines = [];
+    private $additions = [];
 
     /**
      * Booking constructor.
@@ -121,12 +116,11 @@ class Booking
      * @param string $status
      * @param string|null $customerComment
      * @param float $rentalSum
-     * @param float $travelSum
      * @param DateTimeInterface $createdAt
      * @param DateTimeInterface $updatedAt
      * @param RentalUnit $rentalUnit
      * @param Order $order
-     * @param BookingPriceLine[] $partnerPriceLines
+     * @param BookingAddition[] $additions
      */
     public function __construct(
         string $id,
@@ -142,12 +136,11 @@ class Booking
         string $status,
         ?string $customerComment,
         float $rentalSum,
-        float $travelSum,
         DateTimeInterface $createdAt,
         DateTimeInterface $updatedAt,
         RentalUnit $rentalUnit,
         Order $order,
-        array $partnerPriceLines
+        array $additions
     ) {
         $this->id = $id;
         $this->number = $number;
@@ -158,16 +151,15 @@ class Booking
         $this->amountChildren = $amountChildren;
         $this->amountBabies = $amountBabies;
         $this->amountYouths = $amountYouths;
-        $this->amountPets = $amountPets;
+        $this->amountDogs = $amountPets;
         $this->status = $status;
         $this->customerComment = $customerComment;
         $this->rentalSum = $rentalSum;
-        $this->travelSum = $travelSum;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->rentalUnit = $rentalUnit;
         $this->order = $order;
-        $this->partnerPriceLines = $partnerPriceLines;
+        $this->additions = $additions;
     }
 
     /**
@@ -247,7 +239,7 @@ class Booking
      */
     public function getAmountPets(): int
     {
-        return $this->amountPets;
+        return $this->amountDogs;
     }
 
     /**
@@ -272,14 +264,6 @@ class Booking
     public function getRentalSum(): float
     {
         return $this->rentalSum;
-    }
-
-    /**
-     * @return float
-     */
-    public function getTravelSum(): float
-    {
-        return $this->travelSum;
     }
 
     /**
@@ -315,20 +299,20 @@ class Booking
     }
 
     /**
-     * @return BookingPriceLine[]
+     * @return BookingAddition[]
      */
-    public function getPartnerPriceLines(): array
+    public function getAdditions(): array
     {
-        return $this->partnerPriceLines;
+        return $this->additions;
     }
 
     /**
-     * @param BookingPriceLine $bookingPriceLine
+     * @param BookingAddition $bookingAddition
      * @return self
      */
-    public function addPartnerPriceLine(BookingPriceLine $bookingPriceLine): self
+    public function addAddition(BookingAddition $bookingAddition): self
     {
-        $this->partnerPriceLines[] = $bookingPriceLine;
+        $this->additions[] = $bookingAddition;
 
         return $this;
     }

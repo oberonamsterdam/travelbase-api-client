@@ -10,14 +10,9 @@ namespace Oberon\TorClient\Model;
 class PartnerBooking
 {
     /**
-     * @var BookingConnection|null
+     * @var Booking[]
      */
-    private $recentlyUpdatedBookings;
-
-    /**
-     * @var BookingConnection|null
-     */
-    private $upcomingBookings;
+    private $updatedBookingsSince;
 
     /**
      * @var BookingConnection|null
@@ -26,34 +21,16 @@ class PartnerBooking
 
     /**
      * PartnerBooking constructor.
-     * @param BookingConnection|null $recentlyUpdatedBookings
+     * @param Booking[] $updatedBookingsSince
      * @param BookingConnection|null $upcomingBookings
      * @param BookingConnection|null $allBookings
      */
     public function __construct(
-        ?BookingConnection $recentlyUpdatedBookings = null,
-        ?BookingConnection $upcomingBookings = null,
+        ?array $updatedBookingsSince = null,
         ?BookingConnection $allBookings = null
     ) {
-       $this->recentlyUpdatedBookings = $recentlyUpdatedBookings;
-       $this->upcomingBookings = $upcomingBookings;
+       $this->updatedBookingsSince = $updatedBookingsSince;
        $this->allBookings = $allBookings;
-    }
-
-    /**
-     * @return BookingConnection
-     */
-    public function getRecentlyUpdatedBookings(): ?BookingConnection
-    {
-        return $this->recentlyUpdatedBookings;
-    }
-
-    /**
-     * @return BookingConnection
-     */
-    public function getUpcomingBookings(): ?BookingConnection
-    {
-        return $this->upcomingBookings;
     }
 
     /**
@@ -62,5 +39,24 @@ class PartnerBooking
     public function getAllBookings(): ?BookingConnection
     {
         return $this->allBookings;
+    }
+
+    /**
+     * @return Booking[]
+     */
+    public function getUpdatedBookingsSince(): array
+    {
+        return $this->updatedBookingsSince;
+    }
+
+    /**
+     * @param Booking $booking
+     * @return $this
+     */
+    public function addUpdatedBookingsSince(Booking $booking): self
+    {
+        $this->updatedBookingsSince[] = $booking;
+
+        return $this;
     }
 }

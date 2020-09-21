@@ -68,34 +68,11 @@ while ($hasMoreBookings) {
 }
 ```
 
-Retrieve recently updated bookings:
+Retrieve the first 100 updated bookings starting from a specific date:
 ```php
 $client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-$cursor = null;
-$hasMoreBookings = true;
 /** @var \Oberon\TorClient\Model\Booking[] $bookings */
-$bookings = [];
-while ($hasMoreBookings) {
-    $bookingConnection =  $client->getRecentlyUpdatedBookings($partnerId, 10, $cursor);
-    $bookings = array_merge($bookings, $bookingConnection->getNodes());
-    $cursor = $bookingConnection->getPageInfo()->getEndCursor();
-    $hasMoreBookings = $bookingConnection->getPageInfo()->isHasNextPage();
-}
-```
-
-Retrieve upcoming bookings:
-```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-$cursor = true;
-$hasMoreBookings = true;
-/** @var \Oberon\TorClient\Model\Booking[] $bookings */
-$bookings = [];
-while ($hasMoreBookings) {
-    $bookingConnection =  $client->getUpcomingBookings($partnerId, 10, $cursor);
-    $bookings = array_merge($bookings, $bookingConnection->getNodes());
-    $cursor = $bookingConnection->getPageInfo()->getEndCursor();
-    $hasMoreBookings = $bookingConnection->getPageInfo()->isHasNextPage();
-}
+$bookings = $client->getUpdatedBookingsSince($partnerId, new \DateTIme('2020-01-01'));
 ```
 
 Create or replace allotments through models or array:

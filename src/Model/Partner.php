@@ -31,13 +31,13 @@ class Partner
 
     /**
      * Partner constructor.
-     * @param int $id
+     * @param string $id
      * @param bool $enabled
      * @param string $companyName
      * @param Accommodation[] $accommodations
      */
     public function __construct(
-        int $id,
+        string $id,
         bool $enabled,
         string $companyName,
         array $accommodations

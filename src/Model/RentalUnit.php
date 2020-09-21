@@ -52,7 +52,7 @@ class RentalUnit
 
     /**
      * RentalUnit constructor.
-     * @param int $id
+     * @param string $id
      * @param bool|null $enabled
      * @param string|null $name
      * @param string|null $code
@@ -61,7 +61,7 @@ class RentalUnit
      * @param int|null $includedOccupancy
      */
     public function __construct(
-        int $id,
+        string $id,
         ?bool $enabled = null,
         ?string $name = null,
         ?string $code = null,

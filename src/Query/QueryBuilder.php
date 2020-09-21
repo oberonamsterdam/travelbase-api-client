@@ -85,42 +85,16 @@ class QueryBuilder
         ;
     }
 
-    public static function createRecentlyUpdatedBookingsQuery(
+    public static function createUpdatedBookingsSinceQuery(
         int $partnerId,
-        int $limit = 10,
-        ?string $cursor = null
+        DateTimeInterface $updatedSince
     ): Query {
-        $arguments = ['first' => $limit];
-        if ($cursor) {
-            $arguments['after'] = $cursor;
-        }
-
         return (new Query('partner'))
             ->setArguments(['id' => $partnerId])
             ->setSelectionSet([
-                (new Query('recentlyUpdatedBookings'))
-                    ->setArguments($arguments)
-                    ->setSelectionSet(self::getBookingRelaySelectionSet())
-            ])
-        ;
-    }
-
-    public static function createUpcomingBookingsQuery(
-        int $partnerId,
-        int $limit = 10,
-        ?string $cursor = null
-    ): Query {
-        $arguments = ['first' => $limit];
-        if ($cursor) {
-            $arguments['after'] = $cursor;
-        }
-
-        return (new Query('partner'))
-            ->setArguments(['id' => $partnerId])
-            ->setSelectionSet([
-                (new Query('upcomingBookings'))
-                    ->setArguments($arguments)
-                    ->setSelectionSet(self::getBookingRelaySelectionSet())
+                (new Query('updatedBookingsSince'))
+                    ->setArguments(['updatedSince' => $updatedSince->format('Y-m-d')])
+                    ->setSelectionSet(self::getBookingSelectionSet())
             ])
         ;
     }
@@ -137,57 +111,72 @@ class QueryBuilder
             ]),
             (new Query('edges'))->setSelectionSet([
                 'cursor',
-                (new Query('node'))->setSelectionSet([
-                    'id',
-                    'number',
-                    'arrivalDate',
-                    'departureDate',
-                    'duration',
-                    'amountAdults',
-                    'amountYouths',
-                    'amountChildren',
-                    'amountBabies',
-                    'amountPets',
-                    'status',
-                    'customerComment',
-                    'rentalSum',
-                    'travelSum',
-                    'createdAt',
-                    'updatedAt',
-                    (new Query('rentalUnit'))->setSelectionSet([
-                        'id',
-                    ]),
-                    (new Query('partnerPriceLines'))->setSelectionSet([
-                        'category',
-                        'label',
-                        'unitPrice',
-                        'modifier',
-                        'totalPrice',
-                    ]),
-                    (new Query('order'))->setSelectionSet([
-                        'id',
-                        'locale',
-                        'customerFirstName',
-                        'customerLastName',
-                        'customerPhoneNumber',
-                        'customerEmail',
-                        (new Query('customerAddress'))->setSelectionSet([
-                            'street',
-                            'number',
-                            'postalCode',
-                            'city',
-                            'countryCode',
-                            'countryName'
-                        ]),
-                    ])
-                ])
+                (new Query('node'))->setSelectionSet(self::getBookingSelectionSet())
             ])
         ];
     }
 
+    private static function getBookingSelectionSet(): array
+    {
+        return [
+            'id',
+            'number',
+            'arrivalDate',
+            'departureDate',
+            'duration',
+            'amountAdults',
+            'amountYouths',
+            'amountChildren',
+            'amountBabies',
+            'amountPets',
+            'status',
+            'customerComment',
+            'createdAt',
+            'updatedAt',
+            'rentalSum',
+            'totalPrice',
+            'totalPricePaid',
+            'deposit',
+            'depositPaid',
+            'touristTax',
+            'touristTaxPaid',
+            (new Query('special'))->setSelectionSet([
+                'id',
+                'name',
+            ]),
+            (new Query('rentalUnit'))->setSelectionSet([
+                'id',
+            ]),
+            (new Query('additions'))->setSelectionSet([
+                'unitPrice',
+                'totalPrice',
+                'amount',
+                'calculation',
+                (new Query('surcharge'))->setSelectionSet([
+                    'id',
+                    'name'
+                ]),
+            ]),
+            (new Query('order'))->setSelectionSet([
+                'id',
+                'locale',
+                'customerFirstName',
+                'customerLastName',
+                'customerPhoneNumber',
+                'customerEmail',
+                (new Query('customerAddress'))->setSelectionSet([
+                    'street',
+                    'number',
+                    'postalCode',
+                    'city',
+                    'countryCode',
+                    'countryName',
+                ]),
+            ])
+        ];
+    }
 
-
-    private static function getPartnerSelectionSet()
+    private static function getPartnerSelectionSet(): array
     {
         return [
             'id',
@@ -197,7 +186,7 @@ class QueryBuilder
         ];
     }
 
-    private static function getAccommodationSelectionSet()
+    private static function getAccommodationSelectionSet(): array
     {
         return [
             'id',
@@ -219,5 +208,4 @@ class QueryBuilder
             'includedOccupancy'
         ];
     }
-
 }

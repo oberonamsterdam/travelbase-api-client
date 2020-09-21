@@ -82,22 +82,20 @@ class ApiClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
-    public function getUpcomingBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingConnection
+    public function getUpdatedBookingsSince(int $partnerId, DateTimeInterface $updatedSince): array
     {
-        $query = QueryBuilder::createUpcomingBookingsQuery($partnerId, $limit, $cursor);
+        $query = QueryBuilder::createUpdatedBookingsSinceQuery($partnerId, $updatedSince);
 
         $result = $this->runQuery($query);
+//        var_dump(json_decode($result));
+        var_dump($this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner());
 
-        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getUpcomingBookings();
-    }
 
-    public function getRecentlyUpdatedBookings(int $partnerId, int $limit = 10, ?string $cursor = null): BookingConnection
-    {
-        $query = QueryBuilder::createRecentlyUpdatedBookingsQuery($partnerId, $limit, $cursor);
+        die();
 
-        $result = $this->runQuery($query);
+        die('aaa');
 
-        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getRecentlyUpdatedBookings();
+        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getUpdatedBookingsSince();
     }
 
     public function getAllBookings(
@@ -241,6 +239,6 @@ class ApiClient
 
     private function parseResult(string $data, string $class): GraphQLCallResponseBodyInterface
     {
-        return $this->serializer->deserialize($data, $class, 'json');
+        return $this->serializer->deserialize($data, $class, 'json', ['aaa' => 'aaa']);
     }
 }
