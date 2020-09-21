@@ -22,7 +22,7 @@ class Partner
     /**
      * @var string
      */
-    private $companyName;
+    private $name;
 
     /**
      * @var Accommodation[]
@@ -33,18 +33,18 @@ class Partner
      * Partner constructor.
      * @param string $id
      * @param bool $enabled
-     * @param string $companyName
+     * @param string $name
      * @param Accommodation[] $accommodations
      */
     public function __construct(
         string $id,
         bool $enabled,
-        string $companyName,
+        string $name,
         array $accommodations
     ) {
         $this->id = $id;
         $this->enabled = $enabled;
-        $this->companyName = $companyName;
+        $this->name = $name;
         $this->accommodations = $accommodations;
     }
 
@@ -67,9 +67,9 @@ class Partner
     /**
      * @return string
      */
-    public function getCompanyName(): string
+    public function getName(): string
     {
-        return $this->companyName;
+        return $this->name;
     }
 
     /**

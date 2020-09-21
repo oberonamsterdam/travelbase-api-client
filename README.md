@@ -72,7 +72,7 @@ Retrieve the first 100 updated bookings starting from a specific date:
 ```php
 $client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\Booking[] $bookings */
-$bookings = $client->getUpdatedBookingsSince($partnerId, new \DateTIme('2020-01-01'));
+$bookings = $client->getUpdatedBookings($partnerId, new \DateTIme('2020-01-01'));
 ```
 
 Create or replace allotments through models or array:

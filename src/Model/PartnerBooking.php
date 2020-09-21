@@ -12,7 +12,7 @@ class PartnerBooking
     /**
      * @var Booking[]
      */
-    private $updatedBookingsSince;
+    private $updatedBookings;
 
     /**
      * @var BookingConnection|null
@@ -21,15 +21,14 @@ class PartnerBooking
 
     /**
      * PartnerBooking constructor.
-     * @param Booking[] $updatedBookingsSince
-     * @param BookingConnection|null $upcomingBookings
+     * @param Booking[] $updatedBookings
      * @param BookingConnection|null $allBookings
      */
     public function __construct(
-        ?array $updatedBookingsSince = null,
+        ?array $updatedBookings = [],
         ?BookingConnection $allBookings = null
     ) {
-       $this->updatedBookingsSince = $updatedBookingsSince;
+       $this->updatedBookings = $updatedBookings;
        $this->allBookings = $allBookings;
     }
 
@@ -44,18 +43,18 @@ class PartnerBooking
     /**
      * @return Booking[]
      */
-    public function getUpdatedBookingsSince(): array
+    public function getUpdatedBookings(): array
     {
-        return $this->updatedBookingsSince;
+        return $this->updatedBookings;
     }
 
     /**
      * @param Booking $booking
      * @return $this
      */
-    public function addUpdatedBookingsSince(Booking $booking): self
+    public function addUpdatedBooking(Booking $booking): self
     {
-        $this->updatedBookingsSince[] = $booking;
+        $this->updatedBookings[] = $booking;
 
         return $this;
     }

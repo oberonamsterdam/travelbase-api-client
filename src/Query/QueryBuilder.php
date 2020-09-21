@@ -85,15 +85,15 @@ class QueryBuilder
         ;
     }
 
-    public static function createUpdatedBookingsSinceQuery(
+    public static function createUpdatedBookingsQuery(
         int $partnerId,
         DateTimeInterface $updatedSince
     ): Query {
         return (new Query('partner'))
             ->setArguments(['id' => $partnerId])
             ->setSelectionSet([
-                (new Query('updatedBookingsSince'))
-                    ->setArguments(['updatedSince' => $updatedSince->format('Y-m-d')])
+                (new Query('updatedBookings'))
+                    ->setArguments(['since' => $updatedSince->format('Y-m-d')])
                     ->setSelectionSet(self::getBookingSelectionSet())
             ])
         ;
@@ -181,7 +181,7 @@ class QueryBuilder
         return [
             'id',
             'enabled',
-            'companyName',
+            'name',
             (new Query('accommodations'))->setSelectionSet(self::getAccommodationSelectionSet())
         ];
     }

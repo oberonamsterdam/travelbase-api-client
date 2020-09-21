@@ -82,20 +82,13 @@ class ApiClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
-    public function getUpdatedBookingsSince(int $partnerId, DateTimeInterface $updatedSince): array
+    public function getUpdatedBookings(int $partnerId, DateTimeInterface $updatedSince): array
     {
-        $query = QueryBuilder::createUpdatedBookingsSinceQuery($partnerId, $updatedSince);
+        $query = QueryBuilder::createUpdatedBookingsQuery($partnerId, $updatedSince);
 
         $result = $this->runQuery($query);
-//        var_dump(json_decode($result));
-        var_dump($this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner());
 
-
-        die();
-
-        die('aaa');
-
-        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getUpdatedBookingsSince();
+        return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getUpdatedBookings();
     }
 
     public function getAllBookings(
