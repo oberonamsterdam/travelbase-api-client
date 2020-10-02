@@ -74,7 +74,37 @@ class Booking
     /**
      * @var float
      */
-    private $rentalSum;
+    private $accommodationSum;
+
+    /**
+     * @var float
+     */
+    private $totalPrice;
+
+    /**
+     * @var float
+     */
+    private $totalPricePaid;
+
+    /**
+     * @var float
+     */
+    private $deposit;
+
+    /**
+     * @var float
+     */
+    private $depositPaid;
+
+    /**
+     * @var float
+     */
+    private $touristTax;
+
+    /**
+     * @var float
+     */
+    private $touristTaxPaid;
 
     /**
      * @var DateTimeInterface
@@ -109,13 +139,19 @@ class Booking
      * @param DateTimeInterface $departureDate
      * @param int $duration
      * @param int $amountAdults
-     * @param int amountYouths
+     * @param int $amountYouths
      * @param int $amountChildren
      * @param int $amountBabies
      * @param int $amountPets
      * @param string $status
      * @param string|null $customerComment
-     * @param float $rentalSum
+     * @param float $accommodationSum
+     * @param float $totalPrice
+     * @param float $totalPricePaid
+     * @param float $deposit
+     * @param float $depositPaid
+     * @param float $touristTax
+     * @param float $touristTaxPaid
      * @param DateTimeInterface $createdAt
      * @param DateTimeInterface $updatedAt
      * @param RentalUnit $rentalUnit
@@ -135,7 +171,13 @@ class Booking
         int $amountPets,
         string $status,
         ?string $customerComment,
-        float $rentalSum,
+        float $accommodationSum,
+        float $totalPrice,
+        float $totalPricePaid,
+        float $deposit,
+        float $depositPaid,
+        float $touristTax,
+        float $touristTaxPaid,
         DateTimeInterface $createdAt,
         DateTimeInterface $updatedAt,
         RentalUnit $rentalUnit,
@@ -151,10 +193,16 @@ class Booking
         $this->amountChildren = $amountChildren;
         $this->amountBabies = $amountBabies;
         $this->amountYouths = $amountYouths;
-        $this->amountDogs = $amountPets;
+        $this->amountPets = $amountPets;
         $this->status = $status;
         $this->customerComment = $customerComment;
-        $this->rentalSum = $rentalSum;
+        $this->accommodationSum = $accommodationSum;
+        $this->totalPrice = $totalPrice;
+        $this->totalPricePaid = $totalPricePaid;
+        $this->deposit = $deposit;
+        $this->depositPaid = $depositPaid;
+        $this->touristTax = $touristTax;
+        $this->touristTaxPaid = $touristTaxPaid;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->rentalUnit = $rentalUnit;
@@ -239,7 +287,7 @@ class Booking
      */
     public function getAmountPets(): int
     {
-        return $this->amountDogs;
+        return $this->amountPets;
     }
 
     /**
@@ -261,9 +309,9 @@ class Booking
     /**
      * @return float
      */
-    public function getRentalSum(): float
+    public function getAccommodationSum(): float
     {
-        return $this->rentalSum;
+        return $this->accommodationSum;
     }
 
     /**
@@ -296,6 +344,54 @@ class Booking
     public function getOrder(): Order
     {
         return $this->order;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalPrice(): float
+    {
+        return $this->totalPrice;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalPricePaid(): float
+    {
+        return $this->totalPricePaid;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDeposit(): float
+    {
+        return $this->deposit;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDepositPaid(): float
+    {
+        return $this->depositPaid;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTouristTax(): float
+    {
+        return $this->touristTax;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTouristTaxPaid(): float
+    {
+        return $this->touristTaxPaid;
     }
 
     /**

@@ -133,7 +133,7 @@ class QueryBuilder
             'customerComment',
             'createdAt',
             'updatedAt',
-            'rentalSum',
+            'accommodationSum',
             'totalPrice',
             'totalPricePaid',
             'deposit',
