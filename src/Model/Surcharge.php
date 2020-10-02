@@ -20,7 +20,7 @@ class Surcharge
     private $name;
 
     /**
-     * Special constructor.
+     * Surcharge constructor.
      * @param string $id
      * @param string $name
      */

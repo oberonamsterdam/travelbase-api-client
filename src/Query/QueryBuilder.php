@@ -170,7 +170,6 @@ class QueryBuilder
                     'postalCode',
                     'city',
                     'countryCode',
-                    'countryName',
                 ]),
             ])
         ];

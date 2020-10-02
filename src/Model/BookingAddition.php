@@ -38,12 +38,69 @@ class BookingAddition
     private $calculation;
 
     /**
-     * @var Surcharge
+     * @var Surcharge|null
      */
     private $surcharge;
 
+    /**
+     * BookingAddition constructor.
+     * @param float|null $unitPrice
+     * @param float $totalPrice
+     * @param int $amount
+     * @param string $calculation
+     * @param Surcharge|null $surcharge
+     */
     public function __construct(
-        
+        ?float $unitPrice,
+        float $totalPrice,
+        int $amount,
+        string $calculation,
+        ?Surcharge $surcharge
     ) {
+        $this->unitPrice = $unitPrice;
+        $this->totalPrice = $totalPrice;
+        $this->amount = $amount;
+        $this->calculation = $calculation;
+        $this->surcharge = $surcharge;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getUnitPrice(): ?float
+    {
+        return $this->unitPrice;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalPrice(): float
+    {
+        return $this->totalPrice;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCalculation(): string
+    {
+        return $this->calculation;
+    }
+
+    /**
+     * @return Surcharge|null
+     */
+    public function getSurcharge(): ?Surcharge
+    {
+        return $this->surcharge;
     }
 }
