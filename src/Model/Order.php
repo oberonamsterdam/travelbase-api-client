@@ -20,11 +20,6 @@ class Order
     private $customerFirstName;
 
     /**
-     * @var string|null
-     */
-    private $customerInfix;
-
-    /**
      * @var string
      */
     private $customerLastName;
@@ -48,7 +43,6 @@ class Order
      * Order constructor.
      * @param string $id
      * @param string $customerFirstName
-     * @param string|null $customerInfix
      * @param string $customerLastName
      * @param Address $customerAddress
      * @param string|null $customerPhoneNumber
@@ -57,7 +51,6 @@ class Order
     public function __construct(
         string $id,
         string $customerFirstName,
-        ?string $customerInfix,
         string $customerLastName,
         Address $customerAddress,
         ?string $customerPhoneNumber,
@@ -65,7 +58,6 @@ class Order
     ) {
         $this->id = $id;
         $this->customerFirstName = $customerFirstName;
-        $this->customerInfix = $customerInfix;
         $this->customerLastName = $customerLastName;
         $this->customerAddress = $customerAddress;
         $this->customerPhoneNumber = $customerPhoneNumber;
@@ -86,14 +78,6 @@ class Order
     public function getCustomerFirstName(): string
     {
         return $this->customerFirstName;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCustomerInfix(): ?string
-    {
-        return $this->customerInfix;
     }
 
     /**

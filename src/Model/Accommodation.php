@@ -30,13 +30,13 @@ class Accommodation
 
     /**
      * Accommodation constructor.
-     * @param int $id
+     * @param string $id
      * @param bool $enabled
      * @param string $name
      * @param array $rentalUnits
      */
     public function __construct(
-        int $id,
+        string $id,
         bool $enabled,
         string $name,
         array $rentalUnits
