@@ -75,7 +75,7 @@ $client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 $booking = $client->getBooking($bookingId);
 ```
 
-Retrieve recently updated bookings:
+Retrieve the first 100 updated bookings after a specific date:
 ```php
 $client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\Booking[] $bookings */
