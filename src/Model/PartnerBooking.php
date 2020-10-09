@@ -10,14 +10,9 @@ namespace Oberon\TorClient\Model;
 class PartnerBooking
 {
     /**
-     * @var BookingConnection|null
+     * @var Booking[]
      */
-    private $recentlyUpdatedBookings;
-
-    /**
-     * @var BookingConnection|null
-     */
-    private $upcomingBookings;
+    private $updatedBookings;
 
     /**
      * @var BookingConnection|null
@@ -26,34 +21,15 @@ class PartnerBooking
 
     /**
      * PartnerBooking constructor.
-     * @param BookingConnection|null $recentlyUpdatedBookings
-     * @param BookingConnection|null $upcomingBookings
+     * @param Booking[] $updatedBookings
      * @param BookingConnection|null $allBookings
      */
     public function __construct(
-        ?BookingConnection $recentlyUpdatedBookings = null,
-        ?BookingConnection $upcomingBookings = null,
+        ?array $updatedBookings = [],
         ?BookingConnection $allBookings = null
     ) {
-       $this->recentlyUpdatedBookings = $recentlyUpdatedBookings;
-       $this->upcomingBookings = $upcomingBookings;
+       $this->updatedBookings = $updatedBookings;
        $this->allBookings = $allBookings;
-    }
-
-    /**
-     * @return BookingConnection
-     */
-    public function getRecentlyUpdatedBookings(): ?BookingConnection
-    {
-        return $this->recentlyUpdatedBookings;
-    }
-
-    /**
-     * @return BookingConnection
-     */
-    public function getUpcomingBookings(): ?BookingConnection
-    {
-        return $this->upcomingBookings;
     }
 
     /**
@@ -62,5 +38,24 @@ class PartnerBooking
     public function getAllBookings(): ?BookingConnection
     {
         return $this->allBookings;
+    }
+
+    /**
+     * @return Booking[]
+     */
+    public function getUpdatedBookings(): array
+    {
+        return $this->updatedBookings;
+    }
+
+    /**
+     * @param Booking $booking
+     * @return $this
+     */
+    public function addUpdatedBooking(Booking $booking): self
+    {
+        $this->updatedBookings[] = $booking;
+
+        return $this;
     }
 }

@@ -44,6 +44,11 @@ class Booking
     /**
      * @var int
      */
+    private $amountYouths;
+
+    /**
+     * @var int
+     */
     private $amountChildren;
 
     /**
@@ -54,7 +59,7 @@ class Booking
     /**
      * @var int
      */
-    private $amountDogs;
+    private $amountPets;
 
     /**
      * @var string
@@ -69,12 +74,37 @@ class Booking
     /**
      * @var float
      */
-    private $rentalSum;
+    private $accommodationSum;
 
     /**
      * @var float
      */
-    private $travelSum;
+    private $totalPrice;
+
+    /**
+     * @var float
+     */
+    private $totalPricePaid;
+
+    /**
+     * @var float
+     */
+    private $deposit;
+
+    /**
+     * @var float
+     */
+    private $depositPaid;
+
+    /**
+     * @var float
+     */
+    private $touristTax;
+
+    /**
+     * @var float
+     */
+    private $touristTaxPaid;
 
     /**
      * @var DateTimeInterface
@@ -97,9 +127,9 @@ class Booking
     private $order;
 
     /**
-     * @var BookingPriceLine[]
+     * @var BookingAddition[]
      */
-    private $partnerPriceLines = [];
+    private $additions = [];
 
     /**
      * Booking constructor.
@@ -109,18 +139,24 @@ class Booking
      * @param DateTimeInterface $departureDate
      * @param int $duration
      * @param int $amountAdults
+     * @param int $amountYouths
      * @param int $amountChildren
      * @param int $amountBabies
-     * @param int $amountDogs
+     * @param int $amountPets
      * @param string $status
      * @param string|null $customerComment
-     * @param float $rentalSum
-     * @param float $travelSum
+     * @param float $accommodationSum
+     * @param float $totalPrice
+     * @param float $totalPricePaid
+     * @param float $deposit
+     * @param float $depositPaid
+     * @param float $touristTax
+     * @param float $touristTaxPaid
      * @param DateTimeInterface $createdAt
      * @param DateTimeInterface $updatedAt
      * @param RentalUnit $rentalUnit
      * @param Order $order
-     * @param BookingPriceLine[] $partnerPriceLines
+     * @param BookingAddition[] $additions
      */
     public function __construct(
         string $id,
@@ -129,18 +165,24 @@ class Booking
         DateTimeInterface $departureDate,
         int $duration,
         int $amountAdults,
+        int $amountYouths,
         int $amountChildren,
         int $amountBabies,
-        int $amountDogs,
+        int $amountPets,
         string $status,
         ?string $customerComment,
-        float $rentalSum,
-        float $travelSum,
+        float $accommodationSum,
+        float $totalPrice,
+        float $totalPricePaid,
+        float $deposit,
+        float $depositPaid,
+        float $touristTax,
+        float $touristTaxPaid,
         DateTimeInterface $createdAt,
         DateTimeInterface $updatedAt,
         RentalUnit $rentalUnit,
         Order $order,
-        array $partnerPriceLines
+        array $additions
     ) {
         $this->id = $id;
         $this->number = $number;
@@ -150,16 +192,22 @@ class Booking
         $this->amountAdults = $amountAdults;
         $this->amountChildren = $amountChildren;
         $this->amountBabies = $amountBabies;
-        $this->amountDogs = $amountDogs;
+        $this->amountYouths = $amountYouths;
+        $this->amountPets = $amountPets;
         $this->status = $status;
         $this->customerComment = $customerComment;
-        $this->rentalSum = $rentalSum;
-        $this->travelSum = $travelSum;
+        $this->accommodationSum = $accommodationSum;
+        $this->totalPrice = $totalPrice;
+        $this->totalPricePaid = $totalPricePaid;
+        $this->deposit = $deposit;
+        $this->depositPaid = $depositPaid;
+        $this->touristTax = $touristTax;
+        $this->touristTaxPaid = $touristTaxPaid;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->rentalUnit = $rentalUnit;
         $this->order = $order;
-        $this->partnerPriceLines = $partnerPriceLines;
+        $this->additions = $additions;
     }
 
     /**
@@ -213,6 +261,14 @@ class Booking
     /**
      * @return int
      */
+    public function getAmountYouths(): int
+    {
+        return $this->amountYouths;
+    }
+
+    /**
+     * @return int
+     */
     public function getAmountChildren(): int
     {
         return $this->amountChildren;
@@ -229,9 +285,9 @@ class Booking
     /**
      * @return int
      */
-    public function getAmountDogs(): int
+    public function getAmountPets(): int
     {
-        return $this->amountDogs;
+        return $this->amountPets;
     }
 
     /**
@@ -253,17 +309,9 @@ class Booking
     /**
      * @return float
      */
-    public function getRentalSum(): float
+    public function getAccommodationSum(): float
     {
-        return $this->rentalSum;
-    }
-
-    /**
-     * @return float
-     */
-    public function getTravelSum(): float
-    {
-        return $this->travelSum;
+        return $this->accommodationSum;
     }
 
     /**
@@ -299,22 +347,69 @@ class Booking
     }
 
     /**
-     * @return BookingPriceLine[]
+     * @return float
      */
-    public function getPartnerPriceLines(): array
+    public function getTotalPrice(): float
     {
-        return $this->partnerPriceLines;
+        return $this->totalPrice;
     }
 
     /**
-     * @param BookingPriceLine $bookingPriceLine
+     * @return float
+     */
+    public function getTotalPricePaid(): float
+    {
+        return $this->totalPricePaid;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDeposit(): float
+    {
+        return $this->deposit;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDepositPaid(): float
+    {
+        return $this->depositPaid;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTouristTax(): float
+    {
+        return $this->touristTax;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTouristTaxPaid(): float
+    {
+        return $this->touristTaxPaid;
+    }
+
+    /**
+     * @return BookingAddition[]
+     */
+    public function getAdditions(): array
+    {
+        return $this->additions;
+    }
+
+    /**
+     * @param BookingAddition $bookingAddition
      * @return self
      */
-    public function addPartnerPriceLine(BookingPriceLine $bookingPriceLine): self
+    public function addAddition(BookingAddition $bookingAddition): self
     {
-        $this->partnerPriceLines[] = $bookingPriceLine;
+        $this->additions[] = $bookingAddition;
 
         return $this;
     }
-
 }
