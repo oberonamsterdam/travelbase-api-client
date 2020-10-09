@@ -2,6 +2,7 @@
 /**
  * Date: 08-10-2020
  * @author Richard de Boer
+ * @copyright (c) Oberon 2020
  */
 
 namespace Oberon\TorClient\Result;

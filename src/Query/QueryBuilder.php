@@ -48,6 +48,16 @@ class QueryBuilder
         return $query;
     }
 
+    public static function createBookingQuery(int $bookingId): Query
+    {
+        $query = (new Query('booking'))->setSelectionSet(
+            self::getBookingSelectionSet()
+        );
+        $query->setArguments(['id' => $bookingId]);
+
+        return $query;
+    }
+
     public static function createAllBookingsQuery(
         int $partnerId,
         int $limit = 10,

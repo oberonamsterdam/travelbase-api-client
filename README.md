@@ -68,6 +68,13 @@ while ($hasMoreBookings) {
 }
 ```
 
+Retrieve a single booking:
+```php
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+/** @var \Oberon\TorClient\Model\Booking $booking */
+$booking = $client->getBooking($bookingId);
+```
+
 Retrieve recently updated bookings:
 ```php
 $client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
