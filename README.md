@@ -68,7 +68,14 @@ while ($hasMoreBookings) {
 }
 ```
 
-Retrieve the first 100 updated bookings starting from a specific date:
+Retrieve a single booking:
+```php
+$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+/** @var \Oberon\TorClient\Model\Booking $booking */
+$booking = $client->getBooking($bookingId);
+```
+
+Retrieve the first 100 updated bookings after a specific date:
 ```php
 $client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
 /** @var \Oberon\TorClient\Model\Booking[] $bookings */

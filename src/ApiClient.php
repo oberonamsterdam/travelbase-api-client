@@ -10,8 +10,8 @@ namespace Oberon\TorClient;
 use GraphQL\Client;
 use GraphQL\Query;
 use Oberon\TorClient\Model\Allotment;
+use Oberon\TorClient\Model\Booking;
 use Oberon\TorClient\Model\TripPricing;
-use Oberon\TorClient\Response\RentalUnitCallResponseBody;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -35,6 +35,8 @@ use Oberon\TorClient\Response\GraphQLCallResponseBodyInterface;
 use Oberon\TorClient\Response\PartnerBookingCallResponseBody;
 use Oberon\TorClient\Response\PartnerCallResponseBody;
 use Oberon\TorClient\Response\PartnersCallResponseBody;
+use Oberon\TorClient\Response\BookingCallResponseBody;
+use Oberon\TorClient\Response\RentalUnitCallResponseBody;
 use \DateTimeInterface;
 
 class ApiClient
@@ -105,6 +107,15 @@ class ApiClient
         $result = $this->runQuery($query);
 
         return $this->parseResult($result, PartnerBookingCallResponseBody::class)->getData()->getPartner()->getAllBookings();
+    }
+
+    public function getBooking(int $bookingId): Booking
+    {
+        $query = QueryBuilder::createBookingQuery($bookingId);
+
+        $result = $this->runQuery($query);
+
+        return $this->parseResult($result, BookingCallResponseBody::class)->getData()->getBooking();
     }
 
     public function getAccommodation(int $accommodationId): Accommodation
