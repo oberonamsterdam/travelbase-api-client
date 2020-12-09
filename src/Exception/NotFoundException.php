@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Exception;
+namespace Oberon\TravelbaseManagementApi\Exception;
 
 class NotFoundException extends \Exception
 {

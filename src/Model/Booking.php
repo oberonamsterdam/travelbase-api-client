@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Model;
+namespace Oberon\TravelbaseManagementApi\Model;
 
 use DateTimeInterface;
 
@@ -122,9 +122,19 @@ class Booking
     private $rentalUnit;
 
     /**
-     * @var Order
+     * @var Customer
      */
-    private $order;
+    private $customer;
+
+    /**
+     * @var Address
+     */
+    private $invoiceAddress;
+
+    /**
+     * @var Special|null
+     */
+    private $special;
 
     /**
      * @var BookingAddition[]
@@ -155,7 +165,9 @@ class Booking
      * @param DateTimeInterface $createdAt
      * @param DateTimeInterface $updatedAt
      * @param RentalUnit $rentalUnit
-     * @param Order $order
+     * @param Customer $customer
+     * @param Address $invoiceAddress
+     * @param Special|null $special
      * @param BookingAddition[] $additions
      */
     public function __construct(
@@ -181,7 +193,9 @@ class Booking
         DateTimeInterface $createdAt,
         DateTimeInterface $updatedAt,
         RentalUnit $rentalUnit,
-        Order $order,
+        Customer $customer,
+        Address $invoiceAddress,
+        Special $special,
         array $additions
     ) {
         $this->id = $id;
@@ -206,7 +220,9 @@ class Booking
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->rentalUnit = $rentalUnit;
-        $this->order = $order;
+        $this->customer = $customer;
+        $this->invoiceAddress = $invoiceAddress;
+        $this->special = $special;
         $this->additions = $additions;
     }
 
@@ -339,14 +355,6 @@ class Booking
     }
 
     /**
-     * @return Order
-     */
-    public function getOrder(): Order
-    {
-        return $this->order;
-    }
-
-    /**
      * @return float
      */
     public function getTotalPrice(): float
@@ -392,6 +400,30 @@ class Booking
     public function getTouristTaxPaid(): float
     {
         return $this->touristTaxPaid;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @return Address
+     */
+    public function getInvoiceAddress(): Address
+    {
+        return $this->invoiceAddress;
+    }
+
+    /**
+     * @return Special|null
+     */
+    public function getSpecial(): ?Special
+    {
+        return $this->special;
     }
 
     /**

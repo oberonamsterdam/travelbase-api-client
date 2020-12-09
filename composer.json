@@ -1,6 +1,6 @@
 {
-    "name": "oberonamsterdam/tor-api-client",
-    "description": "API library to communicate with TOR",
+    "name": "oberonamsterdam/travelbase-api-client",
+    "description": "API library to communicate with Travelbase",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Oberon\\TorClient\\": "src/"
+            "Oberon\\TravelbaseManagementApi\\": "src/"
         }
     }
 }

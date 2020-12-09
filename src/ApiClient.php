@@ -5,38 +5,38 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient;
+namespace Oberon\TravelbaseManagementApi;
 
 use GraphQL\Client;
 use GraphQL\Query;
-use Oberon\TorClient\Model\Allotment;
-use Oberon\TorClient\Model\Booking;
-use Oberon\TorClient\Model\TripPricing;
+use Oberon\TravelbaseManagementApi\Model\Allotment;
+use Oberon\TravelbaseManagementApi\Model\Booking;
+use Oberon\TravelbaseManagementApi\Model\TripPricing;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Oberon\TorClient\Exception\BadResponseException;
-use Oberon\TorClient\Model\Accommodation;
-use Oberon\TorClient\Model\AllotmentCollection;
-use Oberon\TorClient\Model\BookingConnection;
-use Oberon\TorClient\Model\Partner;
-use Oberon\TorClient\Model\RentalUnit;
-use Oberon\TorClient\Model\TripPricingCollection;
-use Oberon\TorClient\Query\MutationBuilder;
-use Oberon\TorClient\Query\QueryBuilder;
-use Oberon\TorClient\Response\AccommodationCallResponseBody;
-use Oberon\TorClient\Response\CreateOrReplaceAllotmentsCallResponseBody;
-use Oberon\TorClient\Response\CreateOrReplaceTripPricingsCallResponseBody;
-use Oberon\TorClient\Response\DeleteTripPricingsCallResponseBody;
-use Oberon\TorClient\Response\GraphQLCallResponseBodyInterface;
-use Oberon\TorClient\Response\PartnerBookingCallResponseBody;
-use Oberon\TorClient\Response\PartnerCallResponseBody;
-use Oberon\TorClient\Response\PartnersCallResponseBody;
-use Oberon\TorClient\Response\BookingCallResponseBody;
-use Oberon\TorClient\Response\RentalUnitCallResponseBody;
+use Oberon\TravelbaseManagementApi\Exception\BadResponseException;
+use Oberon\TravelbaseManagementApi\Model\Accommodation;
+use Oberon\TravelbaseManagementApi\Model\AllotmentCollection;
+use Oberon\TravelbaseManagementApi\Model\BookingConnection;
+use Oberon\TravelbaseManagementApi\Model\Partner;
+use Oberon\TravelbaseManagementApi\Model\RentalUnit;
+use Oberon\TravelbaseManagementApi\Model\TripPricingCollection;
+use Oberon\TravelbaseManagementApi\Query\MutationBuilder;
+use Oberon\TravelbaseManagementApi\Query\QueryBuilder;
+use Oberon\TravelbaseManagementApi\Response\AccommodationCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\CreateOrReplaceAllotmentsCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\CreateOrReplaceTripPricingsCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\DeleteTripPricingsCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\GraphQLCallResponseBodyInterface;
+use Oberon\TravelbaseManagementApi\Response\PartnerBookingCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\PartnerCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\PartnersCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\BookingCallResponseBody;
+use Oberon\TravelbaseManagementApi\Response\RentalUnitCallResponseBody;
 use \DateTimeInterface;
 
 class ApiClient

@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Query;
+namespace Oberon\TravelbaseManagementApi\Query;
 
 use GraphQL\Mutation;
 use GraphQL\Query;
