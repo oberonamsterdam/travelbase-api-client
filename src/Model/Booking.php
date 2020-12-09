@@ -72,6 +72,36 @@ class Booking
     private $customerComment;
 
     /**
+     * @var DateTimeInterface
+     */
+    private $createdAt;
+
+    /**
+     * @var DateTimeInterface
+     */
+    private $updatedAt;
+
+    /**
+     * @var BookingAddition[]
+     */
+    private $additions = [];
+
+    /**
+     * @var Customer
+     */
+    private $customer;
+
+    /**
+     * @var Address
+     */
+    private $invoiceAddress;
+
+    /**
+     * @var RentalUnit
+     */
+    private $rentalUnit;
+
+    /**
      * @var float
      */
     private $accommodationSum;
@@ -107,39 +137,9 @@ class Booking
     private $touristTaxPaid;
 
     /**
-     * @var DateTimeInterface
-     */
-    private $createdAt;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $updatedAt;
-
-    /**
-     * @var RentalUnit
-     */
-    private $rentalUnit;
-
-    /**
-     * @var Customer
-     */
-    private $customer;
-
-    /**
-     * @var Address
-     */
-    private $invoiceAddress;
-
-    /**
      * @var Special|null
      */
     private $special;
-
-    /**
-     * @var BookingAddition[]
-     */
-    private $additions = [];
 
     /**
      * Booking constructor.
@@ -155,6 +155,12 @@ class Booking
      * @param int $amountPets
      * @param string $status
      * @param string|null $customerComment
+     * @param DateTimeInterface $createdAt
+     * @param DateTimeInterface $updatedAt
+     * @param BookingAddition[] $additions
+     * @param Customer $customer
+     * @param Address $invoiceAddress
+     * @param RentalUnit $rentalUnit
      * @param float $accommodationSum
      * @param float $totalPrice
      * @param float $totalPricePaid
@@ -162,13 +168,7 @@ class Booking
      * @param float $depositPaid
      * @param float $touristTax
      * @param float $touristTaxPaid
-     * @param DateTimeInterface $createdAt
-     * @param DateTimeInterface $updatedAt
-     * @param RentalUnit $rentalUnit
-     * @param Customer $customer
-     * @param Address $invoiceAddress
      * @param Special|null $special
-     * @param BookingAddition[] $additions
      */
     public function __construct(
         string $id,
@@ -183,6 +183,12 @@ class Booking
         int $amountPets,
         string $status,
         ?string $customerComment,
+        DateTimeInterface $createdAt,
+        DateTimeInterface $updatedAt,
+        array $additions,
+        Customer $customer,
+        Address $invoiceAddress,
+        RentalUnit $rentalUnit,
         float $accommodationSum,
         float $totalPrice,
         float $totalPricePaid,
@@ -190,13 +196,7 @@ class Booking
         float $depositPaid,
         float $touristTax,
         float $touristTaxPaid,
-        DateTimeInterface $createdAt,
-        DateTimeInterface $updatedAt,
-        RentalUnit $rentalUnit,
-        Customer $customer,
-        Address $invoiceAddress,
-        Special $special,
-        array $additions
+        Special $special
     ) {
         $this->id = $id;
         $this->number = $number;
@@ -210,6 +210,12 @@ class Booking
         $this->amountPets = $amountPets;
         $this->status = $status;
         $this->customerComment = $customerComment;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->additions = $additions;
+        $this->customer = $customer;
+        $this->invoiceAddress = $invoiceAddress;
+        $this->rentalUnit = $rentalUnit;
         $this->accommodationSum = $accommodationSum;
         $this->totalPrice = $totalPrice;
         $this->totalPricePaid = $totalPricePaid;
@@ -217,13 +223,7 @@ class Booking
         $this->depositPaid = $depositPaid;
         $this->touristTax = $touristTax;
         $this->touristTaxPaid = $touristTaxPaid;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-        $this->rentalUnit = $rentalUnit;
-        $this->customer = $customer;
-        $this->invoiceAddress = $invoiceAddress;
         $this->special = $special;
-        $this->additions = $additions;
     }
 
     /**
