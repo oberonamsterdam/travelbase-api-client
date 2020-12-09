@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Model;
+namespace Oberon\TravelbaseManagementApi\Model;
 
 class BookingAddition
 {

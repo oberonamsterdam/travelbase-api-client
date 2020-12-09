@@ -1,9 +1,11 @@
-TOR GraphQL Client
+Travelbase Management API - Client library
 =======================
 
-This is a client library to communicate with the TOR application. You can use our Client to manage your assets in TOR.
+This is a client library to communicate with the Travelbase Management API. You can use the client to manage your 
+assets in Travelbase.
 
-Usage of this API is limited to registered users only. If you would like to use TOR, please visit [travelbase.nl](https://travelbase.nl).
+Usage of the Travelbase Management API is limited to registered users only. If you would like to use Travelbase, please 
+visit [travelbase.nl](https://www.travelbase.nl).
 
 
 ---
@@ -12,56 +14,51 @@ Usage of this API is limited to registered users only. If you would like to use 
 Run the following command to install the package using composer:
 
 ```
-$ composer require oberonamsterdam/tor-api-client
+$ composer require oberonamsterdam/travelbase-api-client
 ```
 
 # Usage
 
-To use this Client you need to provide the API Key and endpoint when initiating the client class.
+To use this client you need to provide the API key and endpoint when initiating the client class.
 
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+$client = new \Oberon\TravelbaseManagementApi\ApiClient("https://example.com", "APIKEY");
 ```
 
 # Example calls
 Retrieve a collection of all partners:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\Partner[] $partners */
+/** @var \Oberon\TravelbaseManagementApi\Model\Partner[] $partners */
 $partners = $client->getPartners();
 ```
   
 Retrieve a single partner:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\Partner $partner */
-$partners = $client->getPartner($partnerId);
+/** @var \Oberon\TravelbaseManagementApi\Model\Partner $partner */
+$partners = $client->getPartner($yourPartnerId);
 ```
 
 Retrieve a single accommodation:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\Accommodation $accommodation */
-$accommodation = $client->getAccommodation($accommodationId);
+/** @var \Oberon\TravelbaseManagementApi\Model\Accommodation $accommodation */
+$accommodation = $client->getAccommodation($yourAccommodationId);
 ```
 
 Retrieve a single rentalUnit:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\RentalUnit $rentalUnit */
-$rentalUnit = $client->getRentalUnit($rentalUnitId);
+/** @var \Oberon\TravelbaseManagementApi\Model\RentalUnit $rentalUnit */
+$rentalUnit = $client->getRentalUnit($yourRentalUnitId);
 ```
 
 Retrieve all bookings:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\RentalUnit $rentalUnit */
+/** @var \Oberon\TravelbaseManagementApi\Model\RentalUnit $rentalUnit */
 $cursor = null;
 $hasMoreBookings = true;
-/** @var \Oberon\TorClient\Model\Booking[] $bookings */
+/** @var \Oberon\TravelbaseManagementApi\Model\Booking[] $bookings */
 $bookings = [];
 while ($hasMoreBookings) {
-    $bookingConnection =  $client->getAllBookings($partnerId, 10, $cursor);
+    $bookingConnection =  $client->getAllBookings($yourPartnerId, 10, $cursor);
     $bookings = array_merge($bookings, $bookingConnection->getNodes());
     $cursor = $bookingConnection->getPageInfo()->getEndCursor();
     $hasMoreBookings = $bookingConnection->getPageInfo()->isHasNextPage();
@@ -70,22 +67,20 @@ while ($hasMoreBookings) {
 
 Retrieve a single booking:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\Booking $booking */
-$booking = $client->getBooking($bookingId);
+/** @var \Oberon\TravelbaseManagementApi\Model\Booking $booking */
+$booking = $client->getBooking($yourBookingId);
 ```
 
 Retrieve the first 100 updated bookings after a specific date:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-/** @var \Oberon\TorClient\Model\Booking[] $bookings */
-$bookings = $client->getUpdatedBookings($partnerId, new \DateTIme('2020-01-01'));
+/** @var \Oberon\TravelbaseManagementApi\Model\Booking[] $bookings */
+$bookings = $client->getUpdatedBookings($yourPartnerId, new \DateTIme('2020-01-01'));
 ```
 
 Create or replace allotments through models or array:
 ```php
 //Send as a model
-$allotment = new \Oberon\TorClient\Model\Allotment();
+$allotment = new \Oberon\TravelbaseManagementApi\Model\Allotment();
 $allotment->setAmount(1);
 $allotment->setDate(new \DateTime('2022-01-02'));
 $allotmentCollection[] = $allotment;
@@ -96,16 +91,14 @@ $allotmentCollection[] = [
     'date' => '2022-01-02',
 ];
 
-
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-$client->createOrReplaceAllotments($rentalUnitId, $allotmentCollection);
+$client->createOrReplaceAllotments($yourRentalUnitId, $allotmentCollection);
 ```
 
 
-Create or replace trippricings through models or array:
+Create or replace trip pricings through models or array:
 ```php
 //Send as a model
-$tripPricing = new \Oberon\TorClient\Model\TripPricing();
+$tripPricing = new \Oberon\TravelbaseManagementApi\Model\TripPricing();
 $tripPricing->setDuration(1);
 $tripPricing->setDate(new \DateTime('2022-01-01'));
 $tripPricing->setPrice(100.50);
@@ -122,17 +115,17 @@ $tripPricingCollection[] = [
     'minimumStayPrice' => 40,
 ];
 
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
-$client->createOrReplaceTripPricings($rentalUnitId, $tripPricingCollection);
+$client->createOrReplaceTripPricings($yourRentalUnitId, $tripPricingCollection);
 ```
 
-Delete trips:
+Delete trip pricings:
 ```php
-$client = new \Oberon\TorClient\ApiClient("https://example.com", "APIKEY");
+$client = new \Oberon\TravelbaseManagementApi\ApiClient("https://example.com", "APIKEY");
 //To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
 //To delete all trips for a specific datetime supply first and second parameter.
 //To delete all trips for a specific duration supply first and third parameter
 //To delete a specific trip pricing supply all paramters
-$client->deleteTrips($rentalUnitId, new \DateTime(), 1);
+
+$client->deleteTrips($yourRentalUnitId, new \DateTime(), 1);
 ```
 

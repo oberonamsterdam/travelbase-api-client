@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Response;
+namespace Oberon\TravelbaseManagementApi\Response;
 
 interface GraphQLCallResponseBodyInterface
 {

@@ -4,7 +4,7 @@
  * @author Raymond Kiekens
  * @copyright (c) Oberon 2020
  */
-namespace Oberon\TorClient\Query;
+namespace Oberon\TravelbaseManagementApi\Query;
 
 use GraphQL\Query;
 use DateTimeInterface;
@@ -143,6 +143,42 @@ class QueryBuilder
             'customerComment',
             'createdAt',
             'updatedAt',
+            (new Query('additions'))->setSelectionSet([
+                'unitPrice',
+                'totalPrice',
+                'amount',
+                'calculation',
+                (new Query('surcharge'))->setSelectionSet([
+                    'id',
+                    'name',
+                ]),
+            ]),
+            (new Query('customer'))->setSelectionSet([
+                'locale',
+                'salutation',
+                'firstName',
+                'lastName',
+                (new Query('address'))->setSelectionSet([
+                    'street',
+                    'number',
+                    'postalCode',
+                    'city',
+                    'countryCode',
+                ]),
+                'phoneNumber',
+                'email',
+                'birthdate',
+            ]),
+            (new Query('invoiceAddress'))->setSelectionSet([
+                'street',
+                'number',
+                'postalCode',
+                'city',
+                'countryCode',
+            ]),
+            (new Query('rentalUnit'))->setSelectionSet([
+                'id',
+            ]),
             'accommodationSum',
             'totalPrice',
             'totalPricePaid',
@@ -154,34 +190,6 @@ class QueryBuilder
                 'id',
                 'name',
             ]),
-            (new Query('rentalUnit'))->setSelectionSet([
-                'id',
-            ]),
-            (new Query('additions'))->setSelectionSet([
-                'unitPrice',
-                'totalPrice',
-                'amount',
-                'calculation',
-                (new Query('surcharge'))->setSelectionSet([
-                    'id',
-                    'name'
-                ]),
-            ]),
-            (new Query('order'))->setSelectionSet([
-                'id',
-                'locale',
-                'customerFirstName',
-                'customerLastName',
-                'customerPhoneNumber',
-                'customerEmail',
-                (new Query('customerAddress'))->setSelectionSet([
-                    'street',
-                    'number',
-                    'postalCode',
-                    'city',
-                    'countryCode',
-                ]),
-            ])
         ];
     }
 
@@ -214,7 +222,7 @@ class QueryBuilder
             'enabled',
             'type',
             'maxAllotment',
-            'includedOccupancy'
+            'includedOccupancy',
         ];
     }
 }

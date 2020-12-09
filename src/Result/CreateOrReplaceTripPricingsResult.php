@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Result;
+namespace Oberon\TravelbaseManagementApi\Result;
 
-use Oberon\TorClient\Model\TripPricingCollection;
+use Oberon\TravelbaseManagementApi\Model\TripPricingCollection;
 
 class CreateOrReplaceTripPricingsResult
 {

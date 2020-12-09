@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Response;
+namespace Oberon\TravelbaseManagementApi\Response;
 
-use Oberon\TorClient\Result\PartnerBookingResult;
+use Oberon\TravelbaseManagementApi\Result\PartnerBookingResult;
 
 class PartnerBookingCallResponseBody implements GraphQLCallResponseBodyInterface
 {

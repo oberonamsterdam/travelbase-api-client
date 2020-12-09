@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TorClient\Result;
+namespace Oberon\TravelbaseManagementApi\Result;
 
-use Oberon\TorClient\Model\PartnerBooking;
+use Oberon\TravelbaseManagementApi\Model\PartnerBooking;
 
 class PartnerBookingResult
 {
