@@ -196,7 +196,7 @@ class Booking
         float $depositPaid,
         float $touristTax,
         float $touristTaxPaid,
-        Special $special
+        ?Special $special
     ) {
         $this->id = $id;
         $this->number = $number;
