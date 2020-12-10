@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Oberon\\TravelbaseManagementApi\\": "src/"
+            "Oberon\\TravelbaseClient\\": "src/"
         }
     }
 }

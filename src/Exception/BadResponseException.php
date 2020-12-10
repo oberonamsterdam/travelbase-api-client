@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TravelbaseManagementApi\Exception;
+namespace Oberon\TravelbaseClient\Exception;
 
 class BadResponseException extends \Exception
 {

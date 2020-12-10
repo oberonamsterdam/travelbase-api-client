@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TravelbaseManagementApi\Response;
+namespace Oberon\TravelbaseClient\Response;
 
-use Oberon\TravelbaseManagementApi\Result\CreateOrReplaceTripPricingsResult;
+use Oberon\TravelbaseClient\Result\CreateOrReplaceTripPricingsResult;
 
 class CreateOrReplaceTripPricingsCallResponseBody implements GraphQLCallResponseBodyInterface
 {
