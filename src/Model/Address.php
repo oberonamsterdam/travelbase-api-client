@@ -5,7 +5,7 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TravelbaseManagementApi\Model;
+namespace Oberon\TravelbaseClient\Model;
 
 class Address
 {

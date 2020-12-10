@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TravelbaseManagementApi\Result;
+namespace Oberon\TravelbaseClient\Result;
 
-use Oberon\TravelbaseManagementApi\Model\AllotmentCollection;
+use Oberon\TravelbaseClient\Model\AllotmentCollection;
 
 class CreateOrReplaceAllotmentsResult
 {

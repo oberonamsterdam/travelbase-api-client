@@ -5,9 +5,9 @@
  * @copyright (c) Oberon 2020
  */
 
-namespace Oberon\TravelbaseManagementApi\Result;
+namespace Oberon\TravelbaseClient\Result;
 
-use Oberon\TravelbaseManagementApi\Model\RentalUnit;
+use Oberon\TravelbaseClient\Model\RentalUnit;
 
 class RentalUnitResult
 {

@@ -4,7 +4,7 @@
  * @author Raymond Kiekens
  * @copyright (c) Oberon 2020
  */
-namespace Oberon\TravelbaseManagementApi\Query;
+namespace Oberon\TravelbaseClient\Query;
 
 use GraphQL\Query;
 use DateTimeInterface;
