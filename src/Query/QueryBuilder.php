@@ -155,7 +155,6 @@ class QueryBuilder
             ]),
             (new Query('customer'))->setSelectionSet([
                 'locale',
-                'salutation',
                 'firstName',
                 'lastName',
                 (new Query('address'))->setSelectionSet([
