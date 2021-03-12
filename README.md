@@ -1,4 +1,4 @@
-Travelbase Management API - Client library
+Travelbase Management API v2 - Client library
 =======================
 
 This is a client library to communicate with the Travelbase Management API. You can use the client to manage your 
