@@ -74,7 +74,7 @@ $booking = $client->getBooking($yourBookingId);
 Retrieve the first 100 updated bookings after a specific date:
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Booking[] $bookings */
-$bookings = $client->getUpdatedBookings($yourPartnerId, new \DateTIme('2020-01-01'));
+$bookings = $client->getUpdatedBookings($yourPartnerId, new \DateTime('2020-01-01'));
 ```
 
 Create or replace allotments through models or array:

@@ -17,7 +17,7 @@ class Booking
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $number;
 
@@ -144,7 +144,7 @@ class Booking
     /**
      * Booking constructor.
      * @param string $id
-     * @param string $number
+     * @param string|null $number
      * @param DateTimeInterface $arrivalDate
      * @param DateTimeInterface $departureDate
      * @param int $duration
@@ -172,7 +172,7 @@ class Booking
      */
     public function __construct(
         string $id,
-        string $number,
+        ?string $number,
         DateTimeInterface $arrivalDate,
         DateTimeInterface $departureDate,
         int $duration,
@@ -235,9 +235,9 @@ class Booking
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNumber(): string
+    public function getNumber(): ?string
     {
         return $this->number;
     }
