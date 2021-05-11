@@ -10,7 +10,7 @@
         },
         {
             "name": "Raymond Kiekens",
-            "email": "raymond@oberon.nl"
+            "role": "Developer"
         }
     ],
     "require": {
