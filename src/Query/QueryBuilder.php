@@ -73,10 +73,10 @@ class QueryBuilder
         }
 
         if ($startDate) {
-            $arguments['startDate'] = $startDate;
+            $arguments['startDate'] = $startDate->format('Y-m-d');
         }
         if ($endDate) {
-            $arguments['endDate'] = $endDate;
+            $arguments['endDate'] = $endDate->format('Y-m-d');
         }
         if ($searchQuery) {
             $arguments['searchQuery'] = $searchQuery;
