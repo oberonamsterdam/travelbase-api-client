@@ -18,9 +18,9 @@ class BookingAddition
     const CALCULATION_SUBSEQUENT = 'SUBSEQUENT';
 
     /**
-     * @var float|null
+     * @var string
      */
-    private $unitPrice;
+    private $title;
 
     /**
      * @var float
@@ -44,6 +44,7 @@ class BookingAddition
 
     /**
      * BookingAddition constructor.
+     * @param string $title
      * @param float|null $unitPrice
      * @param float $totalPrice
      * @param int $amount
@@ -51,17 +52,27 @@ class BookingAddition
      * @param Surcharge|null $surcharge
      */
     public function __construct(
+        string $title,
         ?float $unitPrice,
         float $totalPrice,
         int $amount,
         string $calculation,
         ?Surcharge $surcharge
     ) {
+        $this->title = $title;
         $this->unitPrice = $unitPrice;
         $this->totalPrice = $totalPrice;
         $this->amount = $amount;
         $this->calculation = $calculation;
         $this->surcharge = $surcharge;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     /**

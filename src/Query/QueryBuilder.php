@@ -144,6 +144,7 @@ class QueryBuilder
             'createdAt',
             'updatedAt',
             (new Query('additions'))->setSelectionSet([
+                'title',
                 'unitPrice',
                 'totalPrice',
                 'amount',
