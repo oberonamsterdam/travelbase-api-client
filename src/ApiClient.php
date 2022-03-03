@@ -52,6 +52,8 @@ use Symfony\Component\Serializer\Serializer;
 
 class ApiClient
 {
+    private const API_PATH = '/api/management/v2/graphql/';
+
     /** @var Client */
     private $client;
 
@@ -63,8 +65,6 @@ class ApiClient
 
     /** @var QueryBuilder */
     private $queryBuilder;
-
-    const API_PATH = '/api/management/v2/graphql/';
 
     public function __construct(string $endPoint, string $apiKey, string $locale = Translation::LOCALE_NL)
     {
