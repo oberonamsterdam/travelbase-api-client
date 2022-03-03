@@ -58,7 +58,7 @@ class ApiClient
     /** @var Serializer */
     private $serializer;
 
-    const API_PATH = '/api/management/v2/graphql/';
+    private const API_PATH = '/api/management/v2/graphql/';
 
     public function __construct(string $endPoint, string $apiKey)
     {
