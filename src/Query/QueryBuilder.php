@@ -6,89 +6,122 @@
  */
 namespace Oberon\TravelbaseClient\Query;
 
+use GraphQL\Mutation;
 use GraphQL\Query;
 use DateTimeInterface;
+use GraphQL\Variable;
+use Oberon\TravelbaseClient\Model\Translation;
 
 class QueryBuilder
 {
-    public static function createPartnersQuery(): Query
+    /** @var string */
+    private $locale;
+
+    /**
+     * @param string $locale
+     */
+    public function __construct(string $locale = Translation::LOCALE_NL)
+    {
+        $this->locale = $locale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return $this
+     */
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function createPartnersQuery(): Query
     {
         return (new Query('partners'))->setSelectionSet(
-            self::getPartnerSelectionSet()
+            $this->getPartnerSelectionSet()
         );
     }
 
-    public static function createPartnerQuery(int $partnerId): Query
+    public function createPartnerQuery(int $partnerId): Query
     {
         $query = (new Query('partner'))->setSelectionSet(
-            self::getPartnerSelectionSet()
+            $this->getPartnerSelectionSet()
         );
         $query->setArguments(['id' => $partnerId]);
 
         return $query;
     }
 
-    public static function createAccommodationQuery(int $accommodationId): Query
+    public function createAccommodationQuery(int $accommodationId): Query
     {
         $query = (new Query('accommodation'))->setSelectionSet(
-            self::getAccommodationSelectionSet()
+            $this->getAccommodationSelectionSet()
         );
         $query->setArguments(['id' => $accommodationId]);
 
         return $query;
     }
 
-    public static function createRentalUnitQuery(int $rentalUnitId): Query
+    public function createRentalUnitQuery(int $rentalUnitId): Query
     {
         $query = (new Query('rentalUnit'))->setSelectionSet(
-            self::getRentalUnitSelectionSet()
+            $this->getRentalUnitSelectionSet()
         );
         $query->setArguments(['id' => $rentalUnitId]);
 
         return $query;
     }
 
-    public static function createBookingQuery(int $bookingId): Query
+    public function createBookingQuery(int $bookingId): Query
     {
         $query = (new Query('booking'))->setSelectionSet(
-            self::getBookingSelectionSet()
+            $this->getBookingSelectionSet()
         );
         $query->setArguments(['id' => $bookingId]);
 
         return $query;
     }
 
-    public static function createCompanyQuery(int $companyId): Query
+    public function createCompanyQuery(int $companyId): Query
     {
         $query = (new Query('company'))->setSelectionSet(
-            self::getCompanySelectionSet()
+            $this->getCompanySelectionSet()
         );
         $query->setArguments(['id' => $companyId]);
 
         return $query;
     }
 
-    public static function createActivityQuery(int $activityId): Query
+    public function createActivityQuery(int $activityId): Query
     {
         $query = (new Query('activity'))->setSelectionSet(
-            self::getActivitySelectionSet()
+            $this->getActivitySelectionSet()
         );
         $query->setArguments(['id' => $activityId]);
 
         return $query;
     }
 
-    public static function createTicketQuery(int $ticketId): Query
+    public function createTicketQuery(int $ticketId): Query
     {
         $query = (new Query('ticket'))->setSelectionSet(
-            self::getTicketSelectionSet()
+            $this->getTicketSelectionSet()
         );
         $query->setArguments(['id' => $ticketId]);
 
         return $query;
     }
 
-    public static function createAllTicketsQuery(
+    public function createAllTicketsQuery(
         int $partnerId,
         int $limit = 10,
         ?string $cursor = null,
@@ -129,12 +162,12 @@ class QueryBuilder
             ->setSelectionSet([
                   (new Query('allTickets'))
                       ->setArguments($arguments)
-                      ->setSelectionSet(self::getTicketRelaySelectionSet())
+                      ->setSelectionSet($this->getTicketRelaySelectionSet())
           ]);
     }
 
 
-    public static function createAllBookingsQuery(
+    public function createAllBookingsQuery(
         int $partnerId,
         int $limit = 10,
         ?string $cursor = null,
@@ -166,12 +199,11 @@ class QueryBuilder
             ->setSelectionSet([
                 (new Query('allBookings'))
                     ->setArguments($arguments)
-                    ->setSelectionSet(self::getBookingRelaySelectionSet())
-            ])
-        ;
+                    ->setSelectionSet($this->getBookingRelaySelectionSet())
+            ]);
     }
 
-    public static function createUpdatedBookingsQuery(
+    public function createUpdatedBookingsQuery(
         int $partnerId,
         DateTimeInterface $updatedSince
     ): Query {
@@ -180,12 +212,78 @@ class QueryBuilder
             ->setSelectionSet([
                 (new Query('updatedBookings'))
                     ->setArguments(['since' => $updatedSince->format('Y-m-d')])
-                    ->setSelectionSet(self::getBookingSelectionSet())
-            ])
-        ;
+                    ->setSelectionSet($this->getBookingSelectionSet())
+            ]);
     }
 
-    private static function getBookingRelaySelectionSet(): array
+
+    /******************************************************************************************************************
+     *                                  MUTATIONS
+     ******************************************************************************************************************/
+
+    public function createCreateOrUpdateAllotmentsMutation(): Mutation
+    {
+        return (new Mutation('createOrReplaceAllotments'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceAllotmentsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([(new Query('allotments'))->setSelectionSet([
+                    'amount',
+                    'date',
+                ])
+            ]);
+    }
+
+    public function createCreateOrUpdateTripPricingsMutation(): Mutation
+    {
+        return (new Mutation('createOrReplaceTripPricings'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceTripPricingsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([(new Query('tripPricings'))->setSelectionSet([
+                   'date',
+                   'duration',
+                   'price',
+                   'minimumStayPrice',
+                   'extraPersonPrice',
+               ])
+            ]);
+    }
+
+    public function createDeleteTripsMutation(): Mutation
+    {
+        return (new Mutation('deleteTripPricings'))
+            ->setVariables([new Variable('input', 'DeleteTripPricingsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet(['message']);
+    }
+
+    public function createCompletePendingBookingMutation(): Mutation
+    {
+        return (new Mutation('completePendingBooking'))
+            ->setVariables([new Variable('input', 'CompletePendingBookingInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('booking'))->setSelectionSet($this->getBookingSelectionSet())
+            ]);
+    }
+
+    public function createBulkSetActivityTimeslotsMutation(): Mutation
+    {
+        return (new Mutation('bulkSetActivityTimeslots'))
+            ->setVariables([new Variable('input', 'BulkSetActivityTimeslotsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('activity'))->setSelectionSet($this->getActivitySelectionSet())
+            ]);
+    }
+
+
+
+    /******************************************************************************************************************
+     *                                  Selection sets
+     ******************************************************************************************************************/
+
+
+    private function getBookingRelaySelectionSet(): array
     {
         return [
             'totalCount',
@@ -197,12 +295,12 @@ class QueryBuilder
             ]),
             (new Query('edges'))->setSelectionSet([
                 'cursor',
-                (new Query('node'))->setSelectionSet(self::getBookingSelectionSet())
+                (new Query('node'))->setSelectionSet($this->getBookingSelectionSet())
             ])
         ];
     }
 
-    public static function getBookingSelectionSet(): array
+    private function getBookingSelectionSet(): array
     {
         return [
             'id',
@@ -230,8 +328,8 @@ class QueryBuilder
                     'name',
                 ]),
             ]),
-            (new Query('customer'))->setSelectionSet(self::getCustomerSelectionSet()),
-            (new Query('invoiceAddress'))->setSelectionSet(self::getAddressSelectionSet()),
+            (new Query('customer'))->setSelectionSet($this->getCustomerSelectionSet()),
+            (new Query('invoiceAddress'))->setSelectionSet($this->getAddressSelectionSet()),
             (new Query('rentalUnit'))->setSelectionSet([
                 'id',
             ]),
@@ -249,29 +347,29 @@ class QueryBuilder
         ];
     }
 
-    public static function getPartnerSelectionSet(): array
+    private function getPartnerSelectionSet(): array
     {
         return [
             'id',
             'enabled',
             'name',
-            (new Query('accommodations'))->setSelectionSet(self::getAccommodationSelectionSet()),
-            (new Query('companies'))->setSelectionSet(self::getCompanySelectionSet()),
+            (new Query('accommodations'))->setSelectionSet($this->getAccommodationSelectionSet()),
+            (new Query('companies'))->setSelectionSet($this->getCompanySelectionSet()),
 
         ];
     }
 
-    public static function getAccommodationSelectionSet(): array
+    private function getAccommodationSelectionSet(): array
     {
         return [
             'id',
             'enabled',
             'name',
-            (new Query('rentalUnits'))->setSelectionSet(self::getRentalUnitSelectionSet()),
+            (new Query('rentalUnits'))->setSelectionSet($this->getRentalUnitSelectionSet()),
         ];
     }
 
-    public static function getRentalUnitSelectionSet(): array
+    private function getRentalUnitSelectionSet(): array
     {
         return [
             'id',
@@ -284,25 +382,25 @@ class QueryBuilder
         ];
     }
 
-    public static function getCompanySelectionSet(): array
+    private function getCompanySelectionSet(): array
     {
         return [
             'id',
             'name',
-            (new Query('activities'))->setSelectionSet(self::getActivitySelectionSet()),
+            (new Query('activities'))->setSelectionSet($this->getActivitySelectionSet()),
         ];
     }
 
-    public static function getActivitySelectionSet(): array
+    private function getActivitySelectionSet(): array
     {
         return [
             'id',
-            'name',
-            (new Query('activityRateGroups'))->setSelectionSet(self::getActivityRateGroupSelectionSet()),
+            (new Query('name'))->setArguments(['locale' => $this->locale]),
+            (new Query('activityRateGroups'))->setSelectionSet($this->getActivityRateGroupSelectionSet()),
         ];
     }
 
-    public static function getActivityRateGroupSelectionSet(): array
+    private function getActivityRateGroupSelectionSet(): array
     {
         return [
             'id',
@@ -311,39 +409,39 @@ class QueryBuilder
         ];
     }
 
-    public static function getTicketSelectionSet(): array
+    private function getTicketSelectionSet(): array
     {
         return [
             'id',
             'status',
-            (new Query('timeslot'))->setSelectionSet(self::getTimeslotSelectionSet()),
-            (new Query('customer'))->setSelectionSet(self::getCustomerSelectionSet()),
+            (new Query('timeslot'))->setSelectionSet($this->getTimeslotSelectionSet()),
+            (new Query('customer'))->setSelectionSet($this->getCustomerSelectionSet()),
             'startDateTime',
             'endDateTime',
             'createdAt',
         ];
     }
 
-    public static function getCustomerSelectionSet(): array
+    private function getCustomerSelectionSet(): array
     {
         return [
             'id',
             'locale',
             'firstName',
             'lastName',
-            (new Query('address'))->setSelectionSet(self::getAddressSelectionSet()),
+            (new Query('address'))->setSelectionSet($this->getAddressSelectionSet()),
             'phoneNumber',
             'email',
             'birthdate',
         ];
     }
 
-    public static function getTimeslotSelectionSet(): array
+    private function getTimeslotSelectionSet(): array
     {
         return [
             'id',
-            'label',
-            (new Query('rateGroup'))->setSelectionSet(self::getActivityRateGroupSelectionSet()),
+            (new Query('label'))->setArguments(['locale' => $this->locale]),
+            (new Query('rateGroup'))->setSelectionSet($this->getActivityRateGroupSelectionSet()),
             'startDateTime',
             'endDateTime',
             'allotment',
@@ -351,7 +449,7 @@ class QueryBuilder
         ];
     }
 
-    public static function getAddressSelectionSet(): array
+    private function getAddressSelectionSet(): array
     {
         return [
             'street',
@@ -362,7 +460,7 @@ class QueryBuilder
         ];
     }
 
-    public static function getTicketRelaySelectionSet(): array
+    private function getTicketRelaySelectionSet(): array
     {
         return [
             'totalCount',
@@ -371,11 +469,11 @@ class QueryBuilder
                  'hasPreviousPage',
                  'startCursor',
                  'endCursor',
-             ]),
+            ]),
             (new Query('edges'))->setSelectionSet([
-                  'cursor',
-                  (new Query('node'))->setSelectionSet(self::getTicketSelectionSet())
-              ])
+                'cursor',
+                (new Query('node'))->setSelectionSet($this->getTicketSelectionSet())
+            ])
         ];
     }
 }

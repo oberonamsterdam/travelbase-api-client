@@ -23,9 +23,9 @@ use Oberon\TravelbaseClient\Model\RentalUnit;
 use Oberon\TravelbaseClient\Model\Ticket;
 use Oberon\TravelbaseClient\Model\TicketConnection;
 use Oberon\TravelbaseClient\Model\TimeslotInput;
+use Oberon\TravelbaseClient\Model\Translation;
 use Oberon\TravelbaseClient\Model\TripPricing;
 use Oberon\TravelbaseClient\Model\TripPricingCollection;
-use Oberon\TravelbaseClient\Query\MutationBuilder;
 use Oberon\TravelbaseClient\Query\QueryBuilder;
 use Oberon\TravelbaseClient\Response\AccommodationCallResponseBody;
 use Oberon\TravelbaseClient\Response\ActivityCallResponseBody;
@@ -58,9 +58,15 @@ class ApiClient
     /** @var Serializer */
     private $serializer;
 
+    /** @var string */
+    private $locale;
+
+    /** @var QueryBuilder */
+    private $queryBuilder;
+
     const API_PATH = '/api/management/v2/graphql/';
 
-    public function __construct(string $endPoint, string $apiKey)
+    public function __construct(string $endPoint, string $apiKey, string $locale = Translation::LOCALE_NL)
     {
         $parts = parse_url($endPoint);
         $url = $parts['scheme'] . '://' . $parts['host'] . self::API_PATH;
@@ -75,11 +81,26 @@ class ApiClient
         ];
 
         $this->serializer = new Serializer($normalizers, $encoders);
+        $this->queryBuilder = new QueryBuilder($locale);
+        $this->locale = $locale;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+        $this->queryBuilder->setLocale($locale);
+
+        return $this;
     }
 
     public function getPartners(): array
     {
-        $query = QueryBuilder::createPartnersQuery();
+        $query = $this->queryBuilder->createPartnersQuery();
 
         $result = $this->runQuery($query);
 
@@ -88,7 +109,7 @@ class ApiClient
 
     public function getPartner(int $partnerId): Partner
     {
-        $query = QueryBuilder::createPartnerQuery($partnerId);
+        $query = $this->queryBuilder->createPartnerQuery($partnerId);
 
         $result = $this->runQuery($query);
 
@@ -97,7 +118,7 @@ class ApiClient
 
     public function getUpdatedBookings(int $partnerId, DateTimeInterface $updatedSince): array
     {
-        $query = QueryBuilder::createUpdatedBookingsQuery($partnerId, $updatedSince);
+        $query = $this->queryBuilder->createUpdatedBookingsQuery($partnerId, $updatedSince);
 
         $result = $this->runQuery($query);
 
@@ -114,7 +135,7 @@ class ApiClient
         ?string $searchQuery = null,
         ?array $rentalUnitIds = []
     ): BookingConnection {
-        $query = QueryBuilder::createAllBookingsQuery(
+        $query = $this->queryBuilder->createAllBookingsQuery(
             $partnerId,
             $limit,
             $cursor,
@@ -131,7 +152,7 @@ class ApiClient
 
     public function getBooking(int $bookingId): Booking
     {
-        $query = QueryBuilder::createBookingQuery($bookingId);
+        $query = $this->queryBuilder->createBookingQuery($bookingId);
 
         $result = $this->runQuery($query);
 
@@ -140,7 +161,7 @@ class ApiClient
 
     public function getAccommodation(int $accommodationId): Accommodation
     {
-        $query = QueryBuilder::createAccommodationQuery($accommodationId);
+        $query = $this->queryBuilder->createAccommodationQuery($accommodationId);
 
         $result = $this->runQuery($query);
 
@@ -149,7 +170,7 @@ class ApiClient
 
     public function getRentalUnit(int $rentalUnitId): RentalUnit
     {
-        $query = QueryBuilder::createRentalUnitQuery($rentalUnitId);
+        $query = $this->queryBuilder->createRentalUnitQuery($rentalUnitId);
 
         $result = $this->runQuery($query);
 
@@ -159,7 +180,7 @@ class ApiClient
 
     public function getCompany(int $companyId): Company
     {
-        $query = QueryBuilder::createCompanyQuery($companyId);
+        $query = $this->queryBuilder->createCompanyQuery($companyId);
 
         $result = $this->runQuery($query);
 
@@ -168,7 +189,7 @@ class ApiClient
 
     public function getActivity(int $activity): Activity
     {
-        $query = QueryBuilder::createActivityQuery($activity);
+        $query = $this->queryBuilder->createActivityQuery($activity);
 
         $result = $this->runQuery($query);
 
@@ -177,7 +198,7 @@ class ApiClient
 
     public function getTicket(int $ticketId): Ticket
     {
-        $query = QueryBuilder::createTicketQuery($ticketId);
+        $query = $this->queryBuilder->createTicketQuery($ticketId);
 
         $result = $this->runQuery($query);
 
@@ -195,7 +216,7 @@ class ApiClient
         ?array $activityIds = [],
         ?string $companyId = null
     ): TicketConnection {
-        $query = QueryBuilder::createAllTicketsQuery(
+        $query = $this->queryBuilder->createAllTicketsQuery(
             $partnerId,
             $limit,
             $cursor,
@@ -240,7 +261,7 @@ class ApiClient
             }
         }
 
-        $mutation = MutationBuilder::createCreateOrUpdateAllotmentsMutation();
+        $mutation = $this->queryBuilder->createCreateOrUpdateAllotmentsMutation();
 
         $variables = ['input' => ['rentalUnitId' => $rentalUnitId, 'allotments' => $normalizedAllotmentCollection]];
         $result = $this->runQuery($mutation, $variables);
@@ -278,7 +299,7 @@ class ApiClient
             }
         }
 
-        $mutation = MutationBuilder::createCreateOrUpdateTripPricingsMutation();
+        $mutation = $this->queryBuilder->createCreateOrUpdateTripPricingsMutation();
         $variables = [
             'input' => [
                 'rentalUnitId' => $rentalUnitId,
@@ -327,7 +348,7 @@ class ApiClient
             }
         }
 
-        $mutation = MutationBuilder::createBulkSetActivityTimeslotsMutation();
+        $mutation = $this->queryBuilder->createBulkSetActivityTimeslotsMutation();
         $variables = [
             'input' => [
                 'activityId' => $activityId,
@@ -352,7 +373,7 @@ class ApiClient
             $arguments['duration'] = $duration;
         }
 
-        $mutation = MutationBuilder::createDeleteTripsMutation();
+        $mutation = $this->queryBuilder->createDeleteTripsMutation();
 
         $variables = ['input' => $arguments];
         $result = $this->runQuery($mutation, $variables);
@@ -365,7 +386,7 @@ class ApiClient
     {
         $arguments = ['bookingId' => $bookingId, 'accept' => $accept];
         $variables = ['input', $arguments];
-        $mutation = MutationBuilder::createCompletePendingBookingMutation();
+        $mutation = $this->queryBuilder->createCompletePendingBookingMutation();
 
         $result = $this->runQuery($mutation, $variables);
 
