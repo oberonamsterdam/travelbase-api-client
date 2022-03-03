@@ -52,13 +52,13 @@ use Symfony\Component\Serializer\Serializer;
 
 class ApiClient
 {
+    private const API_PATH = '/api/management/v2/graphql/';
+    
     /** @var Client */
     private $client;
 
     /** @var Serializer */
     private $serializer;
-
-    private const API_PATH = '/api/management/v2/graphql/';
 
     public function __construct(string $endPoint, string $apiKey)
     {
