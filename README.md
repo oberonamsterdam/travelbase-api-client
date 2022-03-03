@@ -16,7 +16,7 @@ Run the following command to install the package using composer:
 ```
 $ composer require oberonamsterdam/travelbase-api-client
 ```
-
+---
 # Usage
 
 To use this client you need to provide the API key and endpoint when initiating the client class.
@@ -24,8 +24,12 @@ To use this client you need to provide the API key and endpoint when initiating 
 ```php
 $client = new \Oberon\TravelbaseClient\ApiClient("https://example.com", "APIKEY");
 ```
+---
 
 # Example calls
+
+### Queries
+
 Retrieve a collection of all partners:
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Partner[] $partners */
@@ -52,7 +56,6 @@ $rentalUnit = $client->getRentalUnit($yourRentalUnitId);
 
 Retrieve all bookings:
 ```php
-/** @var \Oberon\TravelbaseClient\Model\RentalUnit $rentalUnit */
 $cursor = null;
 $hasMoreBookings = true;
 /** @var \Oberon\TravelbaseClient\Model\Booking[] $bookings */
@@ -74,8 +77,44 @@ $booking = $client->getBooking($yourBookingId);
 Retrieve the first 100 updated bookings after a specific date:
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Booking[] $bookings */
-$bookings = $client->getUpdatedBookings($yourPartnerId, new \DateTime('2020-01-01'));
+$bookings = $client->getUpdatedBookings($yourPartnerId, new \DateTime('2022-01-01'));
 ```
+
+Retrieve a single company:
+```php
+/** @var \Oberon\TravelbaseClient\Model\Company $company */
+$company = $client->getCompany($yourCompanyId);
+```
+
+Retrieve a single activity:
+```php
+/** @var \Oberon\TravelbaseClient\Model\Activity $activity */
+$activity = $client->getActivity($yourActivityId);
+```
+
+Retrieve a single ticket:
+```php
+/** @var \Oberon\TravelbaseClient\Model\Ticket $ticket */
+$ticket = $client->getTicket($yourTicketId);
+```
+
+Retrieve all tickets:
+```php
+$cursor = null;
+$hasMoreTickets = true;
+/** @var \Oberon\TravelbaseClient\Model\Ticket[] $tickets */
+$tickets = [];
+while ($hasMoreTickets) {
+    $ticketConnection =  $client->getAllTickets($yourPartnerId, 10, $cursor);
+    $tickets = array_merge($tickets, $ticketConnection->getNodes());
+    $cursor = $ticketConnection->getPageInfo()->getEndCursor();
+    $hasMoreTickets = $ticketConnection->getPageInfo()->isHasNextPage();
+}
+```
+
+
+---
+### Mutations
 
 Create or replace allotments through models or array:
 ```php
@@ -120,12 +159,77 @@ $client->createOrReplaceTripPricings($yourRentalUnitId, $tripPricingCollection);
 
 Delete trip pricings:
 ```php
-$client = new \Oberon\TravelbaseClient\ApiClient("https://example.com", "APIKEY");
-//To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
-//To delete all trips for a specific datetime supply first and second parameter.
-//To delete all trips for a specific duration supply first and third parameter
-//To delete a specific trip pricing supply all paramters
+// To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
+// To delete all trips for a specific datetime supply first and second parameter.
+// To delete all trips for a specific duration supply first and third parameter
+// To delete a specific trip pricing supply all paramters
 
 $client->deleteTrips($yourRentalUnitId, new \DateTime(), 1);
 ```
 
+Complete pending booking
+```php
+// To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
+// To delete all trips for a specific datetime supply first and second parameter.
+// To delete all trips for a specific duration supply first and third parameter
+// To delete a specific trip pricing supply all paramters
+
+$client->completePendingBooking($yourBookingId, true);
+```
+
+Create or replace activity timeslots through models or array:
+```php
+// Send as a model
+// the 3 locale options are nl (dutch), de (german), en (english)
+
+$translationNL = new \Oberon\TravelbaseClient\Model\TimeslotTranslation();
+$translationNL->setLocale(\Oberon\TravelbaseClient\Model\TimeslotTranslation::LOCALE_NL);
+$translationNL->setLabel('Test NL');
+
+$translationDE = new \Oberon\TravelbaseClient\Model\TimeslotTranslation();
+$translationDE->setLocale(\Oberon\TravelbaseClient\Model\TimeslotTranslation::LOCALE_DE);
+$translationDE->setLabel('Test DE');
+
+$translationEN = new \Oberon\TravelbaseClient\Model\TimeslotTranslation();
+$translationEN->setLocale(\Oberon\TravelbaseClient\Model\TimeslotTranslation::LOCALE_EN);
+$translationEN->setLabel('Test EN');
+
+$timeslot = new \Oberon\TravelbaseClient\Model\TimeslotInput();
+$timeslot->setRateGroupId($yourRateGroupId);
+$timeslot->setStartDateTime(new \DateTime('2022-01-01'));
+$timeslot->setEndDateTime(new \DateTime('2022-01-02'));
+$timeslot->setAllotment(1); // optional
+$timeslot->setExternalId('1'); // optional
+$timeslot->addTranslation($translationNL);
+$timeslot->addTranslation($translationDE);
+$timeslot->addTranslation($translationEN);
+$timeslotCollection[] = $timeslot;
+
+// send as array
+$timeslotCollection[] = [
+    'rateGroupId' => '1', 
+    'startDateTime' => '2022-01-02',
+    'endDateTime' => '2022-01-03',
+    'allotment' => 1, // optional
+    'externalId' => '1', // optional
+    'translations' => [
+        [
+            'locale' => 'nl',
+            'label' => 'Test NL',
+        ],
+        [
+            'locale' => 'de',
+            'label' => 'Test DE',
+        ],
+        [
+            'locale' => 'en',
+            'label' => 'Test EN',
+        ],
+    ],
+];
+
+$clearStartDate = new \DateTime('2022-01-01'); // Start of date range to clear timeslots 
+$clearEndDate = new \DateTime('2022-01-03');  // End of date range to clear timeslots, inclusive.
+
+$client->bulkSetActivityTimeslots($yourActivityId, $clearStartDate, $clearEndDate, $timeslotCollection);
+```

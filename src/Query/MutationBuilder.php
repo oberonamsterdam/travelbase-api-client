@@ -24,8 +24,7 @@ class MutationBuilder
                     'amount',
                     'date'
                 ])
-            ])
-        ;
+            ]);
     }
 
     public static function createCreateOrUpdateTripPricingsMutation(): Mutation
@@ -41,8 +40,7 @@ class MutationBuilder
                     'minimumStayPrice',
                     'extraPersonPrice',
                 ])
-            ])
-        ;
+            ]);
     }
 
     public static function createDeleteTripsMutation(): Mutation
@@ -50,7 +48,26 @@ class MutationBuilder
         return (new Mutation('deleteTripPricings'))
             ->setVariables([new Variable('input', 'DeleteTripPricingsInput', true)])
             ->setArguments(['input' => '$input'])
-            ->setSelectionSet(['message'])
-        ;
+            ->setSelectionSet(['message']);
+    }
+
+    public static function createCompletePendingBookingMutation(): Mutation
+    {
+        return (new Mutation('completePendingBooking'))
+            ->setVariables([new Variable('input', 'CompletePendingBookingInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('booking'))->setSelectionSet(QueryBuilder::getBookingSelectionSet())
+            ]);
+    }
+
+    public static function createBulkSetActivityTimeslotsMutation(): Mutation
+    {
+        return (new Mutation('bulkSetActivityTimeslots'))
+            ->setVariables([new Variable('input', 'BulkSetActivityTimeslotsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('activity'))->setSelectionSet(QueryBuilder::getActivitySelectionSet())
+            ]);
     }
 }

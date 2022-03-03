@@ -30,22 +30,30 @@ class Partner
     private $accommodations = [];
 
     /**
+     * @var Company[]
+     */
+    private $companies = [];
+
+    /**
      * Partner constructor.
      * @param string $id
      * @param bool $enabled
      * @param string $name
      * @param Accommodation[] $accommodations
+     * @param Company[] $companies
      */
     public function __construct(
         string $id,
         bool $enabled,
         string $name,
-        array $accommodations
+        array $accommodations,
+        array $companies
     ) {
         $this->id = $id;
         $this->enabled = $enabled;
         $this->name = $name;
         $this->accommodations = $accommodations;
+        $this->companies = $companies;
     }
 
     /**
@@ -87,6 +95,24 @@ class Partner
     private function addAccommodation(Accommodation $accommodation): self
     {
         $this->accommodations[] = $accommodation;
+
+        return $this;
+    }
+    /**
+     * @return Company[]
+     */
+    public function getCompanies(): array
+    {
+        return $this->companies;
+    }
+
+    /**
+     * @param Company $company
+     * @return $this
+     */
+    private function addCompany(Company $company): self
+    {
+        $this->companies[] = $company;
 
         return $this;
     }
