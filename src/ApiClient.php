@@ -344,6 +344,10 @@ class ApiClient
             if ($timeslot instanceof TimeslotInput) {
                 $normalizedTimeslots[] = $timeslot->toArray();
             } elseif (is_array($timeslot)) {
+                // make sure the translations key is always provided, if no translating is necessary add an empty array.
+                if (!key_exists('translations', $timeslot)) {
+                    $timeslots['translations'] = [];
+                }
                 $normalizedTimeslots[] = $timeslot;
             }
         }
@@ -385,9 +389,8 @@ class ApiClient
     public function completePendingBooking(int $bookingId, bool $accept): Booking
     {
         $arguments = ['bookingId' => $bookingId, 'accept' => $accept];
-        $variables = ['input', $arguments];
         $mutation = $this->queryBuilder->createCompletePendingBookingMutation();
-
+        $variables = ['input' => $arguments];
         $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CompletePendingBookingCallResponseBody::class)
