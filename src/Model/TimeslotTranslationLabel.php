@@ -2,7 +2,7 @@
 
 namespace Oberon\TravelbaseClient\Model;
 
-class TimeslotTranslation extends Translation implements InputInterface
+class TimeslotTranslationLabel extends TranslationLabel implements InputInterface
 {
 
     /**

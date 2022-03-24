@@ -23,7 +23,7 @@ use Oberon\TravelbaseClient\Model\RentalUnit;
 use Oberon\TravelbaseClient\Model\Ticket;
 use Oberon\TravelbaseClient\Model\TicketConnection;
 use Oberon\TravelbaseClient\Model\TimeslotInput;
-use Oberon\TravelbaseClient\Model\Translation;
+use Oberon\TravelbaseClient\Model\TranslationLabel;
 use Oberon\TravelbaseClient\Model\TripPricing;
 use Oberon\TravelbaseClient\Model\TripPricingCollection;
 use Oberon\TravelbaseClient\Query\QueryBuilder;
@@ -66,7 +66,7 @@ class ApiClient
     /** @var QueryBuilder */
     private $queryBuilder;
 
-    public function __construct(string $endPoint, string $apiKey, string $locale = Translation::LOCALE_NL)
+    public function __construct(string $endPoint, string $apiKey, string $locale = TranslationLabel::LOCALE_NL)
     {
         $parts = parse_url($endPoint);
         $url = $parts['scheme'] . '://' . $parts['host'] . self::API_PATH;

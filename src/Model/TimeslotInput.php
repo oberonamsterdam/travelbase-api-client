@@ -7,17 +7,20 @@ use DateTimeInterface;
 class TimeslotInput implements InputInterface
 {
     /**
-     * @var int|null
+     * Required attribute
+     * @var int
      */
     private $rateGroupId;
 
     /**
-     * @var DateTimeInterface|null
+     * Required attribute
+     * @var DateTimeInterface
      */
     private $startDateTime;
 
     /**
-     * @var DateTimeInterface|null
+     * Required attribute
+     * @var DateTimeInterface
      */
     private $endDateTime;
 
@@ -32,23 +35,23 @@ class TimeslotInput implements InputInterface
     private $externalId;
 
     /**
-     * @var TimeslotTranslation[]
+     * @var TimeslotTranslationLabel[]
      */
     private $translations;
 
     /**
      * TimeslotInput constructor
-     * @param int|null $rateGroupId
-     * @param DateTimeInterface|null $startDateTime
-     * @param DateTimeInterface|null $endDateTime
+     * @param int $rateGroupId --- Required
+     * @param DateTimeInterface $startDateTime --- Required
+     * @param DateTimeInterface $endDateTime --- Required
      * @param int|null $allotment
      * @param string|null $externalId
      * @param array $translations
      */
     public function __construct(
-        ?int $rateGroupId = null,
-        ?DateTimeInterface $startDateTime = null,
-        ?DateTimeInterface $endDateTime = null,
+        int $rateGroupId,
+        DateTimeInterface $startDateTime,
+        DateTimeInterface $endDateTime,
         ?int $allotment = null,
         ?string $externalId = null,
         array $translations = []
@@ -61,7 +64,7 @@ class TimeslotInput implements InputInterface
         $this->translations = $translations;
     }
 
-    public function getRateGroupId(): ?string
+    public function getRateGroupId(): int
     {
         return $this->rateGroupId;
     }
@@ -70,39 +73,39 @@ class TimeslotInput implements InputInterface
      * @param int|null $rateGroupId
      * @return $this
      */
-    public function setRateGroupId(?int $rateGroupId): self
+    public function setRateGroupId(int $rateGroupId): self
     {
         $this->rateGroupId = $rateGroupId;
 
         return $this;
     }
 
-    public function getStartDateTime(): ?DateTimeInterface
+    public function getStartDateTime(): DateTimeInterface
     {
         return $this->startDateTime;
     }
 
     /**
-     * @param DateTimeInterface|null $startDateTime
+     * @param DateTimeInterface $startDateTime
      * @return $this
      */
-    public function setStartDateTime(?DateTimeInterface $startDateTime): self
+    public function setStartDateTime(DateTimeInterface $startDateTime): self
     {
         $this->startDateTime = $startDateTime;
 
         return $this;
     }
 
-    public function getEndDateTime(): ?DateTimeInterface
+    public function getEndDateTime(): DateTimeInterface
     {
         return $this->endDateTime;
     }
 
     /**
-     * @param DateTimeInterface|null $endDateTime
+     * @param DateTimeInterface $endDateTime
      * @return $this
      */
-    public function setEndDateTime(?DateTimeInterface $endDateTime): self
+    public function setEndDateTime(DateTimeInterface $endDateTime): self
     {
         $this->endDateTime = $endDateTime;
 
@@ -142,7 +145,7 @@ class TimeslotInput implements InputInterface
     }
 
     /**
-     * @return TimeslotTranslation[]
+     * @return TimeslotTranslationLabel[]
      */
     public function getTranslations(): array
     {
@@ -150,7 +153,7 @@ class TimeslotInput implements InputInterface
     }
 
     /**
-     * @param TimeslotTranslation[] $translations
+     * @param TimeslotTranslationLabel[] $translations
      * @return $this
      */
     public function setTranslations(array $translations): self
@@ -161,10 +164,10 @@ class TimeslotInput implements InputInterface
     }
 
     /**
-     * @param TimeslotTranslation $timeslotTranslation
+     * @param TimeslotTranslationLabel $timeslotTranslation
      * @return $this
      */
-    public function addTranslation(TimeslotTranslation $timeslotTranslation): self
+    public function addTranslation(TimeslotTranslationLabel $timeslotTranslation): self
     {
         $this->translations[] = $timeslotTranslation;
 

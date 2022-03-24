@@ -10,7 +10,7 @@ use GraphQL\Mutation;
 use GraphQL\Query;
 use DateTimeInterface;
 use GraphQL\Variable;
-use Oberon\TravelbaseClient\Model\Translation;
+use Oberon\TravelbaseClient\Model\TranslationLabel;
 
 class QueryBuilder
 {
@@ -20,7 +20,7 @@ class QueryBuilder
     /**
      * @param string $locale
      */
-    public function __construct(string $locale = Translation::LOCALE_NL)
+    public function __construct(string $locale = TranslationLabel::LOCALE_NL)
     {
         $this->locale = $locale;
     }

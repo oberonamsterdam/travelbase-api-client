@@ -2,45 +2,47 @@
 
 namespace Oberon\TravelbaseClient\Model;
 
-class Translation
+class TranslationLabel
 {
     public const LOCALE_NL = 'nl';
     public const LOCALE_DE = 'de';
     public const LOCALE_EN = 'en';
 
     /**
-     * @var string|null
+     * Required attribute
+     * @var string
      */
     private $locale;
 
     /**
-     * @var string|null
+     * Required attribute
+     * @var string
      */
     private $label;
 
     /**
      * Translation constructor.
-     * @param string|null $locale
-     * @param string|null $label
+     * @param string $locale --- Required
+     * @param string $label --- Required
      */
     public function __construct(
-        ?string $locale = null,
-        ?string $label = null
+        string $locale,
+        string $label
     ) {
         $this->locale = $locale;
         $this->label = $label;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLocale(): ?string
+    public function getLocale(): string
     {
         return $this->locale;
     }
 
     /**
-     * @param string|null $locale
+     * @param string $locale
      * @return $this
      */
     public function setLocale(string $locale): self
@@ -51,18 +53,18 @@ class Translation
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
-     * @param string|null $label
+     * @param string $label
      * @return $this
      */
-    public function setLabel(?string $label): self
+    public function setLabel(string $label): self
     {
         $this->label = $label;
 

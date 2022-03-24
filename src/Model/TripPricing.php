@@ -12,37 +12,42 @@ use \DateTimeInterface;
 class TripPricing implements InputInterface
 {
     /**
+     * Required attribute
      * @var DateTimeInterface
      */
     private $date;
 
     /**
+     * Required attribute
      * @var int
      */
     private $duration;
 
     /**
+     * Required attribute
      * @var float
      */
     private $price;
 
     /**
+     * Required attribute
      * @var float
      */
     private $extraPersonPrice;
 
     /**
+     * Required attribute
      * @var float
      */
     private $minimumStayPrice;
 
     /**
      * TripPricing constructor.
-     * @param DateTimeInterface|null $date
-     * @param int|null $duration
-     * @param float|null $price
-     * @param float|null $extraPersonPrice
-     * @param float|null $minimumStayPrice
+     * @param DateTimeInterface|null $date --- Required
+     * @param int|null $duration --- Required
+     * @param float|null $price --- Required
+     * @param float|null $extraPersonPrice --- Required
+     * @param float|null $minimumStayPrice --- Required
      */
     public function __construct(
         ?DateTimeInterface $date = null,

@@ -120,14 +120,14 @@ Create or replace allotments through models or array:
 ```php
 //Send as a model
 $allotment = new \Oberon\TravelbaseClient\Model\Allotment();
-$allotment->setAmount(1);
-$allotment->setDate(new \DateTime('2022-01-02'));
+$allotment->setAmount(1); // required
+$allotment->setDate(new \DateTime('2022-01-02')); // required
 $allotmentCollection[] = $allotment;
 
 //send as array
 $allotmentCollection[] = [
-    'amount' => 1,
-    'date' => '2022-01-02',
+    'amount' => 1, // required
+    'date' => '2022-01-02', // required
 ];
 
 $client->createOrReplaceAllotments($yourRentalUnitId, $allotmentCollection);
@@ -140,18 +140,18 @@ Create or replace trip pricings through models or array:
 $tripPricing = new \Oberon\TravelbaseClient\Model\TripPricing();
 $tripPricing->setDuration(1);
 $tripPricing->setDate(new \DateTime('2022-01-01'));
-$tripPricing->setPrice(100.50);
-$tripPricing->setExtraPersonPrice(10);
-$tripPricing->setMinimumStayPrice(40);
+$tripPricing->setPrice(100.50); // required
+$tripPricing->setExtraPersonPrice(10); // required
+$tripPricing->setMinimumStayPrice(40); // required
 $tripPricingCollection[] = $tripPricing;
 
 //send as array
 $tripPricingCollection[] = [
-    'duration' => 1,
-    'date' => '2022-01-02',
-    'price' => 105.00,
-    'extraPersonPrice' => 10,
-    'minimumStayPrice' => 40,
+    'duration' => 1, // required
+    'date' => '2022-01-02', // required
+    'price' => 105.00, // required
+    'extraPersonPrice' => 10, // required
+    'minimumStayPrice' => 40, // required
 ];
 
 $client->createOrReplaceTripPricings($yourRentalUnitId, $tripPricingCollection);
@@ -178,26 +178,29 @@ $client->completePendingBooking($yourBookingId, true);
 ```
 
 Create or replace activity timeslots through models or array:
+
 ```php
 // Send as a model
 // the 3 locale options are nl (dutch), de (german), en (english)
 
-$translationNL = new \Oberon\TravelbaseClient\Model\TimeslotTranslation();
-$translationNL->setLocale(\Oberon\TravelbaseClient\Model\TimeslotTranslation::LOCALE_NL);
-$translationNL->setLabel('Test NL');
+$translationNL = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
+    \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel::LOCALE_NL,
+    'Test NL'
+);
+$translationDE = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
+    \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel::LOCALE_DE,
+    'Test DE'
+);
+$translationEN = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
+    \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel::LOCALE_EN,
+    'Test EN'
+);
 
-$translationDE = new \Oberon\TravelbaseClient\Model\TimeslotTranslation();
-$translationDE->setLocale(\Oberon\TravelbaseClient\Model\TimeslotTranslation::LOCALE_DE);
-$translationDE->setLabel('Test DE');
-
-$translationEN = new \Oberon\TravelbaseClient\Model\TimeslotTranslation();
-$translationEN->setLocale(\Oberon\TravelbaseClient\Model\TimeslotTranslation::LOCALE_EN);
-$translationEN->setLabel('Test EN');
-
-$timeslot = new \Oberon\TravelbaseClient\Model\TimeslotInput();
-$timeslot->setRateGroupId($yourRateGroupId);
-$timeslot->setStartDateTime(new \DateTime('2022-01-01'));
-$timeslot->setEndDateTime(new \DateTime('2022-01-02'));
+$timeslot = new \Oberon\TravelbaseClient\Model\TimeslotInput(
+    $yourRateGroupId,
+    new \DateTime('2022-01-01'),
+    new \DateTime('2022-01-02')
+);
 $timeslot->setAllotment(1); // optional
 $timeslot->setExternalId('1'); // optional
 $timeslot->addTranslation($translationNL);
@@ -207,23 +210,23 @@ $timeslotCollection[] = $timeslot;
 
 // send as array
 $timeslotCollection[] = [
-    'rateGroupId' => '1', 
-    'startDateTime' => '2022-01-02',
-    'endDateTime' => '2022-01-03',
+    'rateGroupId' => '1',  // required
+    'startDateTime' => '2022-01-02', // required
+    'endDateTime' => '2022-01-03', // required
     'allotment' => 1, // optional
     'externalId' => '1', // optional
     'translations' => [
         [
-            'locale' => 'nl',
-            'label' => 'Test NL',
+            'locale' => 'nl', // required
+            'label' => 'Test NL', // required
         ],
         [
-            'locale' => 'de',
-            'label' => 'Test DE',
+            'locale' => 'de', // required
+            'label' => 'Test DE', // required
         ],
         [
-            'locale' => 'en',
-            'label' => 'Test EN',
+            'locale' => 'en', // required
+            'label' => 'Test EN', // required
         ],
     ],
 ];
