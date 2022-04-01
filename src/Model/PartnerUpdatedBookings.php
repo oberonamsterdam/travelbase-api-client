@@ -1,13 +1,8 @@
 <?php
-/**
- * Date: 29-04-2020
- * @author Raymond Kiekens
- * @copyright (c) Oberon 2020
- */
 
 namespace Oberon\TravelbaseClient\Model;
 
-class PartnerBooking
+class PartnerUpdatedBookings
 {
     /**
      * @var Booking[]
@@ -15,29 +10,13 @@ class PartnerBooking
     private $updatedBookings;
 
     /**
-     * @var BookingConnection|null
-     */
-    private $allBookings;
-
-    /**
-     * PartnerBooking constructor.
+     * PartnerUpdatedBookings constructor.
      * @param Booking[] $updatedBookings
-     * @param BookingConnection|null $allBookings
      */
     public function __construct(
         ?array $updatedBookings = [],
-        ?BookingConnection $allBookings = null
     ) {
-       $this->updatedBookings = $updatedBookings;
-       $this->allBookings = $allBookings;
-    }
-
-    /**
-     * @return BookingConnection
-     */
-    public function getAllBookings(): ?BookingConnection
-    {
-        return $this->allBookings;
+        $this->updatedBookings = $updatedBookings;
     }
 
     /**

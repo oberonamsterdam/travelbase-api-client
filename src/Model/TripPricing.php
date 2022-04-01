@@ -12,37 +12,42 @@ use \DateTimeInterface;
 class TripPricing implements InputInterface
 {
     /**
+     * Required attribute
      * @var DateTimeInterface
      */
     private $date;
 
     /**
+     * Required attribute
      * @var int
      */
     private $duration;
 
     /**
+     * Required attribute
      * @var float
      */
     private $price;
 
     /**
+     * Required attribute
      * @var float
      */
     private $extraPersonPrice;
 
     /**
+     * Required attribute
      * @var float
      */
     private $minimumStayPrice;
 
     /**
      * TripPricing constructor.
-     * @param DateTimeInterface|null $date
-     * @param int|null $duration
-     * @param float|null $price
-     * @param float|null $extraPersonPrice
-     * @param float|null $minimumStayPrice
+     * @param DateTimeInterface|null $date --- Required
+     * @param int|null $duration --- Required
+     * @param float|null $price --- Required
+     * @param float|null $extraPersonPrice --- Required
+     * @param float|null $minimumStayPrice --- Required
      */
     public function __construct(
         ?DateTimeInterface $date = null,
@@ -59,7 +64,7 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @return DateTimeInterface
+     * @return DateTimeInterface|null
      */
     public function getDate(): ?DateTimeInterface
     {
@@ -78,7 +83,7 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getDuration(): ?int
     {
@@ -97,7 +102,7 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getPrice(): ?float
     {
@@ -116,7 +121,7 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getExtraPersonPrice(): ?float
     {
@@ -124,10 +129,10 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @param float $extraPersonPrice
+     * @param float|null $extraPersonPrice
      * @return $this
      */
-    public function setExtraPersonPrice($extraPersonPrice): self
+    public function setExtraPersonPrice(?float $extraPersonPrice): self
     {
         $this->extraPersonPrice = $extraPersonPrice;
 
@@ -135,7 +140,7 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getMinimumStayPrice(): ?float
     {
@@ -143,10 +148,10 @@ class TripPricing implements InputInterface
     }
 
     /**
-     * @param float $minimumStayPrice
+     * @param float|null $minimumStayPrice
      * @return $this
      */
-    public function setMinimumStayPrice($minimumStayPrice): self
+    public function setMinimumStayPrice(?float $minimumStayPrice): self
     {
         $this->minimumStayPrice = $minimumStayPrice;
 
@@ -166,5 +171,4 @@ class TripPricing implements InputInterface
             'minimumStayPrice' => $this->getMinimumStayPrice(),
         ];
     }
-
 }
