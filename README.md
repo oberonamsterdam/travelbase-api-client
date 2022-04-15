@@ -181,25 +181,25 @@ Create or replace activity timeslots through models or array:
 
 ```php
 // Send as a model
-// the 3 locale options are nl (dutch), de (german), en (english)
+// this uses 3 locale options
 
 $translationNL = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
-    \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel::LOCALE_NL,
+    'nl', // Dutch
     'Test NL'
 );
 $translationDE = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
-    \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel::LOCALE_DE,
+    'de', // German
     'Test DE'
 );
 $translationEN = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
-    \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel::LOCALE_EN,
+    'en', // English
     'Test EN'
 );
 
 $timeslot = new \Oberon\TravelbaseClient\Model\TimeslotInput(
     $yourRateGroupId,
-    new \DateTime('2022-01-01'),
-    new \DateTime('2022-01-02')
+    new \DateTime('2022-01-01 10:00'),
+    new \DateTime('2022-01-01 12:00')
 );
 $timeslot->setAllotment(1); // optional
 $timeslot->setExternalId('1'); // optional
@@ -211,8 +211,8 @@ $timeslotCollection[] = $timeslot;
 // send as array
 $timeslotCollection[] = [
     'rateGroupId' => '1',  // required
-    'startDateTime' => '2022-01-02', // required
-    'endDateTime' => '2022-01-03', // required
+    'startDateTime' => '2022-01-02 14:00', // required
+    'endDateTime' => '2022-01-02 16:00', // required
     'allotment' => 1, // optional
     'externalId' => '1', // optional
     'translations' => [
@@ -232,7 +232,7 @@ $timeslotCollection[] = [
 ];
 
 $clearStartDate = new \DateTime('2022-01-01'); // Start of date range to clear timeslots 
-$clearEndDate = new \DateTime('2022-01-03');  // End of date range to clear timeslots, inclusive.
+$clearEndDate = new \DateTime('2022-01-02');  // End of date range to clear timeslots, inclusive.
 
 $client->bulkSetActivityTimeslots($yourActivityId, $clearStartDate, $clearEndDate, $timeslotCollection);
 ```

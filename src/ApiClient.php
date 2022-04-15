@@ -66,7 +66,7 @@ class ApiClient
     /** @var QueryBuilder */
     private $queryBuilder;
 
-    public function __construct(string $endPoint, string $apiKey, string $locale = TranslationLabel::LOCALE_NL)
+    public function __construct(string $endPoint, string $apiKey, string $locale = 'nl')
     {
         $parts = parse_url($endPoint);
         $url = $parts['scheme'] . '://' . $parts['host'] . self::API_PATH;
@@ -322,13 +322,13 @@ class ApiClient
      *      [
      *          [
      *              'rateGroupId' => 1,
-     *              'startDateTime' => '2020-01-01',
-     *              'endDateTime' => '2020-01-02',
+     *              'startDateTime' => '2020-01-01 10:00',
+     *              'endDateTime' => '2020-01-01 12:00',
      *          ],
      *          [
      *              'rateGroupId' => 1,
-     *              'startDateTime' => '2020-01-01',
-     *              'endDateTime' => '2020-01-02',
+     *              'startDateTime' => '2020-01-02 10:00',
+     *              'endDateTime' => '2020-01-02 12:00',
      *          ],
      *      ]
      * )

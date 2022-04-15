@@ -4,10 +4,6 @@ namespace Oberon\TravelbaseClient\Model;
 
 class TranslationLabel
 {
-    public const LOCALE_NL = 'nl';
-    public const LOCALE_DE = 'de';
-    public const LOCALE_EN = 'en';
-
     /**
      * Required attribute
      * @var string

@@ -20,7 +20,7 @@ class QueryBuilder
     /**
      * @param string $locale
      */
-    public function __construct(string $locale = TranslationLabel::LOCALE_NL)
+    public function __construct(string $locale = 'nl')
     {
         $this->locale = $locale;
     }
