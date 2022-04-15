@@ -23,7 +23,6 @@ use Oberon\TravelbaseClient\Model\RentalUnit;
 use Oberon\TravelbaseClient\Model\Ticket;
 use Oberon\TravelbaseClient\Model\TicketConnection;
 use Oberon\TravelbaseClient\Model\TimeslotInput;
-use Oberon\TravelbaseClient\Model\TranslationLabel;
 use Oberon\TravelbaseClient\Model\TripPricing;
 use Oberon\TravelbaseClient\Model\TripPricingCollection;
 use Oberon\TravelbaseClient\Query\QueryBuilder;

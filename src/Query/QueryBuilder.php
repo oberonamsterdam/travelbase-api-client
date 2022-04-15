@@ -10,7 +10,6 @@ use GraphQL\Mutation;
 use GraphQL\Query;
 use DateTimeInterface;
 use GraphQL\Variable;
-use Oberon\TravelbaseClient\Model\TranslationLabel;
 
 class QueryBuilder
 {

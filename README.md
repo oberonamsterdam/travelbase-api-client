@@ -181,7 +181,7 @@ Create or replace activity timeslots through models or array:
 
 ```php
 // Send as a model
-// this uses 3 locale options
+// Language codes needs to be provided in ISO 639-1 (2 letter language code). https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 $translationNL = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
     'nl', // Dutch
