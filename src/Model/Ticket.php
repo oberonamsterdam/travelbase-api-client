@@ -12,6 +12,11 @@ class Ticket
     private $id;
 
     /**
+     * @var string|null
+     */
+    private $number;
+
+    /**
      * @var string
      */
     private $status;
@@ -44,6 +49,7 @@ class Ticket
     /**
      * Ticket constructor
      * @param string $id
+     * @param string|null $number
      * @param string $status
      * @param Timeslot $timeslot
      * @param Customer|null $customer
@@ -53,6 +59,7 @@ class Ticket
      */
     public function __construct(
         string $id,
+        ?string $number,
         string $status,
         Timeslot $timeslot,
         ?Customer $customer,
@@ -62,6 +69,7 @@ class Ticket
 
     ) {
         $this->id = $id;
+        $this->number = $number;
         $this->status = $status;
         $this->timeslot = $timeslot;
         $this->customer = $customer;
@@ -76,6 +84,14 @@ class Ticket
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNumber(): ?string
+    {
+        return $this->number;
     }
 
     /**

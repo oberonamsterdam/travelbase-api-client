@@ -413,6 +413,7 @@ class QueryBuilder
     {
         return [
             'id',
+            'number',
             'status',
             (new Query('timeslot'))->setSelectionSet($this->getTimeslotSelectionSet()),
             (new Query('customer'))->setSelectionSet($this->getCustomerSelectionSet()),
