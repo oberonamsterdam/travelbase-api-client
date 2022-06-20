@@ -405,6 +405,16 @@ class QueryBuilder
             'id',
             'name',
             'canBuyTickets',
+            (new Query('rates'))->setSelectionSet($this->getRateSelectionSet()),
+        ];
+    }
+
+    private function getRateSelectionSet(): array
+    {
+        return [
+            'id',
+            (new Query('name'))->setArguments(['locale' => $this->locale]),
+            'price'
         ];
     }
 
@@ -416,9 +426,18 @@ class QueryBuilder
             'status',
             (new Query('timeslot'))->setSelectionSet($this->getTimeslotSelectionSet()),
             (new Query('customer'))->setSelectionSet($this->getCustomerSelectionSet()),
-            'startDateTime',
-            'endDateTime',
+            (new Query('rateLines'))->setSelectionSet($this->getTicketRateLineSelectionSet()),
             'createdAt',
+        ];
+    }
+
+    private function getTicketRateLineSelectionSet(): array
+    {
+        return [
+            (new Query('rateName'))->setArguments(['locale' => $this->locale]),
+            'unitPrice',
+            'amount',
+            (new Query('rate'))->setSelectionSet($this->getRateSelectionSet()),
         ];
     }
 

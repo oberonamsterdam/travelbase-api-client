@@ -32,14 +32,9 @@ class Ticket
     private $customer;
 
     /**
-     * @var DateTimeInterface
+     * @var TicketRateLine[]
      */
-    private $startDateTime;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $endDateTime;
+    private $rateLines = [];
 
     /**
      * @var DateTimeInterface
@@ -53,8 +48,7 @@ class Ticket
      * @param string $status
      * @param Timeslot $timeslot
      * @param Customer|null $customer
-     * @param DateTimeInterface $startDateTime
-     * @param DateTimeInterface $endDateTime
+     * @param TicketRateLine[] $rateLines
      * @param DateTimeInterface $createdAt
      */
     public function __construct(
@@ -63,8 +57,7 @@ class Ticket
         string $status,
         Timeslot $timeslot,
         ?Customer $customer,
-        DateTimeInterface $startDateTime,
-        DateTimeInterface $endDateTime,
+        array $rateLines,
         DateTimeInterface $createdAt
 
     ) {
@@ -73,8 +66,7 @@ class Ticket
         $this->status = $status;
         $this->timeslot = $timeslot;
         $this->customer = $customer;
-        $this->startDateTime = $startDateTime;
-        $this->endDateTime = $endDateTime;
+        $this->rateLines = $rateLines;
         $this->createdAt = $createdAt;
     }
 
@@ -119,19 +111,22 @@ class Ticket
     }
 
     /**
-     * @return DateTimeInterface
+     * @return TicketRateLine[]
      */
-    public function getStartDateTime(): DateTimeInterface
+    public function getRateLines(): array
     {
-        return $this->startDateTime;
+        return $this->rateLines;
     }
 
     /**
-     * @return DateTimeInterface
+     * @param TicketRateLine $rateLine
+     * @return self
      */
-    public function getEndDateTime(): DateTimeInterface
+    public function addRateLine(TicketRateLine $rateLine): self
     {
-        return $this->endDateTime;
+        $this->rateLines[] = $rateLine;
+
+        return $this;
     }
 
     /**
