@@ -1,4 +1,11 @@
 ---
+## Version 1.2
+
+---
+- Added ticket ratelines and rates
+
+
+---
 ## Version 1.1
 
 ---
