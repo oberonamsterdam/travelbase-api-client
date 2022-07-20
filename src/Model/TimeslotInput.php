@@ -8,7 +8,7 @@ class TimeslotInput implements InputInterface
 {
     /**
      * Required attribute
-     * @var int
+     * @var string
      */
     private $rateGroupId;
 
@@ -41,7 +41,7 @@ class TimeslotInput implements InputInterface
 
     /**
      * TimeslotInput constructor
-     * @param int $rateGroupId --- Required
+     * @param string $rateGroupId --- Required
      * @param DateTimeInterface $startDateTime --- Required
      * @param DateTimeInterface $endDateTime --- Required
      * @param int|null $allotment
@@ -49,7 +49,7 @@ class TimeslotInput implements InputInterface
      * @param array $translations
      */
     public function __construct(
-        int $rateGroupId,
+        string $rateGroupId,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
         ?int $allotment = null,
@@ -64,16 +64,16 @@ class TimeslotInput implements InputInterface
         $this->translations = $translations;
     }
 
-    public function getRateGroupId(): int
+    public function getRateGroupId(): string
     {
         return $this->rateGroupId;
     }
 
     /**
-     * @param int|null $rateGroupId
+     * @param string|null $rateGroupId
      * @return $this
      */
-    public function setRateGroupId(int $rateGroupId): self
+    public function setRateGroupId(string $rateGroupId): self
     {
         $this->rateGroupId = $rateGroupId;
 

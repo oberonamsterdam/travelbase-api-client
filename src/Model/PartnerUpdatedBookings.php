@@ -14,7 +14,7 @@ class PartnerUpdatedBookings
      * @param Booking[] $updatedBookings
      */
     public function __construct(
-        ?array $updatedBookings = [],
+        ?array $updatedBookings = []
     ) {
         $this->updatedBookings = $updatedBookings;
     }

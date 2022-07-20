@@ -210,7 +210,7 @@ $timeslotCollection[] = $timeslot;
 
 // send as array
 $timeslotCollection[] = [
-    'rateGroupId' => '1',  // required
+    'rateGroupId' => $yourRateGroupId,  // required
     'startDateTime' => '2022-01-02 14:00', // required
     'endDateTime' => '2022-01-02 16:00', // required
     'allotment' => 1, // optional
