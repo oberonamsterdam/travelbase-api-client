@@ -50,7 +50,7 @@ class QueryBuilder
         );
     }
 
-    public function createPartnerQuery(int $partnerId): Query
+    public function createPartnerQuery(string $partnerId): Query
     {
         $query = (new Query('partner'))->setSelectionSet(
             $this->getPartnerSelectionSet()
@@ -60,7 +60,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function createAccommodationQuery(int $accommodationId): Query
+    public function createAccommodationQuery(string $accommodationId): Query
     {
         $query = (new Query('accommodation'))->setSelectionSet(
             $this->getAccommodationSelectionSet()
@@ -70,7 +70,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function createRentalUnitQuery(int $rentalUnitId): Query
+    public function createRentalUnitQuery(string $rentalUnitId): Query
     {
         $query = (new Query('rentalUnit'))->setSelectionSet(
             $this->getRentalUnitSelectionSet()
@@ -80,7 +80,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function createBookingQuery(int $bookingId): Query
+    public function createBookingQuery(string $bookingId): Query
     {
         $query = (new Query('booking'))->setSelectionSet(
             $this->getBookingSelectionSet()
@@ -90,7 +90,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function createCompanyQuery(int $companyId): Query
+    public function createCompanyQuery(string $companyId): Query
     {
         $query = (new Query('company'))->setSelectionSet(
             $this->getCompanySelectionSet()
@@ -100,7 +100,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function createActivityQuery(int $activityId): Query
+    public function createActivityQuery(string $activityId): Query
     {
         $query = (new Query('activity'))->setSelectionSet(
             $this->getActivitySelectionSet()
@@ -110,7 +110,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function createTicketQuery(int $ticketId): Query
+    public function createTicketQuery(string $ticketId): Query
     {
         $query = (new Query('ticket'))->setSelectionSet(
             $this->getTicketSelectionSet()
@@ -121,7 +121,7 @@ class QueryBuilder
     }
 
     public function createAllTicketsQuery(
-        int $partnerId,
+        string $partnerId,
         int $limit = 10,
         ?string $cursor = null,
         ?DateTimeInterface $startDate = null,
@@ -167,7 +167,7 @@ class QueryBuilder
 
 
     public function createAllBookingsQuery(
-        int $partnerId,
+        string $partnerId,
         int $limit = 10,
         ?string $cursor = null,
         ?DateTimeInterface $startDate = null,
@@ -203,7 +203,7 @@ class QueryBuilder
     }
 
     public function createUpdatedBookingsQuery(
-        int $partnerId,
+        string $partnerId,
         DateTimeInterface $updatedSince
     ): Query {
         return (new Query('partner'))

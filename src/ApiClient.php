@@ -106,7 +106,7 @@ class ApiClient
         return $this->parseResult($result, PartnersCallResponseBody::class)->getData()->getPartners();
     }
 
-    public function getPartner(int $partnerId): Partner
+    public function getPartner(string $partnerId): Partner
     {
         $query = $this->queryBuilder->createPartnerQuery($partnerId);
 
@@ -115,7 +115,7 @@ class ApiClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
-    public function getUpdatedBookings(int $partnerId, DateTimeInterface $updatedSince): array
+    public function getUpdatedBookings(string $partnerId, DateTimeInterface $updatedSince): array
     {
         $query = $this->queryBuilder->createUpdatedBookingsQuery($partnerId, $updatedSince);
 
@@ -126,7 +126,7 @@ class ApiClient
     }
 
     public function getAllBookings(
-        int $partnerId,
+        string $partnerId,
         int $limit = 10,
         string $cursor = null,
         ?DateTimeInterface $startDate = null,
@@ -149,7 +149,7 @@ class ApiClient
             ->getData()->getPartner()->getAllBookings();
     }
 
-    public function getBooking(int $bookingId): Booking
+    public function getBooking(string $bookingId): Booking
     {
         $query = $this->queryBuilder->createBookingQuery($bookingId);
 
@@ -158,7 +158,7 @@ class ApiClient
         return $this->parseResult($result, BookingCallResponseBody::class)->getData()->getBooking();
     }
 
-    public function getAccommodation(int $accommodationId): Accommodation
+    public function getAccommodation(string $accommodationId): Accommodation
     {
         $query = $this->queryBuilder->createAccommodationQuery($accommodationId);
 
@@ -167,7 +167,7 @@ class ApiClient
         return $this->parseResult($result, AccommodationCallResponseBody::class)->getData()->getAccommodation();
     }
 
-    public function getRentalUnit(int $rentalUnitId): RentalUnit
+    public function getRentalUnit(string $rentalUnitId): RentalUnit
     {
         $query = $this->queryBuilder->createRentalUnitQuery($rentalUnitId);
 
@@ -177,7 +177,7 @@ class ApiClient
     }
 
 
-    public function getCompany(int $companyId): Company
+    public function getCompany(string $companyId): Company
     {
         $query = $this->queryBuilder->createCompanyQuery($companyId);
 
@@ -186,7 +186,7 @@ class ApiClient
         return $this->parseResult($result, CompanyCallResponseBody::class)->getData()->getCompany();
     }
 
-    public function getActivity(int $activity): Activity
+    public function getActivity(string $activity): Activity
     {
         $query = $this->queryBuilder->createActivityQuery($activity);
 
@@ -195,7 +195,7 @@ class ApiClient
         return $this->parseResult($result, ActivityCallResponseBody::class)->getData()->getActivity();
     }
 
-    public function getTicket(int $ticketId): Ticket
+    public function getTicket(string $ticketId): Ticket
     {
         $query = $this->queryBuilder->createTicketQuery($ticketId);
 
@@ -205,7 +205,7 @@ class ApiClient
     }
 
     public function getAllTickets(
-        int $partnerId,
+        string $partnerId,
         int $limit = 10,
         string $cursor = null,
         ?DateTimeInterface $startDate = null,
@@ -236,7 +236,7 @@ class ApiClient
     /**
      * USAGE
      * createOrReplaceAllotments (
-     *      1,
+     *      '1',
      *      [
      *          [
      *              'date' => '2020-01-01',
@@ -249,7 +249,7 @@ class ApiClient
      *      ]
      * )
      */
-    public function createOrReplaceAllotments(int $rentalUnitId, array $allotmentCollection): AllotmentCollection
+    public function createOrReplaceAllotments(string $rentalUnitId, array $allotmentCollection): AllotmentCollection
     {
         $normalizedAllotmentCollection = [];
         foreach ($allotmentCollection as $allotment) {
@@ -272,7 +272,7 @@ class ApiClient
     /**
      * USAGE
      * createOrReplaceTripPricings (
-     *      1,
+     *      '1',
      *      [
      *          [
      *              'date' => '2020-01-01',
@@ -287,7 +287,7 @@ class ApiClient
      *      ]
      * )
      */
-    public function createOrReplaceTripPricings(int $rentalUnitId, array $tripPricingCollection): TripPricingCollection
+    public function createOrReplaceTripPricings(string $rentalUnitId, array $tripPricingCollection): TripPricingCollection
     {
         $normalizedTripPricingCollection = [];
         foreach ($tripPricingCollection as $tripPricing) {
@@ -315,7 +315,7 @@ class ApiClient
     /**
      * USAGE
      * bulkSetActivityTimeslots (
-     *      1,
+     *      '1',
      *      new DateTime('2020-01-01'),
      *      new DateTime('2020-02-01'),
      *      [
@@ -333,7 +333,7 @@ class ApiClient
      * )
      */
     public function bulkSetActivityTimeslots(
-        int $activityId,
+        string $activityId,
         DateTimeInterface $clearStartDate,
         DateTimeInterface $clearEndDate,
         array $timeslots
@@ -366,7 +366,7 @@ class ApiClient
             ->getData()->getBulkSetActivityTimeslots()->getActivity();
     }
 
-    public function deleteTrips(int $rentalUnitId, ?DateTimeInterface $date = null, ?int $duration = null): ?string
+    public function deleteTrips(string $rentalUnitId, ?DateTimeInterface $date = null, ?int $duration = null): ?string
     {
         $arguments = ['rentalUnitId' => $rentalUnitId];
         if ($date) {
@@ -385,7 +385,7 @@ class ApiClient
             ->getData()->getDeleteTripPricings()->getMessage();
     }
 
-    public function completePendingBooking(int $bookingId, bool $accept): Booking
+    public function completePendingBooking(string $bookingId, bool $accept): Booking
     {
         $arguments = ['bookingId' => $bookingId, 'accept' => $accept];
         $mutation = $this->queryBuilder->createCompletePendingBookingMutation();
