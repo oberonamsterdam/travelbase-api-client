@@ -25,11 +25,13 @@ use Oberon\TravelbaseClient\Model\TicketConnection;
 use Oberon\TravelbaseClient\Model\TimeslotInput;
 use Oberon\TravelbaseClient\Model\TripPricing;
 use Oberon\TravelbaseClient\Model\TripPricingCollection;
+use Oberon\TravelbaseClient\Model\DeleteActivityTimeslotsCollection;
 use Oberon\TravelbaseClient\Query\QueryBuilder;
 use Oberon\TravelbaseClient\Response\AccommodationCallResponseBody;
 use Oberon\TravelbaseClient\Response\ActivityCallResponseBody;
 use Oberon\TravelbaseClient\Response\BookingCallResponseBody;
-use Oberon\TravelbaseClient\Response\BulkSetActivityTimeslotsCallResponseBody;
+use Oberon\TravelbaseClient\Response\CreateOrReplaceActivityTimeslotsCallResponseBody;
+use Oberon\TravelbaseClient\Response\DeleteActivityTimeslotsCallResponseBody;
 use Oberon\TravelbaseClient\Response\CompanyCallResponseBody;
 use Oberon\TravelbaseClient\Response\CompletePendingBookingCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceAllotmentsCallResponseBody;
@@ -233,22 +235,6 @@ class ApiClient
             ->getData()->getPartner()->getAllTickets();
     }
 
-    /**
-     * USAGE
-     * createOrReplaceAllotments (
-     *      '1',
-     *      [
-     *          [
-     *              'date' => '2020-01-01',
-     *              'allotments' => 1,
-     *          ],
-     *          [
-     *              'date' => '2020-02-01',
-     *              'allotments' => 1,
-     *          ]
-     *      ]
-     * )
-     */
     public function createOrReplaceAllotments(string $rentalUnitId, array $allotmentCollection): AllotmentCollection
     {
         $normalizedAllotmentCollection = [];
@@ -269,24 +255,6 @@ class ApiClient
             ->getData()->getCreateOrReplaceAllotments();
     }
 
-    /**
-     * USAGE
-     * createOrReplaceTripPricings (
-     *      '1',
-     *      [
-     *          [
-     *              'date' => '2020-01-01',
-     *              'duration' => 1,
-     *              'price' => 100,
-     *          ],
-     *          [
-     *              'date' => '2020-02-01',
-     *              'duration' => 1,
-     *              'price' => 100.50,
-     *          ],
-     *      ]
-     * )
-     */
     public function createOrReplaceTripPricings(string $rentalUnitId, array $tripPricingCollection): TripPricingCollection
     {
         $normalizedTripPricingCollection = [];
@@ -312,30 +280,21 @@ class ApiClient
             ->getData()->getCreateOrReplaceTripPricings();
     }
 
-    /**
-     * USAGE
-     * bulkSetActivityTimeslots (
-     *      '1',
-     *      new DateTime('2020-01-01'),
-     *      new DateTime('2020-02-01'),
-     *      [
-     *          [
-     *              'rateGroupId' => 1,
-     *              'startDateTime' => '2020-01-01 10:00',
-     *              'endDateTime' => '2020-01-01 12:00',
-     *          ],
-     *          [
-     *              'rateGroupId' => 1,
-     *              'startDateTime' => '2020-01-02 10:00',
-     *              'endDateTime' => '2020-01-02 12:00',
-     *          ],
-     *      ]
-     * )
-     */
-    public function bulkSetActivityTimeslots(
+    public function deleteActivityTimeslots(string $activityId, DateTimeInterface $startDateTime, DateTimeInterface $endDateTime, string $errorResolution): DeleteActivityTimeslotsCollection
+    {
+        $arguments = ['activityId' => $activityId, 'startDateTime' => $startDateTime, 'endDateTime' => $endDateTime, 'errorResolution' => $errorResolution];
+
+        $mutation = $this->queryBuilder->createDeleteActivityTimeslotsMutation();
+
+        $variables = ['input' => $arguments];
+        $result = $this->runQuery($mutation, $variables);
+
+        return $this->parseResult($result, DeleteActivityTimeslotsCallResponseBody::class)
+            ->getData()->getDeleteActivityTimeslots()->getMessage();
+    }
+
+    public function createOrReplaceActivityTimeslots(
         string $activityId,
-        DateTimeInterface $clearStartDate,
-        DateTimeInterface $clearEndDate,
         array $timeslots
     ): Activity {
         $normalizedTimeslots = [];
@@ -351,19 +310,17 @@ class ApiClient
             }
         }
 
-        $mutation = $this->queryBuilder->createBulkSetActivityTimeslotsMutation();
+        $mutation = $this->queryBuilder->createCreateOrReplaceActivityTimeslotsMutation();
         $variables = [
             'input' => [
                 'activityId' => $activityId,
-                'clearStartDate' => $clearStartDate->format('Y-m-d'),
-                'clearEndDate' => $clearEndDate->format('Y-m-d'),
                 'timeslots' => $normalizedTimeslots,
             ],
         ];
         $result = $this->runQuery($mutation, $variables);
 
-        return $this->parseResult($result, BulkSetActivityTimeslotsCallResponseBody::class)
-            ->getData()->getBulkSetActivityTimeslots()->getActivity();
+        return $this->parseResult($result, CreateOrReplaceActivityTimeslotsCallResponseBody::class)
+            ->getData()->getCreateOrReplaceActivityTimeslots()->getActivity();
     }
 
     public function deleteTrips(string $rentalUnitId, ?DateTimeInterface $date = null, ?int $duration = null): ?string

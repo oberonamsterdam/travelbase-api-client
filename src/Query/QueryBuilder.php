@@ -265,13 +265,26 @@ class QueryBuilder
             ]);
     }
 
-    public function createBulkSetActivityTimeslotsMutation(): Mutation
+    public function createDeleteActivityTimeslotsMutation(): Mutation
     {
-        return (new Mutation('bulkSetActivityTimeslots'))
-            ->setVariables([new Variable('input', 'BulkSetActivityTimeslotsInput', true)])
+        return (new Mutation('deleteActivityTimeslots'))
+            ->setVariables([new Variable('input', 'DeleteActivityTimeslotsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('activity'))->setSelectionSet($this->getActivitySelectionSet())
+                (new Query('activity'))->setSelectionSet([
+                    'deletedCount',
+                    'errorCount',
+                ])
+            ]);
+    }
+
+    public function createCreateOrReplaceActivityTimeslotsMutation(): Mutation
+    {
+        return (new Mutation('createOrReplaceActivityTimeslots'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceActivityTimeslotsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('timeslots'))->setSelectionSet($this->getTimeslotSelectionSet())
             ]);
     }
 
