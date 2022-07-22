@@ -317,7 +317,7 @@ class ApiClient
         $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, CreateOrReplaceActivityTimeslotsCallResponseBody::class)
-            ->getData()->getCreateOrReplaceActivityTimeslots()->getActivity();
+            ->getData()->getCreateOrReplaceActivityTimeslots();
     }
 
     public function deleteTrips(string $rentalUnitId, ?DateTimeInterface $date = null, ?int $duration = null): ?string
