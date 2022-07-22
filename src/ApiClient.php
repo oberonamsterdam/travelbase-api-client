@@ -25,6 +25,7 @@ use Oberon\TravelbaseClient\Model\TicketConnection;
 use Oberon\TravelbaseClient\Model\TimeslotInput;
 use Oberon\TravelbaseClient\Model\TripPricing;
 use Oberon\TravelbaseClient\Model\TripPricingCollection;
+use Oberon\TravelbaseClient\Model\TimeslotCollection;
 use Oberon\TravelbaseClient\Model\DeleteActivityTimeslotsCollection;
 use Oberon\TravelbaseClient\Query\QueryBuilder;
 use Oberon\TravelbaseClient\Response\AccommodationCallResponseBody;
@@ -296,16 +297,12 @@ class ApiClient
     public function createOrReplaceActivityTimeslots(
         string $activityId,
         array $timeslots
-    ): Activity {
+    ): TimeslotCollection {
         $normalizedTimeslots = [];
         foreach ($timeslots as $timeslot) {
             if ($timeslot instanceof TimeslotInput) {
                 $normalizedTimeslots[] = $timeslot->toArray();
             } elseif (is_array($timeslot)) {
-                // make sure the translations key is always provided, if no translating is necessary add an empty array.
-                if (!key_exists('translations', $timeslot)) {
-                    $timeslots['translations'] = [];
-                }
                 $normalizedTimeslots[] = $timeslot;
             }
         }

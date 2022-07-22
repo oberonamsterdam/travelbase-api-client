@@ -472,7 +472,6 @@ class QueryBuilder
     {
         return [
             'id',
-            (new Query('label'))->setArguments(['locale' => $this->locale]),
             (new Query('rateGroup'))->setSelectionSet($this->getActivityRateGroupSelectionSet()),
             'startDateTime',
             'endDateTime',

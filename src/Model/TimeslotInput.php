@@ -35,18 +35,12 @@ class TimeslotInput implements InputInterface
     private $externalId;
 
     /**
-     * @var TimeslotTranslationLabel[]
-     */
-    private $translations;
-
-    /**
      * TimeslotInput constructor
      * @param string $rateGroupId --- Required
      * @param DateTimeInterface $startDateTime --- Required
      * @param DateTimeInterface $endDateTime --- Required
      * @param int|null $allotment
      * @param string|null $externalId
-     * @param array $translations
      */
     public function __construct(
         string $rateGroupId,
@@ -54,14 +48,12 @@ class TimeslotInput implements InputInterface
         DateTimeInterface $endDateTime,
         ?int $allotment = null,
         ?string $externalId = null,
-        array $translations = []
     ) {
         $this->rateGroupId = $rateGroupId;
         $this->startDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
         $this->allotment = $allotment;
         $this->externalId = $externalId;
-        $this->translations = $translations;
     }
 
     public function getRateGroupId(): string
@@ -145,52 +137,16 @@ class TimeslotInput implements InputInterface
     }
 
     /**
-     * @return TimeslotTranslationLabel[]
-     */
-    public function getTranslations(): array
-    {
-        return $this->translations;
-    }
-
-    /**
-     * @param TimeslotTranslationLabel[] $translations
-     * @return $this
-     */
-    public function setTranslations(array $translations): self
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-
-    /**
-     * @param TimeslotTranslationLabel $timeslotTranslation
-     * @return $this
-     */
-    public function addTranslation(TimeslotTranslationLabel $timeslotTranslation): self
-    {
-        $this->translations[] = $timeslotTranslation;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function toArray(): array
     {
-        $translations = [];
-        foreach ($this->translations as $translation) {
-            $translations[] = $translation->toArray();
-        }
-
         return [
             'rateGroupId' => $this->rateGroupId,
             'startDateTime' => $this->startDateTime ? $this->startDateTime->format('Y-m-d H:i') : null,
             'endDateTime' => $this->endDateTime ? $this->endDateTime->format('Y-m-d H:i') : null,
             'allotment' => $this->allotment,
-            'externalId' => $this->externalId,
-            'translations' => $translations
+            'externalId' => $this->externalId
         ];
     }
 }
