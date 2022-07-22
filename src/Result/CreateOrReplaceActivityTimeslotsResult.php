@@ -2,28 +2,28 @@
 
 namespace Oberon\TravelbaseClient\Result;
 
-use Oberon\TravelbaseClient\Model\ActivityWrapper;
+use Oberon\TravelbaseClient\Model\TimeslotWrapper;
 
 class CreateOrReplaceActivityTimeslotsResult
 {
     /**
-     * @var ActivityWrapper
+     * @var TimeslotWrapper
      */
     public $createOrReplaceActivityTimeslots;
 
     /**
      * CreateOrReplaceActivityTimeslotsResult constructor.
-     * @param ActivityWrapper $createOrReplaceActivityTimeslots
+     * @param TimeslotWrapper $createOrReplaceActivityTimeslots
      */
-    public function __construct(ActivityWrapper $createOrReplaceActivityTimeslots)
+    public function __construct(TimeslotWrapper $createOrReplaceActivityTimeslots)
     {
         $this->createOrReplaceActivityTimeslots = $createOrReplaceActivityTimeslots;
     }
 
     /**
-     * @return ActivityWrapper
+     * @return TimeslotWrapper
      */
-    public function getCreateOrReplaceActivityTimeslots(): ActivityWrapper
+    public function getCreateOrReplaceActivityTimeslots(): TimeslotWrapper
     {
         return $this->createOrReplaceActivityTimeslots;
     }
