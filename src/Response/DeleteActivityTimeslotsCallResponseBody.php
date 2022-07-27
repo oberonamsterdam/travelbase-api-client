@@ -7,7 +7,7 @@
 
 namespace Oberon\TravelbaseClient\Response;
 
-use Oberon\TravelbaseClient\Result\DeleteTripPricingsResult;
+use Oberon\TravelbaseClient\Result\DeleteActivityTimeslotsResult;
 
 class DeleteActivityTimeslotsCallResponseBody implements GraphQLCallResponseBodyInterface
 {

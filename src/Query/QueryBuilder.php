@@ -271,10 +271,8 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'DeleteActivityTimeslotsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('activity'))->setSelectionSet([
-                    'deletedCount',
-                    'errorCount',
-                ])
+                'deletedCount',
+                'errorCount',
             ]);
     }
 
