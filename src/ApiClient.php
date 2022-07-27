@@ -291,8 +291,10 @@ class ApiClient
         $variables = ['input' => $arguments];
         $result = $this->runQuery($mutation, $variables);
 
-        return $this->parseResult($result, DeleteActivityTimeslotsCallResponseBody::class)
+        $parsed = $this->parseResult($result, DeleteActivityTimeslotsCallResponseBody::class)
             ->getData()->getDeleteActivityTimeslots();
+
+        return new DeleteActivityTimeslotsCollection($parsed['deletedCount'],$parsed['errorCount']);
     }
 
     public function createOrReplaceActivityTimeslots(
