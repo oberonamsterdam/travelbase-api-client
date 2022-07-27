@@ -7,29 +7,29 @@
 
 namespace Oberon\TravelbaseClient\Result;
 
-use Oberon\TravelbaseClient\Model\DeleteActivityTimeslotsPayload;
+use Oberon\TravelbaseClient\Model\Message;
 
 class DeleteActivityTimeslotsResult
 {
     /**
-     * @var DeleteActivityTimeslotsPayload
+     * @var Message
      */
-    private $deleteActivityTimeslotsPayload;
+    private $errorCount;
 
     /**
      * DeleteActivityTimeslotsResult constructor.
-     * @param DeleteActivityTimeslotsPayload $deleteActivityTimeslotsPayload
+     * @param Message $errorCount
      */
-    public function __construct(DeleteActivityTimeslotsPayload $deleteActivityTimeslotsPayload)
+    public function __construct(Message $errorCount)
     {
-        $this->deleteActivityTimeslotsPayload = $deleteActivityTimeslotsPayload;
+        $this->errorCount = $errorCount;
     }
 
     /**
      * @return Message
      */
-    public function getDeleteActivityTimeslotsPayload(): DeleteActivityTimeslotsPayload
+    public function getDeleteActivityTimeslots(): Message
     {
-        return $this->deleteActivityTimeslotsPayload;
+        return $this->errorCount;
     }
 }
