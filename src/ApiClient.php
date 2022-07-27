@@ -292,7 +292,7 @@ class ApiClient
         $result = $this->runQuery($mutation, $variables);
 
         return $this->parseResult($result, DeleteActivityTimeslotsCallResponseBody::class)
-            ->getData()->getDeleteActivityTimeslots()->getErrorCount();
+            ->getData()->getDeleteActivityTimeslots();
     }
 
     public function createOrReplaceActivityTimeslots(

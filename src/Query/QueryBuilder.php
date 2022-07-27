@@ -270,7 +270,7 @@ class QueryBuilder
         return (new Mutation('deleteActivityTimeslots'))
             ->setVariables([new Variable('input', 'DeleteActivityTimeslotsInput', true)])
             ->setArguments(['input' => '$input'])
-            ->setSelectionSet(['errorCount']);
+            ->setSelectionSet(['deletedCount','errorCount']);
     }
 
     public function createCreateOrReplaceActivityTimeslotsMutation(): Mutation
