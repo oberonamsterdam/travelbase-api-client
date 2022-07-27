@@ -284,7 +284,7 @@ class ApiClient
 
     public function deleteActivityTimeslots(string $activityId, DateTimeInterface $startDateTime, DateTimeInterface $endDateTime, string $errorResolution): DeleteActivityTimeslotsCollection
     {
-        $arguments = ['activityId' => $activityId, 'startDateTime' => $startDateTime->format(DATE_ISO8601), 'endDateTime' => $endDateTime->format(DATE_ISO8601), 'errorResolution' => new RawObject($errorResolution)];
+        $arguments = ['activityId' => $activityId, 'startDateTime' => $startDateTime->format(DATE_ISO8601), 'endDateTime' => $endDateTime->format(DATE_ISO8601), 'errorResolution' => $errorResolution];
 
         $mutation = $this->queryBuilder->createDeleteActivityTimeslotsMutation();
 
