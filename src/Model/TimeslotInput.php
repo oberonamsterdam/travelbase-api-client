@@ -143,8 +143,8 @@ class TimeslotInput implements InputInterface
     {
         return [
             'rateGroupId' => $this->rateGroupId,
-            'startDateTime' => $this->startDateTime ? $this->startDateTime->format('Y-m-d H:i') : null,
-            'endDateTime' => $this->endDateTime ? $this->endDateTime->format('Y-m-d H:i') : null,
+            'startDateTime' => $this->startDateTime ? $this->startDateTime->format(DATE_ISO8601) : null,
+            'endDateTime' => $this->endDateTime ? $this->endDateTime->format(DATE_ISO8601) : null,
             'allotment' => $this->allotment,
             'externalId' => $this->externalId
         ];
