@@ -12,11 +12,6 @@ class Timeslot
     private $id;
 
     /**
-     * @var string|null
-     */
-    private $label;
-
-    /**
      * @var ActivityRateGroup
      */
     private $rateGroup;
@@ -44,7 +39,6 @@ class Timeslot
     /**
      * Timeslot constructor
      * @param string $id
-     * @param string|null $label
      * @param ActivityRateGroup $rateGroup
      * @param DateTimeInterface $startDateTime
      * @param DateTimeInterface $endDateTime
@@ -53,7 +47,6 @@ class Timeslot
      */
     public function __construct(
         string $id,
-        ?string $label,
         ActivityRateGroup $rateGroup,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
@@ -61,7 +54,6 @@ class Timeslot
         ?string $externalId
     ) {
         $this->id = $id;
-        $this->label = $label;
         $this->rateGroup = $rateGroup;
         $this->startDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
@@ -75,14 +67,6 @@ class Timeslot
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLabel(): ?string
-    {
-        return $this->label;
     }
 
     /**
