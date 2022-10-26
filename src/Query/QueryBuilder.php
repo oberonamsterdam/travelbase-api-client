@@ -215,11 +215,7 @@ class QueryBuilder
             ]);
     }
 
-
-    /******************************************************************************************************************
-     *                                  MUTATIONS
-     ******************************************************************************************************************/
-
+    // region Mutations
     public function createCreateOrUpdateAllotmentsMutation(): Mutation
     {
         return (new Mutation('createOrReplaceAllotments'))
@@ -328,14 +324,9 @@ class QueryBuilder
                 (new Query('timeslots'))->setSelectionSet($this->getTimeslotSelectionSet())
             ]);
     }
+    // endregion Mutations
 
-
-
-    /******************************************************************************************************************
-     *                                  Selection sets
-     ******************************************************************************************************************/
-
-
+    // region Selection sets
     private function getBookingRelaySelectionSet(): array
     {
         return [
@@ -576,4 +567,5 @@ class QueryBuilder
             ])
         ];
     }
+    // endregion Selection sets
 }
