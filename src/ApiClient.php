@@ -10,7 +10,6 @@ namespace Oberon\TravelbaseClient;
 use DateTimeInterface;
 use GraphQL\Client;
 use GraphQL\Query;
-use GraphQL\RawObject;
 use Oberon\TravelbaseClient\Exception\BadResponseException;
 use Oberon\TravelbaseClient\Model\Accommodation;
 use Oberon\TravelbaseClient\Model\Activity;
