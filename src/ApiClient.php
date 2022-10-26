@@ -21,6 +21,7 @@ use Oberon\TravelbaseClient\Model\BookingConnection;
 use Oberon\TravelbaseClient\Model\Company;
 use Oberon\TravelbaseClient\Model\DatePricing;
 use Oberon\TravelbaseClient\Model\DatePricingCollection;
+use Oberon\TravelbaseClient\Model\DatePricingModifier;
 use Oberon\TravelbaseClient\Model\Partner;
 use Oberon\TravelbaseClient\Model\RentalUnit;
 use Oberon\TravelbaseClient\Model\Ticket;
@@ -34,6 +35,7 @@ use Oberon\TravelbaseClient\Query\QueryBuilder;
 use Oberon\TravelbaseClient\Response\AccommodationCallResponseBody;
 use Oberon\TravelbaseClient\Response\ActivityCallResponseBody;
 use Oberon\TravelbaseClient\Response\BookingCallResponseBody;
+use Oberon\TravelbaseClient\Response\CreateDatePricingModifierCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceActivityTimeslotsCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceDatePricingsCallResponseBody;
 use Oberon\TravelbaseClient\Response\DeleteActivityTimeslotsCallResponseBody;
@@ -41,8 +43,10 @@ use Oberon\TravelbaseClient\Response\CompanyCallResponseBody;
 use Oberon\TravelbaseClient\Response\CompletePendingBookingCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceAllotmentsCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceTripPricingsCallResponseBody;
+use Oberon\TravelbaseClient\Response\DeleteDatePricingModifierCallResponseBody;
 use Oberon\TravelbaseClient\Response\DeleteDatePricingsCallResponseBody;
 use Oberon\TravelbaseClient\Response\DeleteTripPricingsCallResponseBody;
+use Oberon\TravelbaseClient\Response\EditDatePricingModifierCallResponseBody;
 use Oberon\TravelbaseClient\Response\GraphQLCallResponseBodyInterface;
 use Oberon\TravelbaseClient\Response\PartnerCallResponseBody;
 use Oberon\TravelbaseClient\Response\PartnerRelayCallResponseBody;
@@ -287,7 +291,6 @@ class ApiClient
     }
 
     // region Date pricing
-
     public function createOrReplaceDatePricings(
         string $rentalUnitId,
         DatePricingCollection $datePricingCollection
@@ -338,6 +341,63 @@ class ApiClient
         return $response->getData()->getDeleteDatePricings()->getMessage();
     }
 
+    public function createDatePricingModifier(
+        string $rentalUnitId,
+        DatePricingModifier $datePricingModifier
+    )
+    {
+        $mutation = $this->queryBuilder->createCreateDatePricingModifierMutation();
+        $variables = array_merge(
+            [
+                'input' => [
+                    'rentalUnitId' => $rentalUnitId
+                ],
+            ],
+            $datePricingModifier->toArray()
+        );
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var CreateDatePricingModifierCallResponseBody $response */
+        $response = $this->parseResult($result, CreateDatePricingModifierCallResponseBody::class);
+        return $response->getData()->getCreateDatePricingModifier();
+    }
+
+    public function editDatePricingModifier(
+        int $datePricingModifierId,
+        DatePricingModifier $datePricingModifier
+    )
+    {
+        $mutation = $this->queryBuilder->createEditDatePricingModifierMutation();
+        $variables = array_merge(
+            [
+                'input' => [
+                    'datePricingModifierId' => $datePricingModifierId
+                ],
+            ],
+            $datePricingModifier->toArray()
+        );
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var EditDatePricingModifierCallResponseBody $response */
+        $response = $this->parseResult($result, EditDatePricingModifierCallResponseBody::class);
+        return $response->getData()->getEditDatePricingModifier();
+    }
+
+    public function deleteDatePricingModifier(int $datePricingModifierId): int
+    {
+        $mutation = $this->queryBuilder->createDeleteDatePricingModifierMutation();
+
+        $variables = [
+            'input' => [
+                'datePricingModifierId' => $datePricingModifierId
+            ]
+        ];
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var DeleteDatePricingModifierCallResponseBody $response */
+        $response = $this->parseResult($result, DeleteDatePricingModifierCallResponseBody::class);
+        return $response->getData()->getId();
+    }
     // endregion Date pricing
 
     public function deleteActivityTimeslots(string $activityId, DateTimeInterface $startDateTime, DateTimeInterface $endDateTime, string $errorResolution): DeleteActivityTimeslotsCollection
