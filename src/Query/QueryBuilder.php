@@ -247,6 +247,52 @@ class QueryBuilder
             ]);
     }
 
+    public function createCreateOrReplaceDatePricingsMutation(): Mutation
+    {
+        return (new Mutation('createOrReplaceDatePricings'))
+            ->setVariables([new Variable('input', 'CreateOrReplaceDatePricingsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('datePricings'))->setSelectionSet($this->getDatePricingSelectionSet())
+            ]);
+    }
+
+    public function createDeleteDatePricingsMutation(): Mutation
+    {
+        return (new Mutation('deleteDatePricings'))
+            ->setVariables([new Variable('input', 'DeleteDatePricingsInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet(['message']);
+    }
+
+    public function createCreateDatePricingModifierMutation(): Mutation
+    {
+        return (new Mutation('createDatePricingModifier'))
+            ->setVariables([new Variable('input', 'CreateDatePricingModifierInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('datePricingModifier'))->setSelectionSet($this->getDatePricingModifierSelectionSet())
+            ]);
+    }
+
+    public function createEditDatePricingModifierMutation(): Mutation
+    {
+        return (new Mutation('editDatePricingModifier'))
+            ->setVariables([new Variable('input', 'EditDatePricingModifierInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet([
+                (new Query('datePricingModifier'))->setSelectionSet($this->getDatePricingModifierSelectionSet())
+            ]);
+    }
+
+    public function createDeleteDatePricingModifierMutation(): Mutation
+    {
+        return (new Mutation('deleteDatePricingModifier'))
+            ->setVariables([new Variable('input', 'DeleteDatePricingModifierInput', true)])
+            ->setArguments(['input' => '$input'])
+            ->setSelectionSet(['id']);
+    }
+
     public function createDeleteTripsMutation(): Mutation
     {
         return (new Mutation('deleteTripPricings'))
@@ -351,6 +397,34 @@ class QueryBuilder
                 'id',
                 'name',
             ]),
+        ];
+    }
+
+    private function getDatePricingSelectionSet(): array
+    {
+        return [
+            'date',
+            'nightPrice',
+            'weekPrice',
+            'extraPersonPrice',
+            'baseStayPrice',
+            'minimumStayPrice',
+            'minimumStayDuration',
+            'arrivalAllowed',
+            'departureAllowed',
+        ];
+    }
+
+    private function getDatePricingModifierSelectionSet(): array
+    {
+        return [
+            'startDate',
+            'endDate',
+            'minDuration',
+            'maxDuration',
+            'value',
+            'valueType',
+            'type',
         ];
     }
 
