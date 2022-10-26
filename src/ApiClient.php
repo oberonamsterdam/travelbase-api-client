@@ -127,6 +127,7 @@ class ApiClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
+    // region Booking
     public function getUpdatedBookings(string $partnerId, DateTimeInterface $updatedSince): array
     {
         $query = $this->queryBuilder->createUpdatedBookingsQuery($partnerId, $updatedSince);
@@ -169,6 +170,7 @@ class ApiClient
 
         return $this->parseResult($result, BookingCallResponseBody::class)->getData()->getBooking();
     }
+    // endregion Booking
 
     public function getAccommodation(string $accommodationId): Accommodation
     {
@@ -188,7 +190,6 @@ class ApiClient
         return $this->parseResult($result, RentalUnitCallResponseBody::class)->getData()->getRentalUnit();
     }
 
-
     public function getCompany(string $companyId): Company
     {
         $query = $this->queryBuilder->createCompanyQuery($companyId);
@@ -207,6 +208,7 @@ class ApiClient
         return $this->parseResult($result, ActivityCallResponseBody::class)->getData()->getActivity();
     }
 
+    // region Tickets
     public function getTicket(string $ticketId): Ticket
     {
         $query = $this->queryBuilder->createTicketQuery($ticketId);
@@ -244,6 +246,7 @@ class ApiClient
         return $this->parseResult($result, PartnerRelayCallResponseBody::class)
             ->getData()->getPartner()->getAllTickets();
     }
+    // endregion Tickets
 
     public function createOrReplaceAllotments(string $rentalUnitId, array $allotmentCollection): AllotmentCollection
     {
@@ -471,6 +474,7 @@ class ApiClient
             ->getData()->getCompletePendingBooking()->getBooking();
     }
 
+    // region Helper functions
     private function runQuery(Query $query, array $variables = []): string
     {
         $result = $this->client->runQuery($query, false, $variables);
@@ -485,4 +489,5 @@ class ApiClient
     {
         return $this->serializer->deserialize($data, $class, 'json');
     }
+    // endregion Helper functions
 }
