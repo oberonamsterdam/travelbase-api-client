@@ -7,7 +7,7 @@ class DatePricingCollection
     /**
      * @var DatePricing[]
      */
-    private $datePricings = [];
+    private $datePricings;
 
     /**
      * DatePricingCollection constructor.
@@ -16,7 +16,7 @@ class DatePricingCollection
     public function __construct(
         array $datePricings
     ) {
-        $this->$datePricings = $datePricings;
+        $this->datePricings = $datePricings;
     }
 
     /**
