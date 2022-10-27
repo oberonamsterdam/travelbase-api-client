@@ -197,7 +197,7 @@ class DatePricingModifier implements InputInterface
             'maxDuration' => $this->getMaxDuration(),
             'value' => $this->getValue(),
             'valueType' => $this->getValueType(),
-            'type' => $this->getType()
+            'type' => $this->getType(),
         ];
     }
 }

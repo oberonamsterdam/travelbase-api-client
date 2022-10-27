@@ -4,6 +4,7 @@
  * @author Raymond Kiekens
  * @copyright (c) Oberon 2020
  */
+
 namespace Oberon\TravelbaseClient\Query;
 
 use GraphQL\Mutation;
@@ -159,10 +160,10 @@ class QueryBuilder
         return (new Query('partner'))
             ->setArguments(['id' => $partnerId])
             ->setSelectionSet([
-                  (new Query('allTickets'))
-                      ->setArguments($arguments)
-                      ->setSelectionSet($this->getTicketRelaySelectionSet())
-          ]);
+                (new Query('allTickets'))
+                    ->setArguments($arguments)
+                    ->setSelectionSet($this->getTicketRelaySelectionSet()),
+            ]);
     }
 
 
@@ -198,7 +199,7 @@ class QueryBuilder
             ->setSelectionSet([
                 (new Query('allBookings'))
                     ->setArguments($arguments)
-                    ->setSelectionSet($this->getBookingRelaySelectionSet())
+                    ->setSelectionSet($this->getBookingRelaySelectionSet()),
             ]);
     }
 
@@ -211,7 +212,7 @@ class QueryBuilder
             ->setSelectionSet([
                 (new Query('updatedBookings'))
                     ->setArguments(['since' => $updatedSince->format('Y-m-d')])
-                    ->setSelectionSet($this->getBookingSelectionSet())
+                    ->setSelectionSet($this->getBookingSelectionSet()),
             ]);
     }
 
@@ -221,10 +222,11 @@ class QueryBuilder
         return (new Mutation('createOrReplaceAllotments'))
             ->setVariables([new Variable('input', 'CreateOrReplaceAllotmentsInput', true)])
             ->setArguments(['input' => '$input'])
-            ->setSelectionSet([(new Query('allotments'))->setSelectionSet([
+            ->setSelectionSet([
+                (new Query('allotments'))->setSelectionSet([
                     'amount',
                     'date',
-                ])
+                ]),
             ]);
     }
 
@@ -233,13 +235,14 @@ class QueryBuilder
         return (new Mutation('createOrReplaceTripPricings'))
             ->setVariables([new Variable('input', 'CreateOrReplaceTripPricingsInput', true)])
             ->setArguments(['input' => '$input'])
-            ->setSelectionSet([(new Query('tripPricings'))->setSelectionSet([
-                   'date',
-                   'duration',
-                   'price',
-                   'minimumStayPrice',
-                   'extraPersonPrice',
-               ])
+            ->setSelectionSet([
+                (new Query('tripPricings'))->setSelectionSet([
+                    'date',
+                    'duration',
+                    'price',
+                    'minimumStayPrice',
+                    'extraPersonPrice',
+                ]),
             ]);
     }
 
@@ -249,7 +252,7 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'CreateOrReplaceDatePricingsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('datePricings'))->setSelectionSet($this->getDatePricingSelectionSet())
+                (new Query('datePricings'))->setSelectionSet($this->getDatePricingSelectionSet()),
             ]);
     }
 
@@ -267,7 +270,7 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'CreateDatePricingModifierInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('datePricingModifier'))->setSelectionSet($this->getDatePricingModifierSelectionSet())
+                (new Query('datePricingModifier'))->setSelectionSet($this->getDatePricingModifierSelectionSet()),
             ]);
     }
 
@@ -277,7 +280,7 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'EditDatePricingModifierInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('datePricingModifier'))->setSelectionSet($this->getDatePricingModifierSelectionSet())
+                (new Query('datePricingModifier'))->setSelectionSet($this->getDatePricingModifierSelectionSet()),
             ]);
     }
 
@@ -303,7 +306,7 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'CompletePendingBookingInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('booking'))->setSelectionSet($this->getBookingSelectionSet())
+                (new Query('booking'))->setSelectionSet($this->getBookingSelectionSet()),
             ]);
     }
 
@@ -312,7 +315,7 @@ class QueryBuilder
         return (new Mutation('deleteActivityTimeslots'))
             ->setVariables([new Variable('input', 'DeleteActivityTimeslotsInput', true)])
             ->setArguments(['input' => '$input'])
-            ->setSelectionSet(['deletedCount','errorCount']);
+            ->setSelectionSet(['deletedCount', 'errorCount']);
     }
 
     public function createCreateOrReplaceActivityTimeslotsMutation(): Mutation
@@ -321,7 +324,7 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'CreateOrReplaceActivityTimeslotsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('timeslots'))->setSelectionSet($this->getTimeslotSelectionSet())
+                (new Query('timeslots'))->setSelectionSet($this->getTimeslotSelectionSet()),
             ]);
     }
     // endregion Mutations
@@ -339,8 +342,8 @@ class QueryBuilder
             ]),
             (new Query('edges'))->setSelectionSet([
                 'cursor',
-                (new Query('node'))->setSelectionSet($this->getBookingSelectionSet())
-            ])
+                (new Query('node'))->setSelectionSet($this->getBookingSelectionSet()),
+            ]),
         ];
     }
 
@@ -487,7 +490,7 @@ class QueryBuilder
         return [
             'id',
             (new Query('name'))->setArguments(['locale' => $this->locale]),
-            'price'
+            'price',
         ];
     }
 
@@ -556,15 +559,15 @@ class QueryBuilder
         return [
             'totalCount',
             (new Query('pageInfo'))->setSelectionSet([
-                 'hasNextPage',
-                 'hasPreviousPage',
-                 'startCursor',
-                 'endCursor',
+                'hasNextPage',
+                'hasPreviousPage',
+                'startCursor',
+                'endCursor',
             ]),
             (new Query('edges'))->setSelectionSet([
                 'cursor',
-                (new Query('node'))->setSelectionSet($this->getTicketSelectionSet())
-            ])
+                (new Query('node'))->setSelectionSet($this->getTicketSelectionSet()),
+            ]),
         ];
     }
     // endregion Selection sets

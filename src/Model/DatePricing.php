@@ -248,7 +248,7 @@ class DatePricing implements InputInterface
             'minimumStayPrice' => $this->getMinimumStayPrice(),
             'minimumStayDuration' => $this->getMinimumStayDuration(),
             'arrivalAllowed' => $this->isArrivalAllowed(),
-            'departureAllowed' => $this->isDepartureAllowed()
+            'departureAllowed' => $this->isDepartureAllowed(),
         ];
     }
 }
