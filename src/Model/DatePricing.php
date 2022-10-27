@@ -14,31 +14,31 @@ class DatePricing implements InputInterface
 
     /**
      * Required attribute
-     * @var int
+     * @var float
      */
     private $nightPrice;
 
     /**
      * Required attribute
-     * @var int
+     * @var float
      */
     private $weekPrice;
 
     /**
      * Required attribute
-     * @var int
+     * @var float
      */
     private $extraPersonPrice;
 
     /**
      * Required attribute
-     * @var int
+     * @var float
      */
     private $baseStayPrice;
 
     /**
      * Required attribute
-     * @var int
+     * @var float
      */
     private $minimumStayPrice;
 
@@ -62,22 +62,22 @@ class DatePricing implements InputInterface
 
     /**
      * @param DateTimeInterface|null $date --- Required
-     * @param int|null $nightPrice --- Required
-     * @param int|null $weekPrice --- Required
-     * @param int|null $extraPersonPrice --- Required
-     * @param int|null $baseStayPrice --- Required
-     * @param int|null $minimumStayPrice --- Required
+     * @param float|null $nightPrice --- Required
+     * @param float|null $weekPrice --- Required
+     * @param float|null $extraPersonPrice --- Required
+     * @param float|null $baseStayPrice --- Required
+     * @param float|null $minimumStayPrice --- Required
      * @param int|null $minimumStayDuration --- Required
      * @param bool|null $arrivalAllowed --- Required
      * @param bool|null $departureAllowed --- Required
      */
     public function __construct(
         ?DateTimeInterface $date = null,
-        ?int $nightPrice = null,
-        ?int $weekPrice = null,
-        ?int $extraPersonPrice = null,
-        ?int $baseStayPrice = null,
-        ?int $minimumStayPrice = null,
+        ?float $nightPrice = null,
+        ?float $weekPrice = null,
+        ?float $extraPersonPrice = null,
+        ?float $baseStayPrice = null,
+        ?float $minimumStayPrice = null,
         ?int $minimumStayDuration = null,
         ?bool $arrivalAllowed = null,
         ?bool $departureAllowed = null
@@ -110,81 +110,81 @@ class DatePricing implements InputInterface
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getNightPrice(): int
+    public function getNightPrice(): float
     {
         return $this->nightPrice;
     }
 
     /**
-     * @param int $nightPrice
+     * @param float $nightPrice
      */
-    public function setNightPrice(int $nightPrice): void
+    public function setNightPrice(float $nightPrice): void
     {
         $this->nightPrice = $nightPrice;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getWeekPrice(): int
+    public function getWeekPrice(): float
     {
         return $this->weekPrice;
     }
 
     /**
-     * @param int $weekPrice
+     * @param float $weekPrice
      */
-    public function setWeekPrice(int $weekPrice): void
+    public function setWeekPrice(float $weekPrice): void
     {
         $this->weekPrice = $weekPrice;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getExtraPersonPrice(): int
+    public function getExtraPersonPrice(): float
     {
         return $this->extraPersonPrice;
     }
 
     /**
-     * @param int $extraPersonPrice
+     * @param float $extraPersonPrice
      */
-    public function setExtraPersonPrice(int $extraPersonPrice): void
+    public function setExtraPersonPrice(float $extraPersonPrice): void
     {
         $this->extraPersonPrice = $extraPersonPrice;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getBaseStayPrice(): int
+    public function getBaseStayPrice(): float
     {
         return $this->baseStayPrice;
     }
 
     /**
-     * @param int $baseStayPrice
+     * @param float $baseStayPrice
      */
-    public function setBaseStayPrice(int $baseStayPrice): void
+    public function setBaseStayPrice(float $baseStayPrice): void
     {
         $this->baseStayPrice = $baseStayPrice;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getMinimumStayPrice(): int
+    public function getMinimumStayPrice(): float
     {
         return $this->minimumStayPrice;
     }
 
     /**
-     * @param int $minimumStayPrice
+     * @param float $minimumStayPrice
      */
-    public function setMinimumStayPrice(int $minimumStayPrice): void
+    public function setMinimumStayPrice(float $minimumStayPrice): void
     {
         $this->minimumStayPrice = $minimumStayPrice;
     }
