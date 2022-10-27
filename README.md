@@ -1,14 +1,15 @@
 Travelbase Management API v2 - Client library
 =======================
 
-This is a client library to communicate with the Travelbase Management API. You can use the client to manage your 
+This is a client library to communicate with the Travelbase Management API. You can use the client to manage your
 assets in Travelbase.
 
-Usage of the Travelbase Management API is limited to registered users only. If you would like to use Travelbase, please 
+Usage of the Travelbase Management API is limited to registered users only. If you would like to use Travelbase, please
 visit [travelbase.nl](https://www.travelbase.nl).
 
 
 ---
+
 # Installation
 
 Run the following command to install the package using composer:
@@ -16,7 +17,9 @@ Run the following command to install the package using composer:
 ```
 $ composer require oberonamsterdam/travelbase-api-client
 ```
+
 ---
+
 # Usage
 
 To use this client you need to provide the API key and endpoint when initiating the client class.
@@ -24,6 +27,7 @@ To use this client you need to provide the API key and endpoint when initiating 
 ```php
 $client = new \Oberon\TravelbaseClient\ApiClient("https://example.com", "APIKEY");
 ```
+
 ---
 
 # Example calls
@@ -31,30 +35,35 @@ $client = new \Oberon\TravelbaseClient\ApiClient("https://example.com", "APIKEY"
 ### Queries
 
 Retrieve a collection of all partners:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Partner[] $partners */
 $partners = $client->getPartners();
 ```
-  
+
 Retrieve a single partner:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Partner $partner */
 $partners = $client->getPartner($yourPartnerId);
 ```
 
 Retrieve a single accommodation:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Accommodation $accommodation */
 $accommodation = $client->getAccommodation($yourAccommodationId);
 ```
 
 Retrieve a single rentalUnit:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\RentalUnit $rentalUnit */
 $rentalUnit = $client->getRentalUnit($yourRentalUnitId);
 ```
 
 Retrieve all bookings:
+
 ```php
 $cursor = null;
 $hasMoreBookings = true;
@@ -69,36 +78,42 @@ while ($hasMoreBookings) {
 ```
 
 Retrieve a single booking:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Booking $booking */
 $booking = $client->getBooking($yourBookingId);
 ```
 
 Retrieve the first 100 updated bookings after a specific date:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Booking[] $bookings */
 $bookings = $client->getUpdatedBookings($yourPartnerId, new \DateTime('2022-01-01'));
 ```
 
 Retrieve a single company:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Company $company */
 $company = $client->getCompany($yourCompanyId);
 ```
 
 Retrieve a single activity:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Activity $activity */
 $activity = $client->getActivity($yourActivityId);
 ```
 
 Retrieve a single ticket:
+
 ```php
 /** @var \Oberon\TravelbaseClient\Model\Ticket $ticket */
 $ticket = $client->getTicket($yourTicketId);
 ```
 
 Retrieve all tickets:
+
 ```php
 $cursor = null;
 $hasMoreTickets = true;
@@ -112,11 +127,12 @@ while ($hasMoreTickets) {
 }
 ```
 
-
 ---
+
 ### Mutations
 
 Create or replace allotments through models or array:
+
 ```php
 //Send as a model
 $allotment = new \Oberon\TravelbaseClient\Model\Allotment();
@@ -133,8 +149,8 @@ $allotmentCollection[] = [
 $client->createOrReplaceAllotments($yourRentalUnitId, $allotmentCollection);
 ```
 
-
 Create or replace trip pricings through models or array:
+
 ```php
 //Send as a model
 $tripPricing = new \Oberon\TravelbaseClient\Model\TripPricing();
@@ -158,6 +174,7 @@ $client->createOrReplaceTripPricings($yourRentalUnitId, $tripPricingCollection);
 ```
 
 Delete trip pricings:
+
 ```php
 // To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
 // To delete all trips for a specific datetime supply first and second parameter.
@@ -270,6 +287,7 @@ $client->deleteDatePricingModifier($yourDatePricingModifierId);
 ```
 
 Complete pending booking
+
 ```php
 // To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
 // To delete all trips for a specific datetime supply first and second parameter.
