@@ -167,6 +167,108 @@ Delete trip pricings:
 $client->deleteTrips($yourRentalUnitId, new \DateTime(), 1);
 ```
 
+Create or replace date pricings through models or array:
+
+```php
+//Send as a model
+$datePricing = new \Oberon\TravelbaseClient\Model\DatePricing();
+$datePricing->setDate(new \DateTime('2022-01-01'));
+$datePricing->setNightPrice(100.50); // required
+$datePricing->setWeekPrice(25.75); // required
+$datePricing->setExtraPersonPrice(10); // required
+$datePricing->setBaseStayPrice(20); // required
+$datePricing->setMinimumStayPrice(40); // required
+$datePricing->setMinimumStayDuration(2); // required
+$datePricing->setArrivalAllowed(true); // required
+$datePricing->setDepartureAllowed(false); // required
+$datePricingCollection[] = $datePricing;
+
+//send as array
+$datePricingCollection[] = [
+    'date' => '2022-01-02', // required
+    'nightPrice' => 105.00, // required
+    'weekPrice' => 25.75 // required
+    'extraPersonPrice' => 10, // required
+    'baseStayPrice' => 20 // required
+    'minimumStayPrice' => 40, // required
+    'minimumStayDuration' => 2 // required
+    'arrivalAllowed' => true // required
+    'departureAllowed' => false // required
+];
+
+$client->createOrReplaceDatePricings($yourRentalUnitId, $datePricingCollection);
+```
+
+Delete date pricings:
+
+```php
+// Delete pricings starting from a specific datetime
+$client->deleteDatePricings($yourRentalUnitId, new \DateTime('2022-01-01'));
+
+// Delete pricings within a specific datetime range
+$client->deleteDatePricings($yourRentalUnitId, new \DateTime('2022-01-01 12:00:00'), new \DateTime('2022-01-01 18:00:00'));
+```
+
+Create date pricing modifiers:
+
+```php
+//Send as a model
+$datePricingModifier = new \Oberon\TravelbaseClient\Model\DatePricingModifier();
+$datePricingModifier->setStartDate(new \DateTime('2022-01-01')); // required
+$datePricingModifier->setEndDate(new \DateTime('2022-02-01')); // required
+$datePricingModifier->setMinDuration(3); // required
+$datePricingModifier->setMaxDuration(7); // required
+$datePricingModifier->setValue(10); // required
+$datePricingModifier->setValueType('percentage'); // required
+$datePricingModifier->setType('deduction'); // required
+
+//send as array
+$datePricingModifier = [
+    'startDate' => '2022-01-01', // required
+    'endDate' => '2022-01-01', // required
+    'minDuration' => 3, // required
+    'maxDuration' => 7, // required
+    'value' => 10 // required
+    'valueType' => 'percentage' // required
+    'type' => 'deduction' // required
+];
+
+$client->createDatePricingModifier($yourRentalUnitId, $datePricingModifier);
+```
+
+Edit date pricing modifiers:
+
+```php
+//Send as a model
+$datePricingModifier = new \Oberon\TravelbaseClient\Model\DatePricingModifier();
+$datePricingModifier->setStartDate(new \DateTime('2023-01-01')); // required
+$datePricingModifier->setEndDate(new \DateTime('2023-02-01')); // required
+$datePricingModifier->setMinDuration(2); // required
+$datePricingModifier->setMaxDuration(6); // required
+$datePricingModifier->setValue(30); // required
+$datePricingModifier->setValueType('amount'); // required
+$datePricingModifier->setType('addition'); // required
+
+//send as array
+$datePricingModifier = [
+    'startDate' => '2023-01-01', // required
+    'endDate' => '2023-02-01', // required
+    'minDuration' => 2, // required
+    'maxDuration' => 6, // required
+    'value' => 30 // required
+    'valueType' => 'amount' // required
+    'type' => 'addition' // required
+];
+
+$client->editDatePricingModifier($yourDatePricingModifierId, $datePricingModifier);
+```
+
+Delete date pricing modifiers:
+
+```php
+$client->deleteDatePricingModifier($yourDatePricingModifierId);
+```
+
 Complete pending booking
 ```php
 // To delete all trip pricings for a specific rentalunit, only supply the first parameter. 
