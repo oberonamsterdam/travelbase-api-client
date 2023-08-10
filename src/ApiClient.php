@@ -432,6 +432,9 @@ class ApiClient
         return new DeleteActivityTimeslotsCollection($parsed['deletedCount'], $parsed['errorCount']);
     }
 
+    /**
+     * @return TimeslotCollection In this response the fields Timeslot.rateGroup and Timeslot.activity will not be accessible to prevent large amounts of unnecessary processing and data transfer.
+     */
     public function createOrReplaceActivityTimeslots(
         string $activityId,
         array $timeslots

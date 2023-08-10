@@ -324,7 +324,7 @@ class QueryBuilder
             ->setVariables([new Variable('input', 'CreateOrReplaceActivityTimeslotsInput', true)])
             ->setArguments(['input' => '$input'])
             ->setSelectionSet([
-                (new Query('timeslots'))->setSelectionSet($this->getTimeslotSelectionSet()),
+                (new Query('timeslots'))->setSelectionSet($this->getTimeslotSelectionSet(false)),
             ]);
     }
     // endregion Mutations
@@ -500,7 +500,7 @@ class QueryBuilder
             'id',
             'number',
             'status',
-            (new Query('timeslot'))->setSelectionSet($this->getTimeslotSelectionSet()),
+            (new Query('timeslot'))->setSelectionSet($this->getTimeslotSelectionSet(true)),
             (new Query('customer'))->setSelectionSet($this->getCustomerSelectionSet()),
             (new Query('rateLines'))->setSelectionSet($this->getTicketRateLineSelectionSet()),
             'createdAt',
@@ -531,16 +531,22 @@ class QueryBuilder
         ];
     }
 
-    private function getTimeslotSelectionSet(): array
+    private function getTimeslotSelectionSet($includeNestedObjects = false): array
     {
-        return [
+        $set = [
             'id',
-            (new Query('rateGroup'))->setSelectionSet($this->getActivityRateGroupSelectionSet()),
             'startDateTime',
             'endDateTime',
             'allotment',
             'externalId',
         ];
+
+        if ($includeNestedObjects) {
+            $set[] = (new Query('rateGroup'))->setSelectionSet($this->getActivityRateGroupSelectionSet());
+            $set[] = (new Query('activity'))->setSelectionSet($this->getActivitySelectionSet());
+        }
+
+        return $set;
     }
 
     private function getAddressSelectionSet(): array
