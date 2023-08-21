@@ -12,7 +12,7 @@ class Timeslot
     private $id;
 
     /**
-     * @var ActivityRateGroup
+     * @var ActivityRateGroup|null
      */
     private $rateGroup;
 
@@ -37,21 +37,28 @@ class Timeslot
     private $externalId;
 
     /**
+     * @var Activity|null
+     */
+    private $activity;
+
+    /**
      * Timeslot constructor
      * @param string $id
-     * @param ActivityRateGroup $rateGroup
+     * @param ActivityRateGroup|null $rateGroup
      * @param DateTimeInterface $startDateTime
      * @param DateTimeInterface $endDateTime
      * @param int|null $allotment
      * @param string|null $externalId
+     * @param Activity|null $activity
      */
     public function __construct(
         string $id,
-        ActivityRateGroup $rateGroup,
+        ?ActivityRateGroup $rateGroup,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
         ?int $allotment,
-        ?string $externalId
+        ?string $externalId,
+        ?Activity $activity
     ) {
         $this->id = $id;
         $this->rateGroup = $rateGroup;
@@ -59,6 +66,7 @@ class Timeslot
         $this->endDateTime = $endDateTime;
         $this->allotment = $allotment;
         $this->externalId = $externalId;
+        $this->activity = $activity;
     }
 
     /**
@@ -74,6 +82,10 @@ class Timeslot
      */
     public function getRateGroup(): ActivityRateGroup
     {
+        if (!$this->rateGroup) {
+            throw new \LogicException('RateGroup was not fetched in this context.');
+        }
+
         return $this->rateGroup;
     }
 
@@ -107,5 +119,17 @@ class Timeslot
     public function getExternalId(): ?string
     {
         return $this->externalId;
+    }
+
+    /**
+     * @return Activity
+     */
+    public function getActivity(): Activity
+    {
+        if (!$this->activity) {
+            throw new \LogicException('RateGroup was not fetched in this context.');
+        }
+
+        return $this->activity;
     }
 }
