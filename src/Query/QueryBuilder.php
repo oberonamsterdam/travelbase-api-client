@@ -470,8 +470,8 @@ class QueryBuilder
             (new Query('rateGroup'))->setSelectionSet($this->getActivityRateGroupSelectionSet()),
             'startDateTime',
             'endDateTime',
-            'allotment',
             'externalId',
+            'allotment',
         ];
     }
 

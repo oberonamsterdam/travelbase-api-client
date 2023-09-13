@@ -39,21 +39,21 @@ class TimeslotInput implements InputInterface
      * @param string $rateGroupId --- Required
      * @param DateTimeInterface $startDateTime --- Required
      * @param DateTimeInterface $endDateTime --- Required
+     * @param string $externalId --- Required
      * @param int|null $allotment
-     * @param string|null $externalId
      */
     public function __construct(
         string $rateGroupId,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
-        ?int $allotment = null,
-        ?string $externalId = null,
+        string $externalId,
+        ?int $allotment = null
     ) {
         $this->rateGroupId = $rateGroupId;
         $this->startDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
-        $this->allotment = $allotment;
         $this->externalId = $externalId;
+        $this->allotment = $allotment;
     }
 
     public function getRateGroupId(): string
@@ -104,6 +104,22 @@ class TimeslotInput implements InputInterface
         return $this;
     }
 
+    public function getExternalId(): string
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * @param string $externalId
+     * @return $this
+     */
+    public function setExternalId(string $externalId): self
+    {
+        $this->externalId = $externalId;
+
+        return $this;
+    }
+
     public function getAllotment(): ?int
     {
         return $this->allotment;
@@ -120,22 +136,6 @@ class TimeslotInput implements InputInterface
         return $this;
     }
 
-    public function getExternalId(): ?string
-    {
-        return $this->externalId;
-    }
-
-    /**
-     * @param string|null $externalId
-     * @return $this
-     */
-    public function setExternalId(?string $externalId): self
-    {
-        $this->externalId = $externalId;
-
-        return $this;
-    }
-
     /**
      * @return array
      */
@@ -145,8 +145,8 @@ class TimeslotInput implements InputInterface
             'rateGroupId' => $this->rateGroupId,
             'startDateTime' => $this->startDateTime ? $this->startDateTime->format(DATE_ISO8601) : null,
             'endDateTime' => $this->endDateTime ? $this->endDateTime->format(DATE_ISO8601) : null,
-            'allotment' => $this->allotment,
-            'externalId' => $this->externalId
+            'externalId' => $this->externalId,
+            'allotment' => $this->allotment
         ];
     }
 }

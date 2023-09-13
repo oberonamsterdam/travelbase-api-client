@@ -27,14 +27,14 @@ class Timeslot
     private $endDateTime;
 
     /**
-     * @var int|null
-     */
-    private $allotment;
-
-    /**
      * @var string|null
      */
     private $externalId;
+
+    /**
+     * @var int|null
+     */
+    private $allotment;
 
     /**
      * Timeslot constructor
@@ -42,23 +42,23 @@ class Timeslot
      * @param ActivityRateGroup $rateGroup
      * @param DateTimeInterface $startDateTime
      * @param DateTimeInterface $endDateTime
-     * @param int|null $allotment
      * @param string|null $externalId
+     * @param int|null $allotment
      */
     public function __construct(
         string $id,
         ActivityRateGroup $rateGroup,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
-        ?int $allotment,
-        ?string $externalId
+        ?string $externalId,
+        ?int $allotment
     ) {
         $this->id = $id;
         $this->rateGroup = $rateGroup;
         $this->startDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
-        $this->allotment = $allotment;
         $this->externalId = $externalId;
+        $this->allotment = $allotment;
     }
 
     /**
@@ -94,6 +94,14 @@ class Timeslot
     }
 
     /**
+     * @return string|null
+     */
+    public function getExternalId(): ?string
+    {
+        return $this->externalId;
+    }
+
+    /**
      * @return int|null
      */
     public function getAllotment(): ?int
@@ -101,11 +109,4 @@ class Timeslot
         return $this->allotment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getExternalId(): ?string
-    {
-        return $this->externalId;
-    }
 }
