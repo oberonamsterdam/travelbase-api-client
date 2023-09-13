@@ -305,9 +305,9 @@ $timeslot = new \Oberon\TravelbaseClient\Model\TimeslotInput(
     $yourRateGroupId, // required
     new \DateTime('2022-01-01 10:00'), // required
     new \DateTime('2022-01-01 12:00'), // required
-    'id1' // required
+    1, // required (must be int)
+    'id1' // required (must be string)
 );
-$timeslot->setAllotment(1); // optional
 
 $timeslotCollection[] = $timeslot;
 
@@ -316,8 +316,8 @@ $timeslotCollection[] = [
     'rateGroupId' => $yourRateGroupId,  // required
     'startDateTime' => '2022-01-02 14:00', // required
     'endDateTime' => '2022-01-02 16:00', // required
-    'externalId' => 'id1', // required
-    'allotment' => 1, // optional
+    'allotment' => 1, // required (must be int)
+    'externalId' => 'id1', // required (must me string)
 ];
 
 $client->createOrReplaceActivityTimeslots($yourActivityId, $timeslotCollection);

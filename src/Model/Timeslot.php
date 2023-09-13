@@ -36,6 +36,7 @@ class Timeslot
      */
     private $allotment;
 
+    /**
      * @var Activity|null
      */
     private $activity;
@@ -55,6 +56,8 @@ class Timeslot
         ?ActivityRateGroup $rateGroup,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
+        ?string $externalId,
+        ?int $allotment,
         ?Activity $activity
     ) {
         $this->id = $id;

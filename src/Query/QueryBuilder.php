@@ -537,8 +537,8 @@ class QueryBuilder
             'id',
             'startDateTime',
             'endDateTime',
-            'externalId',
             'allotment',
+            'externalId',
         ];
 
         if ($includeNestedObjects) {
