@@ -122,14 +122,6 @@ class Timeslot
     }
 
     /**
-     * @return string|null
-     */
-    public function getExternalId(): ?string
-    {
-        return $this->externalId;
-    }
-
-    /**
      * @return Activity
      */
     public function getActivity(): Activity
