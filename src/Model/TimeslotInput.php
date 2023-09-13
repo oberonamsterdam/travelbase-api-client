@@ -39,21 +39,21 @@ class TimeslotInput implements InputInterface
      * @param string $rateGroupId --- Required
      * @param DateTimeInterface $startDateTime --- Required
      * @param DateTimeInterface $endDateTime --- Required
-     * @param string $externalId --- Required
      * @param int|null $allotment
+     * @param string $externalId --- Required
      */
     public function __construct(
         string $rateGroupId,
         DateTimeInterface $startDateTime,
         DateTimeInterface $endDateTime,
-        string $externalId,
-        ?int $allotment = null
+        ?int $allotment = null,
+        string $externalId
     ) {
         $this->rateGroupId = $rateGroupId;
         $this->startDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
-        $this->externalId = $externalId;
         $this->allotment = $allotment;
+        $this->externalId = $externalId;
     }
 
     public function getRateGroupId(): string
@@ -110,6 +110,17 @@ class TimeslotInput implements InputInterface
     }
 
     /**
+     * @param int|null $allotment
+     * @return $this
+     */
+    public function setAllotment(?int $allotment): self
+    {
+        $this->allotment = $allotment;
+
+        return $this;
+    }
+
+    /**
      * @param string $externalId
      * @return $this
      */
@@ -126,17 +137,6 @@ class TimeslotInput implements InputInterface
     }
 
     /**
-     * @param int|null $allotment
-     * @return $this
-     */
-    public function setAllotment(?int $allotment): self
-    {
-        $this->allotment = $allotment;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function toArray(): array
@@ -145,8 +145,8 @@ class TimeslotInput implements InputInterface
             'rateGroupId' => $this->rateGroupId,
             'startDateTime' => $this->startDateTime ? $this->startDateTime->format(DATE_ISO8601) : null,
             'endDateTime' => $this->endDateTime ? $this->endDateTime->format(DATE_ISO8601) : null,
-            'externalId' => $this->externalId,
-            'allotment' => $this->allotment
+            'allotment' => $this->allotment,
+            'externalId' => $this->externalId
         ];
     }
 }
