@@ -10,7 +10,6 @@ namespace Oberon\TravelbaseClient;
 use DateTimeInterface;
 use GraphQL\Client;
 use GraphQL\Query;
-use GraphQL\RawObject;
 use Oberon\TravelbaseClient\Exception\BadResponseException;
 use Oberon\TravelbaseClient\Model\Accommodation;
 use Oberon\TravelbaseClient\Model\Activity;
@@ -19,6 +18,9 @@ use Oberon\TravelbaseClient\Model\AllotmentCollection;
 use Oberon\TravelbaseClient\Model\Booking;
 use Oberon\TravelbaseClient\Model\BookingConnection;
 use Oberon\TravelbaseClient\Model\Company;
+use Oberon\TravelbaseClient\Model\DatePricing;
+use Oberon\TravelbaseClient\Model\DatePricingCollection;
+use Oberon\TravelbaseClient\Model\DatePricingModifier;
 use Oberon\TravelbaseClient\Model\Partner;
 use Oberon\TravelbaseClient\Model\RentalUnit;
 use Oberon\TravelbaseClient\Model\Ticket;
@@ -32,13 +34,18 @@ use Oberon\TravelbaseClient\Query\QueryBuilder;
 use Oberon\TravelbaseClient\Response\AccommodationCallResponseBody;
 use Oberon\TravelbaseClient\Response\ActivityCallResponseBody;
 use Oberon\TravelbaseClient\Response\BookingCallResponseBody;
+use Oberon\TravelbaseClient\Response\CreateDatePricingModifierCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceActivityTimeslotsCallResponseBody;
+use Oberon\TravelbaseClient\Response\CreateOrReplaceDatePricingsCallResponseBody;
 use Oberon\TravelbaseClient\Response\DeleteActivityTimeslotsCallResponseBody;
 use Oberon\TravelbaseClient\Response\CompanyCallResponseBody;
 use Oberon\TravelbaseClient\Response\CompletePendingBookingCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceAllotmentsCallResponseBody;
 use Oberon\TravelbaseClient\Response\CreateOrReplaceTripPricingsCallResponseBody;
+use Oberon\TravelbaseClient\Response\DeleteDatePricingModifierCallResponseBody;
+use Oberon\TravelbaseClient\Response\DeleteDatePricingsCallResponseBody;
 use Oberon\TravelbaseClient\Response\DeleteTripPricingsCallResponseBody;
+use Oberon\TravelbaseClient\Response\EditDatePricingModifierCallResponseBody;
 use Oberon\TravelbaseClient\Response\GraphQLCallResponseBodyInterface;
 use Oberon\TravelbaseClient\Response\PartnerCallResponseBody;
 use Oberon\TravelbaseClient\Response\PartnerRelayCallResponseBody;
@@ -72,7 +79,7 @@ class ApiClient
     public function __construct(string $endPoint, string $apiKey, string $locale = 'nl')
     {
         $parts = parse_url($endPoint);
-        $url = $parts['scheme'] . '://' . $parts['host'] . self::API_PATH;
+        $url = $parts['scheme'].'://'.$parts['host'].self::API_PATH;
 
         $this->client = new Client($url, ['Authorization' => "Bearer $apiKey"]);
 
@@ -119,6 +126,7 @@ class ApiClient
         return $this->parseResult($result, PartnerCallResponseBody::class)->getData()->getPartner();
     }
 
+    // region Booking
     public function getUpdatedBookings(string $partnerId, DateTimeInterface $updatedSince): array
     {
         $query = $this->queryBuilder->createUpdatedBookingsQuery($partnerId, $updatedSince);
@@ -162,6 +170,8 @@ class ApiClient
         return $this->parseResult($result, BookingCallResponseBody::class)->getData()->getBooking();
     }
 
+    // endregion Booking
+
     public function getAccommodation(string $accommodationId): Accommodation
     {
         $query = $this->queryBuilder->createAccommodationQuery($accommodationId);
@@ -179,7 +189,6 @@ class ApiClient
 
         return $this->parseResult($result, RentalUnitCallResponseBody::class)->getData()->getRentalUnit();
     }
-
 
     public function getCompany(string $companyId): Company
     {
@@ -199,6 +208,7 @@ class ApiClient
         return $this->parseResult($result, ActivityCallResponseBody::class)->getData()->getActivity();
     }
 
+    // region Tickets
     public function getTicket(string $ticketId): Ticket
     {
         $query = $this->queryBuilder->createTicketQuery($ticketId);
@@ -237,6 +247,8 @@ class ApiClient
             ->getData()->getPartner()->getAllTickets();
     }
 
+    // endregion Tickets
+
     public function createOrReplaceAllotments(string $rentalUnitId, array $allotmentCollection): AllotmentCollection
     {
         $normalizedAllotmentCollection = [];
@@ -257,8 +269,10 @@ class ApiClient
             ->getData()->getCreateOrReplaceAllotments();
     }
 
-    public function createOrReplaceTripPricings(string $rentalUnitId, array $tripPricingCollection): TripPricingCollection
-    {
+    public function createOrReplaceTripPricings(
+        string $rentalUnitId,
+        array $tripPricingCollection
+    ): TripPricingCollection {
         $normalizedTripPricingCollection = [];
         foreach ($tripPricingCollection as $tripPricing) {
             if ($tripPricing instanceof TripPricing) {
@@ -282,9 +296,130 @@ class ApiClient
             ->getData()->getCreateOrReplaceTripPricings();
     }
 
-    public function deleteActivityTimeslots(string $activityId, DateTimeInterface $startDateTime, DateTimeInterface $endDateTime, string $errorResolution): DeleteActivityTimeslotsCollection
+    // region Date pricing
+    public function createOrReplaceDatePricings(
+        string $rentalUnitId,
+        DatePricingCollection $datePricingCollection
+    ): DatePricingCollection {
+        $normalizedDatePricingCollection = [];
+        foreach ($datePricingCollection as $datePricing) {
+            if ($datePricing instanceof DatePricing) {
+                $normalizedDatePricingCollection[] = $datePricing->toArray();
+            } elseif (is_array($datePricing)) {
+                $normalizedDatePricingCollection[] = $datePricing;
+            }
+        }
+
+        $mutation = $this->queryBuilder->createCreateOrReplaceDatePricingsMutation();
+        $variables = [
+            'input' => [
+                'rentalUnitId' => $rentalUnitId,
+                'datePricings' => $normalizedDatePricingCollection,
+            ],
+        ];
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var CreateOrReplaceDatePricingsCallResponseBody $response */
+        $response = $this->parseResult($result, CreateOrReplaceDatePricingsCallResponseBody::class);
+
+        return $response->getData()->getCreateOrReplaceDatePricings();
+    }
+
+    public function deleteDatePricings(
+        string $rentalUnitId,
+        DateTimeInterface $startDate,
+        DateTimeInterface $endDate
+    ): string {
+        $mutation = $this->queryBuilder->createDeleteDatePricingsMutation();
+
+        $variables = [
+            'input' => [
+                'rentalUnitId' => $rentalUnitId,
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+            ],
+        ];
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var DeleteDatePricingsCallResponseBody $response */
+        $response = $this->parseResult($result, DeleteDatePricingsCallResponseBody::class);
+
+        return $response->getData()->getDeleteDatePricings()->getMessage();
+    }
+
+    public function createDatePricingModifier(
+        string $rentalUnitId,
+        DatePricingModifier $datePricingModifier
+    ): DatePricingModifier {
+        $mutation = $this->queryBuilder->createCreateDatePricingModifierMutation();
+        $variables = array_merge(
+            [
+                'input' => [
+                    'rentalUnitId' => $rentalUnitId,
+                ],
+            ],
+            $datePricingModifier->toArray()
+        );
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var CreateDatePricingModifierCallResponseBody $response */
+        $response = $this->parseResult($result, CreateDatePricingModifierCallResponseBody::class);
+
+        return $response->getData()->getCreateDatePricingModifier();
+    }
+
+    public function editDatePricingModifier(
+        int $datePricingModifierId,
+        DatePricingModifier $datePricingModifier
+    ): DatePricingModifier {
+        $mutation = $this->queryBuilder->createEditDatePricingModifierMutation();
+        $variables = array_merge(
+            [
+                'input' => [
+                    'datePricingModifierId' => $datePricingModifierId,
+                ],
+            ],
+            $datePricingModifier->toArray()
+        );
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var EditDatePricingModifierCallResponseBody $response */
+        $response = $this->parseResult($result, EditDatePricingModifierCallResponseBody::class);
+
+        return $response->getData()->getEditDatePricingModifier();
+    }
+
+    public function deleteDatePricingModifier(int $datePricingModifierId): int
     {
-        $arguments = ['activityId' => $activityId, 'startDateTime' => $startDateTime->format(DATE_ISO8601), 'endDateTime' => $endDateTime->format(DATE_ISO8601), 'errorResolution' => $errorResolution];
+        $mutation = $this->queryBuilder->createDeleteDatePricingModifierMutation();
+
+        $variables = [
+            'input' => [
+                'datePricingModifierId' => $datePricingModifierId,
+            ],
+        ];
+        $result = $this->runQuery($mutation, $variables);
+
+        /** @var DeleteDatePricingModifierCallResponseBody $response */
+        $response = $this->parseResult($result, DeleteDatePricingModifierCallResponseBody::class);
+
+        return $response->getData()->getId();
+    }
+
+    // endregion Date pricing
+
+    public function deleteActivityTimeslots(
+        string $activityId,
+        DateTimeInterface $startDateTime,
+        DateTimeInterface $endDateTime,
+        string $errorResolution
+    ): DeleteActivityTimeslotsCollection {
+        $arguments = [
+            'activityId' => $activityId,
+            'startDateTime' => $startDateTime->format(DATE_ISO8601),
+            'endDateTime' => $endDateTime->format(DATE_ISO8601),
+            'errorResolution' => $errorResolution,
+        ];
 
         $mutation = $this->queryBuilder->createDeleteActivityTimeslotsMutation();
 
@@ -294,9 +429,12 @@ class ApiClient
         $parsed = $this->parseResult($result, DeleteActivityTimeslotsCallResponseBody::class)
             ->getData()->getDeleteActivityTimeslots();
 
-        return new DeleteActivityTimeslotsCollection($parsed['deletedCount'],$parsed['errorCount']);
+        return new DeleteActivityTimeslotsCollection($parsed['deletedCount'], $parsed['errorCount']);
     }
 
+    /**
+     * @return TimeslotCollection In this response the fields Timeslot.rateGroup and Timeslot.activity will not be accessible to prevent large amounts of unnecessary processing and data transfer.
+     */
     public function createOrReplaceActivityTimeslots(
         string $activityId,
         array $timeslots
@@ -353,6 +491,7 @@ class ApiClient
             ->getData()->getCompletePendingBooking()->getBooking();
     }
 
+    // region Helper functions
     private function runQuery(Query $query, array $variables = []): string
     {
         $result = $this->client->runQuery($query, false, $variables);
@@ -367,4 +506,5 @@ class ApiClient
     {
         return $this->serializer->deserialize($data, $class, 'json');
     }
+    // endregion Helper functions
 }
