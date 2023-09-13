@@ -181,31 +181,14 @@ Create or replace activity timeslots through models or array:
 
 ```php
 // Send as a model
-// Language codes needs to be provided in ISO 639-1 (2 letter language code). https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-
-$translationNL = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
-    'nl', // Dutch
-    'Test NL'
-);
-$translationDE = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
-    'de', // German
-    'Test DE'
-);
-$translationEN = new \Oberon\TravelbaseClient\Model\TimeslotTranslationLabel(
-    'en', // English
-    'Test EN'
-);
-
 $timeslot = new \Oberon\TravelbaseClient\Model\TimeslotInput(
-    $yourRateGroupId,
-    new \DateTime('2022-01-01 10:00'),
-    new \DateTime('2022-01-01 12:00')
+    $yourRateGroupId, // required
+    new \DateTime('2022-01-01 10:00'), // required
+    new \DateTime('2022-01-01 12:00'), // required
+    'id1' // required
 );
 $timeslot->setAllotment(1); // optional
-$timeslot->setExternalId('1'); // optional
-$timeslot->addTranslation($translationNL);
-$timeslot->addTranslation($translationDE);
-$timeslot->addTranslation($translationEN);
+
 $timeslotCollection[] = $timeslot;
 
 // send as array
@@ -213,26 +196,9 @@ $timeslotCollection[] = [
     'rateGroupId' => $yourRateGroupId,  // required
     'startDateTime' => '2022-01-02 14:00', // required
     'endDateTime' => '2022-01-02 16:00', // required
+    'externalId' => 'id1', // required
     'allotment' => 1, // optional
-    'externalId' => '1', // optional
-    'translations' => [
-        [
-            'locale' => 'nl', // required
-            'label' => 'Test NL', // required
-        ],
-        [
-            'locale' => 'de', // required
-            'label' => 'Test DE', // required
-        ],
-        [
-            'locale' => 'en', // required
-            'label' => 'Test EN', // required
-        ],
-    ],
 ];
 
-$clearStartDate = new \DateTime('2022-01-01'); // Start of date range to clear timeslots 
-$clearEndDate = new \DateTime('2022-01-02');  // End of date range to clear timeslots, inclusive.
-
-$client->bulkSetActivityTimeslots($yourActivityId, $clearStartDate, $clearEndDate, $timeslotCollection);
+$client->createOrReplaceActivityTimeslots($yourActivityId, $timeslotCollection);
 ```
